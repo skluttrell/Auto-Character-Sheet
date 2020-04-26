@@ -1,0 +1,904 @@
+<html>
+
+	<head>
+		<title>D&amp;D auto Character Sheet</title>
+		<style>
+			.tab {
+				overflow: hidden;
+				border: 1px solid #ccc;
+				background-color: #f1f1f1;
+			}
+
+			.tab button {
+				background-color: inherit;
+				float: left;
+				border: none;
+				outline: none;
+				cursor: pointer;
+				padding: 14px 16px;
+				transition: 0.3;
+			}
+
+			.tab button:hover {
+				background-color: #ddd;
+			}
+
+			.tab button.active {
+				background-color: #ccc;
+			}
+
+			.tabcontent {
+				display: none;
+				padding: 6px 12px;
+				border: 1px solid #ccc;
+				border-top: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="tab">
+			<button class="tablinks active" onclick="openSection(event, 'section1')">Home</button>
+			<button class="tablinks" onclick="openSection(event, 'section2')">Combat</button>
+			<button class="tablinks" onclick="openSection(event, 'section3')">Features</button>
+			<button class="tablinks" onclick="openSection(event, 'section4')">Proficiencies</button>
+			<button class="tablinks" onclick="openSection(event, 'section5')">Spells</button>
+			<button class="tablinks" onclick="openSection(event, 'section6')">Inventory</button>
+		</nav><br>
+
+		<span id="section1" name="character info" class="tabcontent" style="display: block;">
+			<h1>Basic Character Information</h1><br>
+			<p><a id="playerNameArrow" onclick="changeCharacterInfo('playerName')">↑ </a> Player Name: <input type="text" id="playerNameInputBox" style="display: none;"><span id="playerNameDisplay" style="display: inline;"></span></p>
+			<p><a id="characterNameArrow" onclick="changeCharacterInfo('characterName')">↑</a> Character Name: <input type="text" id="characterNameInputBox" style="display: none;"><span id="characterNameDisplay" style="display: inline;"></span></p>
+			<p>Level: <a onclick="changeLevel(-1)">←</a> <span id="characterLevelDisplay">1</span> <a onclick="changeLevel(1)">→</a></p>
+			<p><a id="characterRaceArrow" onclick="changeCharacterInfo('characterRace')">↑</a> Race: <input type="text" id="characterRaceInputBox" style="display: none;"><span id="characterRaceDisplay" style="display: inline;"></span></p>
+			<p><a id="characterClassArrow" onclick="changeCharacterInfo('characterClass')">↑</a> Class: <input type="text" id="characterClassInputBox" style="display: none;"><span id="characterClassDisplay" style="display: inline;"></span></p>
+			<p><a id="characterBackgroundArrow" onclick="changeCharacterInfo('characterBackground')">↑</a> Background: <input type="text" id="characterBackgroundInputBox" style="display: none;"><span id="characterBackgroundDisplay" style="display: inline;"></span></p>
+			<p><a id="characterAgeArrow" onclick="changeCharacterInfo('characterAge')">↑</a> Age: <input type="number" id="characterAgeInputBox" style="display: none;"><span id="characterAgeDisplay" style="display: inline;"></span></p>
+			<p><a id="characterBuildArrow" onclick="changeCharacterInfo('characterBuild')">↑</a> Build: <input type="text" id="characterBuildInputBox" style="display: none;"><span id="characterBuildDisplay" style="display: inline;"></span></p>
+			<p><a id="characterAlignmentArrow" onclick="changeCharacterInfo('characterAlignment')">↑</a> Age: <input type="text" id="characterAlignmentInputBox" style="display: none;"><span id="characterAlignmentDisplay" style="display: inline;"></span></p>
+			<p><a id="characterLanguagesArrow" onclick="changeCharacterInfo('characterLanguages')">↑</a> Languages: <input type="text" id="characterLanguagesInputBox" style="display: none;"><span id="characterLanguagesDisplay" style="display: inline;"></span></p>
+			<p><a id="characterDescriptionArrow" onclick="changeCharacterInfo('characterDescription')">↑</a> Description:<br><input type="textarea" id="characterDescriptionInputBox" style="display: none;"><span id="characterDescriptionDisplay" style="display: inline;"></span></p>
+			<br>
+		</span>
+
+		<span id="section2" name="stats" class="tabcontent">
+			<h1>Ability Scores</h1><br>
+			<table id="tableAbilityScore">
+				<thead>
+					<tr><th><a id="saveCheckboxesArrow" onclick="changeSaves()">↑</a></th><th>Ability</th><th><a id="changeBaseArrow" onclick="changeBase()">↑ Base</a></th><th>Modifier</th><th>Save</th><th>Alterations</th></tr>
+				</thead>
+				<tbody>
+					<tr><td><input type="checkbox" id="save0" name="abilityCheckbox" disabled></td><td>Strength</td><td><input type="number" id="abilityInputBox0" name="inputAbilityScore" value="" min="1" max="24" style="display: none;"><span id="abilityBase0" name="displayAbilityScore"></span></td><td id="abilityModifier0"></td><td id="abilitySave0"></td><td><input type="number" id="abilityChange0" name="inputAbilityChange"></td></tr>
+					<tr><td><input type="checkbox" id="save1" name="abilityCheckbox" disabled></td><td>Dexterity</td><td><input type="number" id="abilityInputBox1" name="inputAbilityScore" value="" min="1" max="24" style="display: none;"><span id="abilityBase1" name="displayAbilityScore"></span></td><td id="abilityModifier1"></td><td id="abilitySave1"></td><td><input type="number" id="abilityChange1" name="inputAbilityChange"></td></tr>
+					<tr><td><input type="checkbox" id="save2" name="abilityCheckbox" disabled></td><td>constitution</td><td><input type="number" id="abilityInputBox2" name="inputAbilityScore" value="" min="1" max="24" style="display: none;"><span id="abilityBase2" name="displayAbilityScore"></span></td><td id="abilityModifier2"></td><td id="abilitySave2"></td><td><input type="number" id="abilityChange2" name="inputAbilityChange"></td></tr>
+					<tr><td><input type="checkbox" id="save3" name="abilityCheckbox" disabled></td><td>intelligence</td><td><input type="number" id="abilityInputBox3" name="inputAbilityScore" value="" min="1" max="24" style="display: none;"><span id="abilityBase3" name="displayAbilityScore"></span></td><td id="abilityModifier3"></td><td id="abilitySave3"></td><td><input type="number" id="abilityChange3" name="inputAbilityChange"></td></tr>
+					<tr><td><input type="checkbox" id="save4" name="abilityCheckbox" disabled></td><td>wisdom</td><td><input type="number" id="abilityInputBox4" name="inputAbilityScore" value="" min="1" max="24" style="display: none;"><span id="abilityBase4" name="displayAbilityScore"></span></td><td id="abilityModifier4"></td><td id="abilitySave4"></td><td><input type="number" id="abilityChange4" name="inputAbilityChange"></td></tr>
+					<tr><td><input type="checkbox" id="save5" name="abilityCheckbox" disabled></td><td>charisma</td><td><input type="number" id="abilityInputBox5" name="inputAbilityScore" value="" min="1" max="24" style="display: none;"><span id="abilityBase5" name="displayAbilityScore"></span></td><td id="abilityModifier5"></td><td id="abilitySave5"></td><td><input type="number" id="abilityChange5" name="inputAbilityChange"></td></tr>
+				</tbody>
+			</table><br>
+			<h1>Combat Stats</h1><br>
+			<ul>
+				<li>Initiative: <span id="initiativeDisplay"></span></li>
+				<li><a id="characterHitPointsArrow" onclick="changeCharacterInfo('characterHitPoints')">↑</a> Hit Points: <input type="number" id="characterHitPointsInputBox" style="display: none;"><span id="characterHitPointsDisplay"></span> plus: <input type="number" id="tempHitPointsInputBox" onchange=""> current: <span id="currentHitPointsDisplay"></span> <a id="characterHitPointsNotesArrow" onclick="changeCharacterInfo('characterHitPointsNotes')">→</a><input id="characterHitPointsNotesInputBox" type="text" style="display: none;"> <span id="characterHitPointsNotesDisplay"></span></li>
+				<li><a id="characterHitDiceArrow" onclick="changeCharacterInfo('characterHitDice')">↑</a> Hit Dice: <input type="number" id="currentHitDiceInputBox" onchange=""> <select id="characterHitDiceInputBox" style="display: none;"><option value="d4">d4</option><option value="d6">d6</option><option value="d8">d8</option><option value="d10">d10</option><option value="d12">d12</option></select><span id="characterHitDiceDisplay"></span></li>
+				<li>Armor Class: <span id="armorClassDisplay"></span></li>
+				<li><a id="characterSpeedArrow" onclick="changeCharacterInfo('characterSpeed')">↑</a> Speed: <input type="number" id="characterSpeedInputBox" style="display: none;"><span id="characterSpeedDisplay"></span> alter by <input type="number" id="currentSpeedInputBox" onchange=""> equals <span id="currentSpeedDisplay"></span> <a id="characterSpeedNotesArrow" onclick="changeCharacterInfo('characterSpeedNotes')">→</a><input id="characterSpeedNotesInputBox" type="text" style="display: none;"> <span id="characterSpeedNotesDisplay"></span></li>
+				<li>Passive Perception: <span id="passivePerceptionDisplay"></span></li>
+			</ul><br>
+			<h1>Weapons</h1><br>
+			<table id="weaponsTable">
+				<thead>
+					<tr><th>Weapon</th><th>Hit Modifier</th><th>Damage</th><th>Range</th><th>Properties</th></tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table><br>
+		</span>
+
+		<span id="section3" name="features" class="tabcontent">
+			<h1>Character Features</h1><br>
+			<span id="characterFeaturesListDisplay"></span>
+
+			<form id="featureEditForm" style="display: none;">
+				<h1>Edit this feature</h1><br>
+				<p><label for="featureEditNameInputBox">Name: </label><input id="featureEditNameInputBox" type="text"></p>
+				<p><label for="featureEditDescriptionInputBox">Description:<br></label><input id="featureEditDescriptionInputBox" type="textarea" rows="3" cols="20" spellcheck="true"></p>
+				<p><label for="featureEditNumberOfInputBox">Number before rest: </label><input id="featureEditNumberOfInputBox" type="number"></p>
+				<p><label for="featureEditReplenishTimeSelectBox">Replenish period: </label><select id="featureEditReplenishTimeSelectBox"><option value="">Select</option><option value="short">Short rest</option><option value="long">Long rest</option></select></p><br>
+				<p><button id="featureEditDoneButton" type="button" onclick="">Done</button> <button id="featureEditCancelButton" type="button" onclick="">Cancel</button></p><br>
+			</form>
+
+			<p><a onclick="addFeature('display')">Add New Feature</a></p><br>
+			<form id="newFeatureForm" style="display: none;">
+				<h1>Add a new feature</h1><br>
+				<p><label for="featureNameInputBox">Name: </label><input id="featureNameInputBox" type="text" required></p>
+				<p><label for="featureDescriptionInputBox">Description:<br></label><input id="featureDescriptionInputBox" type="textarea" rows="3" cols="20" spellcheck="true" required></p>
+				<p><label for="featureNumberOfInputBox">How many do you get? </label><input id="featureNumberOfInputBox" type="number" value="0"></p>
+				<p><label for="featureReplenishTimeSelectBox">Do they replenish after a short or long rest? </label><select id="featureReplenishTimeSelectBox" defaultValue="0"><option value="">Select</option><option value="short">Short rest</option><option value="long">Long rest</option></select></p><br>
+				<p><button id="featureAddNewButton" type="button" onclick="addFeature('add')">Add</button> <button id="featureResetButton" type="button" onclick="addNewFeature('reset')">Reset</button>></p><br>
+			</form>
+		</span>
+
+		<span id="section4" name="skills" class="tabcontent">
+			<h1>Skill Proficiencies</h1><br>
+			<table id="displayProficienciesTable">
+				<thead>
+					<tr><th><a id="displayProficienciesArrow" onclick="changeProficiencies()">↑</a></th><th>Name</th><th>Stat</th><th>Check</th></tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<table id="changeProficienciesTable" style="display: none;">
+				<thead>
+					<tr><th><a id="changeProficienciesArrow" onclick="changeProficiencies()">↓</a></th><th>Name</th></tr>
+				</thead>
+				<tbody>
+					<tr><td><input type="checkbox" id="animal handling" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">animal Handling</td></tr>
+					<tr><td><input type="checkbox" id="arcana" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">arcana</td></tr>
+					<tr><td><input type="checkbox" id="athletics" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">athletics</td></tr>
+					<tr><td><input type="checkbox" id="acrobatics" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">acrobatics</td></tr>
+					<tr><td><input type="checkbox" id="deception" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">deception</td></tr>
+					<tr><td><input type="checkbox" id="history" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">history</td></tr>
+					<tr><td><input type="checkbox" id="insight" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">insight</td></tr>
+					<tr><td><input type="checkbox" id="intimidation" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">intimidation</td></tr>
+					<tr><td><input type="checkbox" id="investigation" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">investigation</td></tr>
+					<tr><td><input type="checkbox" id="medicine" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">medicine</td></tr>
+					<tr><td><input type="checkbox" id="nature" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">nature</td></tr>
+					<tr><td><input type="checkbox" id="perception" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">perception</td></tr>
+					<tr><td><input type="checkbox" id="performance" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">performance</td></tr>
+					<tr><td><input type="checkbox" id="persuasion" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">persuasion</td></tr>
+					<tr><td><input type="checkbox" id="religion" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">religion</td></tr>
+					<tr><td><input type="checkbox" id="sleight of hand" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">sleight of hand</td></tr>
+					<tr><td><input type="checkbox" id="stealth" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">stealth</td></tr>
+					<tr><td><input type="checkbox" id="survival" name="proficiencyCheckbox"></td><td style="text-transform: capitalize;">survival</td></tr>
+				</tbody>
+			</table><br>
+		</span>
+
+		<span id="section5" name="spells" class="tabcontent">
+			<h1>Active Spells</h1><br>
+		</span>
+
+		<span id="section6" name="inventory" class="tabcontent">
+			<h1>Inventory</h1><br>
+			<table id="displayInventoryTable">
+				<thead>
+					<tr><td>Item Type</th><th>Contents</th></tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table><br>
+			<p><a onclick="">↑</a>Gold: <input id="goldInputBox" type="text" cols="6" style="display: none;"><span id="goldDisplay"></span> Carrying weight: <span id="carryingWeightDisplay"></span></p><br>
+			<span id="updateItemPropertiesForm">
+
+			</span>
+			<a id="addNewItemLink" onclick="addItem('display')">Add New Item</a><br>
+			<form id="newItemForm" style="display: none;">
+				<fieldset>
+					<legend>Select the type of item</legend>
+					<p><input type="radio" id="itemTypeRadio1" name="itemType" value="default" onclick="addItem('default')" checked><label for="itemTypeRadio1"> Default</label></p>
+					<p><input type="radio" id="itemTypeRadio2" name="itemType" value="armor" onclick="addItem('armor')"><label for="itemTypeRadio2"> Armor</label></p>
+					<p><input type="radio" id="itemTypeRadio3" name="itemType" value="weapon" onclick="addItem('weapon')"><label for="itemTypeRadio3"> Weapon</label></p>
+				</fieldset><br>
+				<fieldset>
+					<legend>These are traits all items share.</legend>
+					<p><label for="itemNameInputBox">Item name:</label><input id="itemNameInputBox" type="text" required></p>
+					<p>The following ar optional.</p>
+					<p><label for="itemDescriptionInputBox">Description:</label><br><input id="itemDescriptionInputBox" type="textarea" rows="3" cols="20"></p>
+					<p><label for="itemWeightInputBox">Weight: </label><input id="itemWeightInputBox" type="number" value="0"> lbs <label for="itemCostInputBox">Cost: </label><input id="itemCostInputBox" type="text" size="6"> <label for="itemQuantityInputBox">Quantity: </label><input id="itemQuantityInputBox" type="number" value="0"></p>
+				</fieldset><br>
+				<span id="itemArmorSpecificOptions" style="display: none;"><fieldset>
+					<legend>Set these to keep track of armor attributes.</legend>
+					<p><label for="itemArmorStyleSelectBox">Select armor type: </label><select id="itemArmorStyleSelectBox" defaultValue="0" required><option value="">Select</option><option value="light">Light</option><option value="medium">Medium</option><option value="heavy">Heavy</option></select></p>
+					<p><label for="itemArmorClassInputBox">Base armor class: </label><input id="itemArmorClassInputBox" type="number" value="0"></p>
+					<p><label for="itemAddDexModCheckbox">Add your dex modifier? </label><input id="itemAddDexModCheckbox" type="checkbox" onclick="addItem('addDexMod')"> <label for="itemMaxDexBonusInputBox">Maximum dexterity bonus: </label><input id="itemMaxDexBonusInputBox" type="number" value="0" disabled></p>
+					<p><label for="itemStealthDisadvCheckbox">Does this armor impose disadvantage on stealth? </label><input id="itemStealthDisadvCheckbox" type="checkbox"></p>
+					<p><label for="itemEquipCheckbox">Would you like to equip this armor? </label><input id="itemEquipCheckbox" type ="checkbox"></p>
+				</fieldset><br></span>
+				<span id="itemWeaponSpecificOptions" style="display: none;"><fieldset>
+					<legend>Set these to keep track of weapon attributes.</legend>
+					<p><label for="itemWeaponStyleSelectBox">Is this a melee or ranged weapon? </label><select id="itemWeaponStyleSelectBox" defaultValue="0" required><option value="">Select</option><option value="melee">Melee</option><option value="ranged">Ranged</option></select></p>
+					<p><label for="itemWeaponProficientCheckbox">Are you proficient with this weapon? </label><input id="itemWeaponProficientCheckbox" type="checkbox"></p>
+					<p><label for="itemWeaponDamageInputBox">The damage roll and type (e.g. 1d8 piercing): </label><input id="itemWeaponDamageInputBox" type="text"></p>
+					<p>If this is a ranged weapon or one with the thrown property, what is its range? <label for="itemRangeMinInputBox">min: </label><input id="itemRangeMinInputBox" type="number" value="0"> / <label for="itemRangeMaxInputBox">max: </label><input id="itemRangeMaxInputBox" type="number" value="0"></p>
+					<p><label for="itemWeaponPropertiesInputBox">If this weapon has any other properties (e.g. light, finesse, or versatile): </label><input id="itemWeaponPropertiesInputBox" type="text"></p>
+				</fieldset><br></span>
+				<p><button type="button" onclick="addItem('add')">Add</button> <button type="button" onclick="addItem('reset')">Reset</button></p><br>
+			</form>
+		</span>
+
+		<div id="test"></div>
+
+		<script>
+			var abilityInputboxes = document.getElementsByName("inputAbilityScore");
+			var abilityDisplays = document.getElementsByName("displayAbilityScore");
+			var saveCheckboxes = document.getElementsByName("abilityCheckbox");
+			var proficiencyCheckboxes = document.getElementsByName("proficiencyCheckbox");
+			function Feature() {
+				this.name = "";
+				this.description = "";
+				this.numberOf = 0;
+				this.currentNumber = 0;
+				this.replenish = "";
+			}
+			function Item() {
+				this.name = "";
+				this.description = "";
+				this.type = "";
+				this.equipped = false;
+				this.cost = "";
+				this.armorClass = 0;
+				this.addDexMod = false;
+				this.maxDexBonus = 0;
+				this.stealthDisadv = false;
+				this.weight = 0;
+				this.damage = "";
+				this.style = "";
+				this.range = [ 0, 0 ];
+				this.properties = "";
+				this.proficient = false;
+				this.quantity = 0;
+			}
+			var i;
+			var inventory = [];
+			var features = [];
+			var characterInfo = {
+				"playerName": "Stephen Luttrell",
+				"characterName": "Viljim",
+				"characterLevel": 2,
+				"characterRace": "human",
+				"characterClass": "fighter",
+				"characterBackground": "soldier",
+				"characterAge": "40",
+				"characterBuild": "6 ft. tall, a person once fit going soft in old age",
+				"characterAlignment": "Lawful/Good",
+				"characterLanguages": "Dwarvish",
+				"characterDescription": "His skin is light but not pale, short darkbrown hair, green eyes, stocky build; he lost an arm at the shoulder when his village was attacked by a monster; he was part of a farming community militia. His armor is plain leather, well-worn, and his clothes simple.",
+				"characterHitPoints": 20,
+				"currentHitPoints": 20,
+				"characterHitPointsNotes": "",
+				"characterHitDice": "d10",
+				"currentHitDice": "2",
+				"characterArmorClass": "",
+				"characterSpeed": 30,
+				"currentSpeed": 30,
+				"characterSpeedNotes": ""
+			};
+			var abilityScores = [ 17, 12, 15, 7, 15, 12 ];
+			var abilitySaves = [ true, false, true, false, false, false ];
+			var proficiencies = {
+				"athletics": ["strength", true],
+				"intimidation": ["charisma", true],
+				"medicine": ["wisdom", true],
+				"perception": ["wisdom", true],
+				"acrobatics": ["dexterity", false],
+				"animal handling": ["wisdom", false],
+				"arcana": ["intelligence", false],
+				"deception": ["charisma", false],
+				"history": ["intelligence", false],
+				"insight": ["wisdom", false],
+				"investigation": ["intelligence", false],
+				"nature": ["intelligence", false],
+				"performance": ["charisma", false],
+				"persuasion": ["charisma", false],
+				"religion": ["intelligence", false],
+				"sleight of hand": ["dexterity", false],
+				"stealth": ["dexterity", false],
+				"survival": ["wisdom", false]
+			};
+
+
+
+
+			document.getElementById("playerNameDisplay").innerHTML = characterInfo["playerName"];
+			document.getElementById("characterNameDisplay").innerHTML = characterInfo["characterName"];
+			document.getElementById("characterLevelDisplay").innerHTML = characterInfo["characterLevel"];
+			document.getElementById("characterRaceDisplay").innerHTML = characterInfo["characterRace"];
+			document.getElementById("characterClassDisplay").innerHTML = characterInfo["characterClass"];
+			document.getElementById("characterBackgroundDisplay").innerHTML = characterInfo["characterBackground"];
+			document.getElementById("characterAgeDisplay").innerHTML = characterInfo["characterAge"];
+			document.getElementById("characterBuildDisplay").innerHTML = characterInfo["characterBuild"];
+			document.getElementById("characterAlignmentDisplay").innerHTML = characterInfo["characterAlignment"];
+			document.getElementById("characterLanguagesDisplay").innerHTML = characterInfo["characterLanguages"];
+			document.getElementById("characterDescriptionDisplay").innerHTML = characterInfo["characterDescription"];
+			updateAbilityScores();
+			updateCombatStats();
+			for (i = 0; i < saveCheckboxes.length; i++) {
+			if (abilitySaves[i] === true) { document.getElementById("save" + i).checked = true; }
+				saveCheckboxes[i].disabled = true;
+			}
+			updateProficiencies();
+			document.getElementById("newItemForm").reset();
+			document.getElementById("itemArmorSpecificOptions").style.display = "none";
+			document.getElementById("itemMaxDexBonusInputBox").disabled = true;
+			document.getElementById("itemWeaponSpecificOptions").style.display = "none";
+
+			function updateCombatStats() {
+				document.getElementById("initiativeDisplay").innerHTML = getModifier(abilityScores[1]);
+				document.getElementById("characterHitPointsDisplay").innerHTML = characterInfo["characterHitPoints"];
+				document.getElementById("currentHitPointsDisplay").innerHTML = characterInfo["currentHitPoints"];
+				document.getElementById("currentHitDiceInputBox").value = characterInfo["currentHitDice"];
+				document.getElementById("characterHitDiceDisplay").innerHTML = characterInfo["characterHitDice"];
+				document.getElementById("characterSpeedDisplay").innerHTML = characterInfo["characterSpeed"];
+				document.getElementById("currentSpeedDisplay").innerHTML = characterInfo["currentSpeed"];
+				if (proficiencies["perception"][1] === true) {
+					document.getElementById("passivePerceptionDisplay").innerHTML = 10 + getModifier(abilityScores[4]) + getProficiency();
+				} else {
+					document.getElementById("passivePerceptionDisplay").innerHTML = 10 + getModifier(abilityScores[4]);
+				}
+			}
+
+			function updateAbilityScores() {
+				for (i = 0; i < abilityScores.length; i++) {
+					document.getElementById("abilityBase" + i).innerHTML = abilityScores[i];
+					document.getElementById("abilityModifier" + i).innerHTML = getModifier(abilityScores[i]);
+					if (abilitySaves[i] === true) {
+						document.getElementById("abilitySave" + i).innerHTML = getModifier(abilityScores[i]) + getProficiency();
+					} else {
+						document.getElementById("abilitySave" + i).innerHTML = getModifier(abilityScores[i]);
+					}
+				}
+			}
+
+			function getModifier(ability) {
+				return Math.floor((ability - 10) / 2);
+			}
+
+			function formatLevel(level) {
+				if (level === 1) {
+					return "1st-level";
+				} else if (level === 2) {
+					return "2nd-level";
+				} else if (level === 3) {
+					return "3rd-level";
+				}
+				return level+"th-level";
+			}
+
+			function getProficiency() {
+				if (characterInfo["characterLevel"] >= 1 && characterInfo["characterLevel"] <= 4) {
+					return 2;
+				} else if (characterInfo["characterLevel"] >= 5 && characterInfo["characterLevel"] <= 8) {
+					return 3;
+				} else if (characterInfo["characterLevel"] >= 9 && characterInfo["characterLevel"] <= 12) {
+					return 4;
+				} else if (characterInfo["characterLevel"] >= 13 && characterInfo["characterLevel"] <= 16) {
+					return 5;
+				}
+				return 6;
+			}
+
+			function changeBase() {
+				if (document.getElementById("abilityInputBox0").style.display === "none") {
+					document.getElementById("changeBaseArrow").innerHTML = "↓";
+					for (i = 0; i < abilityInputboxes.length; i++) {
+						document.getElementById("abilityInputBox" + i).value = abilityScores[i];
+						abilityInputboxes[i].style.display = "inline";
+						abilityDisplays[i].style.display = "none";
+					}
+				} else {
+					document.getElementById("changeBaseArrow").innerHTML = "↑";
+					for (i = 0; i < abilityInputboxes.length; i++) {
+					abilityScores[i] = document.getElementById("abilityInputBox" + i).value;
+						abilityInputboxes[i].style.display = "none";
+						abilityDisplays[i].style.display = "inline";
+					}
+					updateAbilityScores();
+					updateCombatStats();
+					updateProficiencies();
+					document.getElementById("initiativeDisplay").innerHTML = getModifier(abilityScores[1]);
+				}
+			}
+
+			function changeSaves() {
+				if (saveCheckboxes[0].disabled === true) {
+					document.getElementById("saveCheckboxesArrow").innerHTML = "↓";
+					for (i = 0; i < saveCheckboxes.length; i++) {
+						saveCheckboxes[i].disabled = false;
+					}
+				} else {
+					document.getElementById("saveCheckboxesArrow").innerHTML = "↑";
+					for (i = 0; i < saveCheckboxes.length; i++) {
+						abilitySaves[i] = saveCheckboxes[i].checked;
+						saveCheckboxes[i].disabled = true;
+					}
+				}
+				updateAbilityScores();
+				updateProficiencies();
+			}
+
+			function changeLevel(by) {
+				characterInfo["characterLevel"] = characterInfo["characterLevel"] + by;
+				updateAbilityScores();
+				updateProficiencies();
+				document.getElementById("characterLevelDisplay").innerHTML = characterInfo["characterLevel"];
+			}
+
+			function changeCharacterInfo(type) {
+				arrow = document.getElementById(type+"Arrow");
+				box = document.getElementById(type+"InputBox");
+				display = document.getElementById(type+"Display");
+				if (box.style.display === "none") {
+					box.value = display.innerHTML;
+					box.style.display = "inline";
+					if (arrow.innerHTML === "↑") {
+						arrow.innerHTML = "↓";
+					} else if (arrow.innerHTML === "→") {
+						arrow.innerHTML = "←";
+					}
+					display.style.display = "none";
+				} else {
+					if (typeof box.value === "number") {
+						characterInfo[type] = parseInt(box.value);
+					} else {
+						characterInfo[type] = box.value;
+					}
+					display.innerHTML = box.value;
+					box.style.display = "none";
+					if (arrow.innerHTML === "↓") {
+						arrow.innerHTML = "↑";
+					} else if (arrow.innerHTML === "←") {
+						arrow.innerHTML = "→";
+					}
+					display.style.display = "inline";
+				}
+			}
+
+			function updateArmorClass() {
+				var armor;
+				var text = "";
+				for (i = 0; i < inventory.length; i++) {
+					if (inventory[i].type === "armor" && inventory[i].equipped) {
+						armor = inventory[i];
+					}
+				}
+				if (armor) {
+					if (armor.addDexMod) {
+						text = armor.armorClass + getModifier(abilityScores[1]);
+					} else {
+						text = armor.armorClass;
+					}
+					text = text + " (" + armor.name;
+					if (armor.stealthDisadv) {
+							text = text + ", Imposes stealth disadvantage";
+					}
+					text = text + ")";
+					document.getElementById("armorClassDisplay").innerHTML = text;
+				}
+			}
+
+			function changeProficiencies() {
+				if (document.getElementById("changeProficienciesTable").style.display === "none") {
+				for (i = 0;i < proficiencyCheckboxes.length; i++) {
+									proficiencyCheckboxes[i].checked = proficiencies[proficiencyCheckboxes[i].getAttribute("id")][1];
+				}
+					document.getElementById("changeProficienciesTable").style.display = "inline";
+					document.getElementById("displayProficienciesTable").style.display = "none";
+				} else {
+				for (i = 0;i < proficiencyCheckboxes.length; i++) {
+					proficiencies[proficiencyCheckboxes[i].getAttribute("id")][1] = proficiencyCheckboxes[i].checked;
+				}
+					document.getElementById("changeProficienciesTable").style.display = "none";
+					document.getElementById("displayProficienciesTable").style.display = "inline";
+					updateProficiencies();
+				}
+			}
+
+			function updateProficiencies() {
+				var table = document.getElementById("displayProficienciesTable")
+				var rowCount = table.rows.length;
+				var row;
+				var cell0;
+				var cell1;
+				var cell2;
+				var cell3;
+				var skills = Object.keys(proficiencies);
+				var list1 = [];
+				var list2 = [];
+
+				// Separate the skills into two lists. The first is the skills for which you are proficient, the second are skills for which you only get your ability modifier.
+				for (i = 0; i < skills.length; i++) {
+					if (proficiencies[skills[i]][1] === true) {
+						list1.push(skills[i]);
+					} else {
+						list2.push(skills[i]);
+					}
+				}
+
+				// Alphabetize both lists
+				list1.sort();
+				list2.sort();
+
+				// Insure the table is empty (otherwise they will multiply everytime a stat is updated).
+				if (rowCount > 1) {
+					for (i = 1; i < rowCount; i++) {
+						table.deleteRow(-1); // Each pass deletes the last row in the table.
+					}
+				}
+
+				// Insert the lists (one by one) into the skills table. The skills for which you are proficient go first.
+				for (i = 0; i < list1.length; i++) {
+									// Create a new row.
+					row = table.insertRow(-1); // Negative one inserts the row at the bottom of the table
+					// Create all four cells corresponding to the headers row of the skills table above.
+					cell0 = row.insertCell(0);
+					cell1 = row.insertCell(1);
+					cell2 = row.insertCell(2);
+					cell3 = row.insertCell(3);
+					// Populate each cell.
+					cell0.innerHTML = "✓";
+					cell1.innerHTML = list1[i];
+					cell2.innerHTML = proficiencies[list1[i]][0];
+					if (proficiencies[list1[i]][0] === "strength") {
+						cell3.innerHTML = getModifier(abilityScores[0]) + getProficiency();
+					} else if (proficiencies[list1[i]][0] === "dexterity") {
+						cell3.innerHTML = getModifier(abilityScores[1]) + getProficiency();
+					} else if (proficiencies[list1[i]][0] === "intelligence") {
+						cell3.innerHTML = getModifier(abilityScores[3]) + getProficiency();
+					} else if (proficiencies[list1[i]][0] === "wisdom") {
+					cell3.innerHTML = getModifier(abilityScores[4]) + getProficiency();
+					} else {
+						cell3.innerHTML = getModifier(abilityScores[5]) + getProficiency();
+					}
+				}
+
+				for (i = 0; i < list2.length; i++) {
+					row = table.insertRow(-1);
+					cell0 = row.insertCell(0);
+					cell1 = row.insertCell(1);
+					cell2 = row.insertCell(2);
+					cell3 = row.insertCell(3);
+					cell1.innerHTML = list2[i];
+					cell2.innerHTML = proficiencies[list2[i]][0];
+					if (proficiencies[list2[i]][0] === "strength") {
+						cell3.innerHTML = getModifier(abilityScores[0]);
+					} else if (proficiencies[list2[i]][0] === "dexterity") {
+						cell3.innerHTML = getModifier(abilityScores[1]);
+					} else if (proficiencies[list2[i]][0] === "intelligence") {
+						cell3.innerHTML = getModifier(abilityScores[3]);
+					} else if (proficiencies[list2[i]][0] === "wisdom") {
+					cell3.innerHTML = getModifier(abilityScores[4]);
+					} else {
+						cell3.innerHTML = getModifier(abilityScores[5]);
+					}
+				}
+			}
+
+			function addFeature(activator) {
+				if (activator === "display") {
+					 // Show or hide the new feature form
+					if (document.getElementById("newFeatureForm").style.display === "none") {
+						document.getElementById("newFeatureForm").style.display = "inline";
+					} else {
+						document.getElementById("newFeatureForm").style.display = "none";
+					}
+					document.getElementById("newFeatureForm").reset();
+				}else if (activator === "add") {
+					if (document.getElementById("newFeatureForm").checkValidity()) {
+						newFeature = new Feature();
+						newFeature.name = document.getElementById("featureNameInputBox").value;
+						newFeature.description = document.getElementById("featureDescriptionInputBox").value;
+						newFeature.numberOf = parseInt(document.getElementById("featureNumberOfInputBox").value);
+						newFeature.currentNumber = newFeature.numberOf;
+						newFeature.replenish = document.getElementById("featureReplenishTimeSelectBox").value;
+						features.push(newFeature);
+						document.getElementById("newFeatureForm").reset();
+					}
+					updateFeatures();
+				} else if (activator === "reset") {
+					document.getElementById("newFeatureForm").reset();
+				}
+			}
+
+			function changeFeature(name, action) {
+				function of(value) {
+					return value.name === name;
+				}
+document.getElementById("test").innerHTML = "name is " + name + " and action is " + action;
+				if (action === "done") {
+					index = features.findIndex(of);
+					features[index].name = document.getElementById("featureEditNameInputBox").value;
+					features[index].description = document.getElementById("featureEditDescriptionInputBox").value;
+					features[index].numberOf = document.getElementById("featureEditNumberOfInputBox").value;
+					features[index].currentNumber = features[index].numberOf;
+					features[index].replenish = document.getElementById("featureEditReplenishTimeSelectBox").value;
+					document.getElementById("featureEditForm").reset();
+					document.getElementById("featureEditForm").style.display = "none";
+					updateFeatures();
+				} else if (action === "delete") {
+					index = features.findIndex(of);
+					features.splice(index, 1);
+					document.getElementById("featureEditForm").reset();
+					document.getElementById("featureEditForm").style.display = "none";
+					updateFeatures();
+				} else if (action === "edit") {
+					index = features.findIndex(of);
+					document.getElementById("featureEditNameInputBox").value = features[index].name;
+					document.getElementById("featureEditDescriptionInputBox").value = features[index].description;
+					document.getElementById("featureEditNumberOfInputBox").value = features[index].numberOf;
+					document.getElementById("featureEditReplenishTimeSelectBox").value = features[index].replenish;
+					document.getElementById("feature"+name+"Arrow").setAttribute("onclick", "changeFeature(\'" + name + "\', \'done\')");
+					document.getElementById("featureEditDoneButton").setAttribute("onclick", "changeFeature(\'" + name + "\', \'done\')");
+					document.getElementById("featureEditCancelButton").setAttribute("onclick", "changeFeature(\'" + name + "\', \'cancel\')");
+					document.getElementById("feature"+name+"Arrow").innerHTML = "↓";
+					document.getElementById("featureEditForm").style.display = "block";
+				} else if (action === "cancel") {
+					document.getElementById("feature"+name+"Arrow").setAttribute("onclick", "changeFeature(\'" + name + "\', \'done\')");
+					document.getElementById("feature"+name+"Arrow").innerHTML = "↓";
+					document.getElementById("featureEditDoneButton").setAttribute("onclick", "");
+					document.getElementById("featureEditCancelButton").setAttribute("onclick", "");
+					document.getElementById("featureEditForm").style.display = "none";
+				}
+			}
+
+			function updateFeatures() {
+			document.getElementById("test").innerHTML = "updating features " + features.length;
+			display = document.getElementById("characterFeaturesListDisplay");
+			display.innerHTML = "";
+				for (i = 0; i < features.length; i++ ) {
+					name = features[i].name;
+					box = "feature" + name + "InputBox";
+					arrow = "feature" + name + "Arrow";
+					delta = "feature" + name + "Delete";
+
+					display.innerHTML = display.innerHTML + "<h2 style=\"text-transform: capitalize;\"><a id=\"" + arrow+ "\" onclick=\"changeFeature(\'" + name + "\', \'edit\')\">↑</a> <a id=\"" + delta + "\" onclick=\"changeFeature(\'" + name + "\', \'delete\')\">δ</a> " + name + "</h2>";
+					if (features[i].numberOf > 0) {
+						display.innerHTML = display.innerHTML + "<p>Total of " + features[i].numberOf + " before a " + features[i].replenish + " rest. <label for=\"" + box + "\">Uses remaining: </label><input id=\"" + box + "\" type=\"number\" onchange=\"changeFeatureUsed(\'" + name + "\')\" value=\"" + features[i].currentNumber + "\">)</p>";
+					}
+					display.innerHTML = display.innerHTML + "<p>" + features[i].description + "</p><br>"
+				}
+			}
+
+			function addItem(activator) {
+				if (activator === "display") {
+					 // Show or hide the new item form
+					if (document.getElementById("newItemForm").style.display === "none") {
+						document.getElementById("newItemForm").style.display = "inline";
+					} else {
+						document.getElementById("newItemForm").style.display = "none";
+					}
+					resetAddItemForm()
+				} else if (activator === "default") {
+					resetArmorOptionsOnNewItemForm();
+					resetWeaponOptionsOnNewItemForm();
+				} else if (activator === "armor") {
+					resetWeaponOptionsOnNewItemForm();
+					document.getElementById("itemArmorSpecificOptions").style.display = "inline";
+				} else if (activator === "weapon") {
+					resetArmorOptionsOnNewItemForm();
+					document.getElementById("itemWeaponSpecificOptions").style.display = "inline";
+				} else if (activator === "addDexMod") {
+					if (document.getElementById("itemAddDexModCheckbox").checked === true) {
+						document.getElementById("itemMaxDexBonusInputBox").disabled = false;
+					} else {
+						document.getElementById("itemMaxDexBonusInputBox").disabled = true;
+					}
+				} else if (activator === "add") {
+					var newItem = new Item();
+					var radios = document.getElementsByName("itemType");
+					for (i = 0; i < radios.length; i++) {
+						if (radios[i].checked === true) {
+							newItem.type = radios[i].value;
+						}
+					}
+					if (validateNewItemForm(newItem.type)) {
+						newItem.name = document.getElementById("itemNameInputBox").value;
+						newItem.description = document.getElementById("itemDescriptionInputBox").value;
+						newItem.weight = parseInt(document.getElementById("itemWeightInputBox").value);
+						newItem.cost = document.getElementById("itemCostInputBox").value
+						newItem.quantity = parseInt(document.getElementById("itemQuantityInputBox").value);
+						if (newItem.type === "armor") {
+							newItem.style = document.getElementById("itemArmorStyleSelectBox").value;
+						} else if (newItem.type === "weapon") {
+							newItem.style = document.getElementById("itemWeaponStyleSelectBox").value;
+						}
+						newItem.armorClass = parseInt(document.getElementById("itemArmorClassInputBox").value);
+						newItem.addDexMod = document.getElementById("itemAddDexModCheckbox").checked;
+						newItem.maxDexBonus = parseInt(document.getElementById("itemMaxDexBonusInputBox").value);
+						newItem.stealthDisadv = document.getElementById("itemStealthDisadvCheckbox").checked;
+						newItem.equipped = document.getElementById("itemEquipCheckbox").checked;
+						newItem.damage = document.getElementById("itemWeaponDamageInputBox").value;
+						newItem.range = [ parseInt(document.getElementById("itemRangeMinInputBox").value), parseInt(document.getElementById("itemRangeMaxInputBox").value) ];
+						newItem.properties = document.getElementById("itemWeaponPropertiesInputBox").value;
+						newItem.proficient = document.getElementById("itemWeaponProficientCheckbox").checked;
+						inventory.push(newItem);
+						updateInventory();
+						updateArmorClass();
+						resetAddItemForm();
+					}
+				} else if (activator === "reset") {
+					resetAddItemForm();
+				}
+			}
+
+			function resetAddItemForm() {
+				document.getElementById("newItemForm").reset();
+				document.getElementById("itemArmorSpecificOptions").style.display = "none";
+				document.getElementById("itemMaxDexBonusInputBox").disabled = true;
+				document.getElementById("itemWeaponSpecificOptions").style.display = "none";
+			}
+
+			function resetArmorOptionsOnNewItemForm() {
+				document.getElementById("itemArmorSpecificOptions").style.display = "none";
+				document.getElementById("itemArmorSpecificOptions").style.display = "none";
+				document.getElementById("itemWeaponSpecificOptions").style.display = "inline";
+				document.getElementById("itemArmorClassInputBox").value = document.getElementById("itemArmorClassInputBox").defaultValue
+				document.getElementById("itemAddDexModCheckbox").checked = false
+				document.getElementById("itemMaxDexBonusInputBox").value = document.getElementById("itemMaxDexBonusInputBox").defaultValue
+				document.getElementById("itemMaxDexBonusInputBox").disabled = true;
+				document.getElementById("itemStealthDisadvCheckbox").value = document.getElementById("itemStealthDisadvCheckbox").defaultValue
+				document.getElementById("itemArmorStyleSelectBox").value = document.getElementById("itemArmorStyleSelectBox").defaultValue
+			}
+
+			function resetWeaponOptionsOnNewItemForm() {
+				document.getElementById("itemWeaponSpecificOptions").style.display = "none";
+				document.getElementById("itemWeaponDamageInputBox").value = document.getElementById("itemWeaponDamageInputBox").defaultValue;
+				document.getElementById("itemWeaponStyleSelectBox").value = document.getElementById("itemWeaponStyleSelectBox").defaultValue;
+				document.getElementById("itemRangeMinInputBox").value = document.getElementById("itemRangeMinInputBox").defaultValue;
+				document.getElementById("itemRangeMaxInputBox").value = document.getElementById("itemRangeMaxInputBox").defaultValue;
+				document.getElementById("itemWeaponPropertiesInputBox").value = document.getElementById("itemWeaponPropertiesInputBox").defaultValue
+			}
+
+			function updateInventory() {
+				var table = document.getElementById("displayInventoryTable");
+				var rowCount = table.rows.length;
+				var row;
+				var cell0;
+				var cell1;
+				var armor = "<ul>";
+				var weapons = "<ul>";
+				var other = "<ul>";
+				var totalWeight = 0;
+				inventory.sort();
+				for (i = 0; i < inventory.length; i++) {
+					totalWeight = totalWeight + inventory[i].weight;
+					if (inventory[i].type === "armor") {
+						armor = armor + "<li>";
+						if (inventory[i].equipped) {
+							armor = armor + "✓ ";
+						}
+						armor = armor + "<a onclick=\"changeItem(\'" + inventory[i].name + "\')\">" + inventory[i].name + "</a>";
+						if (inventory[i].quantity > 0) {
+							armor = armor + " &#215 " + inventory[i].quantity;
+						}
+						armor = armor + "</li>";
+					} else if (inventory[i].type === "weapon") {
+						weapons = weapons + "<li><a onclick=\"changeItem(\'" + inventory[i].name + "\')\">" + inventory[i].name + "</a>";
+						if (inventory[i].quantity > 0) {
+							weapons = weapons + " ×" + inventory[i].quantity;
+						}
+						weapons = weapons + "</li>";
+					} else {
+						other = other + "<li><a onclick=\"changeItem(\'" + inventory[i].name + "\')\">" + inventory[i].name + "</a>";
+						if (inventory[i].quantity > 0) {
+							other = other + " ×" + inventory[i].quantity;
+						}
+						other = other + "</li>";
+					}
+				}
+				armor = armor + "</ul>";
+				weapons = weapons + "</ul>";
+				other = other + "</ul>";
+
+				// Insure the table is empty (otherwise they will multiply everytime a stat is updated).
+				if (rowCount > 1) {
+					for (i = 1; i < rowCount; i++) {
+						table.deleteRow(-1); // Each pass deletes the last row in the table.
+					}
+				}
+
+				// Populate the inventory table.
+				row = table.insertRow(-1);
+				cell0 = row.insertCell(0);
+				cell1 = row.insertCell(1);
+				cell0.innerHTML = "armor:"
+				cell1.innerHTML = armor;
+				row = table.insertRow(-1);
+				cell0 = row.insertCell(0);
+				cell1 = row.insertCell(1);
+				cell0.innerHTML = "Weapons:";
+				cell1.innerHTML = weapons;
+				row = table.insertRow(-1);
+				cell0 = row.insertCell(0);
+				cell1 = row.insertCell(1);
+				cell0.innerHTML = "Items:";
+				cell1.innerHTML = other;
+
+				document.getElementById("carryingWeightDisplay").innerHTML = totalWeight;
+			}
+
+			function validateNewItemForm(type) {
+			
+				if (!document.getElementById("itemNameInputBox").checkValidity()) {
+					return false;
+				}
+
+				if (type !== "default") {
+					if (document.getElementById("item"+type.charAt(0).toUpperCase()+type.slice(1)+"StyleSelectBox").value === "") {
+						return false;
+					}
+				}
+
+				return true;
+			}
+
+			function updateWeapons() {
+				var table = document.getElementById("weaponsTable");
+				var rowCount = table.rows.length;
+				var row;
+				var cell0;
+				var cell1;
+				var cell2;
+				var cell3;
+				var cell4;
+				var weapons = [];
+				var hitMod = 0;
+
+				for (i = 0; i < inventory.length; i++) {
+					if (inventory[i].type === "weapon") {
+						weapons.push(inventory[i]);
+					}
+				}
+				weapons.sort();
+
+				// Insure the table is empty (otherwise they will multiply everytime a stat is updated).
+				if (rowCount > 1) {
+					for (i = 1; i < rowCount; i++) {
+						table.deleteRow(-1); // Each pass deletes the last row in the table.
+					}
+				}
+
+				if (weapons) {
+					for (i = 0; i < weapons.length; i++) {
+						row = table.insertRow(-1);
+						cell0 = row.insertCell(0);
+						cell1 = row.insertCell(1);
+						cell2 = row.insertCell(2);
+						cell3 = row.insertCell(3);
+						cell4 = row.insertCell(4);
+						cell0.innerHTML = weapons[i].name;
+						if (weapons[i].style === "melee") {
+							hitMod = abilityScores[0];
+						} else {
+							hitMod = abilityScores[1];
+						}
+						if (weapons.proficient) {
+							cell1.innerHTML = getModifier(hitMod) + getProficiency();
+						} else {
+							cell1.innerHTML = getModifier(hitMod);
+						}
+						cell2.innerHTML = weapons[i].damage;
+						if (weapons[i].range[0] > 0) {
+							cell3.innerHTML = "(" + weapons[i].range[0] + ", " + weapons[i].range[1] + ")";
+						} else {
+							cell3.innerHTML = "–";
+						}
+						if (weapons[i].properties !== "") {
+							cell4.innerHTML = weapons[i].properties;
+						} else {
+							cell4.innerHTML = "–";
+						}
+					}
+				}
+			}
+
+			function openSection(evt, content) {
+				var tabContent, tabLinks;
+
+				tabContent = document.getElementsByClassName("tabcontent");
+				for (i =0; i < tabContent.length; i++) {
+					tabContent[i].style.display = "none";
+				}
+
+				tabLinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tabLinks.length; i++) {
+					tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+				}
+
+				document.getElementById(content).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+		</script>
+	</body>
+</html>
