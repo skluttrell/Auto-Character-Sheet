@@ -239,35 +239,35 @@
 		<script>
 			var CharacterInfo = {
 				"basic": {
-					"name": "Viljim",
-					"level": 2,
-					"race": "human",
-					"class": "fighter",
-					"background": "soldier",
-					"age": 40,
-					"build": "6 ft. tall, a person once fit going soft in old age",
-					"alignment": "Lawful/Good",
-					"languages": "Dwarvish",
-					"description": "His skin is light but not pale, short darkbrown hair, green eyes, stocky build; he lost an arm at the shoulder when his village was attacked by a monster; he was part of a farming community militia. His armor is plain leather, well-worn, and his clothes simple.",
+					"name": "",
+					"level": 1,
+					"race": "",
+					"class": "",
+					"background": "",
+					"age": 0,
+					"build": "",
+					"alignment": "",
+					"languages": "",
+					"description": "",
 				},
 				"combat_stats": {
-					"hit_points": [ 20, 0, "" ],
-					"hit_dice": [ "d10", 2 ],
-					"speed": [ 30, 0, "" ]
+					"hit_points": [ 0, 0, "" ],
+					"hit_dice": [ "d4", 1 ],
+					"speed": [ 0, 0, "" ]
 				},
 				"ability_stats": {
-					"strength": [17, 0, true],
-					"dexterity": [12, 0, false],
-					"constitution": [15, 0, true],
-					"intelligence": [7, 0, false],
-					"wisdom": [15, 0, false],
-					"charisma": [12, 0, false]
+					"strength": [0, 0, false],
+					"dexterity": [0, 0, false],
+					"constitution": [0, 0, false],
+					"intelligence": [0, 0, false],
+					"wisdom": [0, 0, false],
+					"charisma": [0, 0, false]
 				},
 				"proficiencies": {
-					"athletics": ["strength", true],
-					"intimidation": ["charisma", true],
-					"medicine": ["wisdom", true],
-					"perception": ["wisdom", true],
+					"athletics": ["strength", false],
+					"intimidation": ["charisma", false],
+					"medicine": ["wisdom", false],
+					"perception": ["wisdom", false],
 					"acrobatics": ["dexterity", false],
 					"animal_handling": ["wisdom", false],
 					"arcana": ["intelligence", false],
@@ -308,17 +308,10 @@
 					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "0", "3", "4", "4", "4", "5", "6", "6", "7", "8", "8", "9", "10", "10", "11", "11", "11", "12", "13" ], "classes": "rogue (arcane trickster)" },
 					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "0", "3", "4", "4", "4", "5", "5 + 1", "5 + 1", "6 + 1", "7 + 1", "7 + 1", "8 + 1", "8 + 2", "8 + 2", "9 + 2", "9 + 2", "9 + 2", "10 + 2", "10 + 3" ], "classes": "fighter (eldritch knight)" }
 				],
-				"features": [{ "name": "second wind", "description": "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again.", "quantity": 1, "current_quantity": 1, "replenish": "short" }],
-				"inventory": [
-					{ "name": "chain shirt", "type": "armor", "active": true, "cost": "50 gp", "quantity": 1, "armor_class": 13, "add_dex_mod": true, "max_dex_bonus": 2, "stealth_disadv": false, "weight": 20, "style_armor": "medium", },
-					{ "name": "shortsword", "type": "weapon", "sub_type": "melee", "cost": "10 gp", "weight": 2, "quantity": 1, "damage": "1d6 (piercing)", "style_weapon": "martial", "range": [0, 0], "properties": "finesse, light", "proficient": true },
-					{ "name": "torch", "type": "other", "description": "", "cost": "1 cp", "weight": 1, "quantity": 10 },
-				],
-				"spells": [
-					{ "name": "acid splash", "type": "spell", "level": "cantrip", "school": "conjuration", "ritual_tag": false, "casting_time": "1 action", "range": "60 ft.", "verbal": true, "somatic": true, "materials": "", "duration": "instantaneous", "description": "You hurl a bubble of acid. Choose one creature within range, or choose two creatures within range that are within 5 feet of each other. A target must succeed on a Dexterity saving throw or take 1d6 acid damage.", "active": true, "quantity": 1 },
-					{ "name": "alarm", "type": "spell", "level": "1st", "school": "abjuration", "ritual_tag": true, "casting_time": "1 minute", "range": "30 ft.", "verbal": true, "somatic": true, "materials": "a tiny bell and a piece of fine silver wire", "duration": "8 hours", "description": "You set an alarm against unwanted intrusion. Choose a door, a window, or an area within range that is no larger than a 20-foot cube. Until the spell ends, an alarm alerts you whenever a tiny or larger creature touches or enters the warded area. When you cast the spell, you can designate creatures that won’t set off the alarm. You also choose whether the alarm is mental or audible.", "active": false }
-				],
-				"gold": "52 gp 99 sp"
+				"features": [],
+				"inventory": [],
+				"spells": [],
+				"gold": ""
 			};
 
 			// ability_stats: name (key), score (integer, index 0), alter_by (integer, index 1), and save (boolean, index 2)
