@@ -60,9 +60,51 @@
 			<p><a id="basic-description-arrow" onclick="editInfo()">↑</a> Description:<br><input id="basic-description-box" type="textarea" rows="3" cols="20" spellcheck="true" style="display: none;"><span id="basic-description-display" style="display: inline;"></span></p>
 			<br>
 			<h1><a id="schema-link" onclick="editInfo()">Add discreet class features such as spell slots for spellcasters or rages for barbarians</a></h1><br>
+			<form id="schema-form" style="display: none;">
+				<select id="schema-name-box" onchange="editInfo()"></select><br>
+				<button id="schema-activate-button" type="button" onclick="editInfo()">activate</button> <button id="schema-remove-button" type="button" onclick="editInfo()" style="display: none;">remove</button> <button id="schema-add-button" type="button" onclick="editInfo()">new</button> <button id="schema-cancel-button" type="button" onclick="editInfo()">cancel</button>
+			</form>
+
+			<span id="basic-schema-display"></span>
+
+			<form id="new_schema-form" style="display: none;">
+			<p>Add a new schema for discreet character information such as rages for barbarians or spell slots per spell level for spellcasters</p><br>
+				<p><label for="new_schema-name-box">Name: </label><input id="new_schema-name-box" type="text" required></p>
+				<p><label for="new_schema-display_in_section-box">Where would you like this to be displayed? </label><select id="new_schema-display_in_section-box" defaultValue="0"><option value="combat">Combat section</option><option value="spells">Spells section</option></select></p>
+				<p><label for="new_schema-description-box">Brief Description: </label><input id="new_schema-description-box" type="text" required></p>
+				<p><label for="new_schema-classes-box">To which class or classes does this belong: </label><input id="new_schema-classes-box" type="text"></p><br>
+				<fieldset>
+					<legend>Data per level</legend>
+					<p>The following text input boxes are for all 20 levels of progression. If there are multiple units (such as spell slots per spell level), separate each number with a comma. e.g. at 20th-level the bard gets 4, 3, 3, 3, 3, 2, 2, 1, 1 spells for each of 1st through 9th spell levels. A space between the numbers is not necessary and will be filtered out.<br>
+					<p>Please only use numbers (or commas) in these boxes, non-numeric characters might have undesired results.</p><br>
+					<p><label for="new_schema-0-box">1st-level: </label><input id="new_schema-0-box" type="text" required></p>
+					<p><label for="new_schema-1-box">2nd-level: </label><input id="new_schema-1-box" type="text" required></p>
+					<p><label for="new_schema-2-box">3rd-level: </label><input id="new_schema-2-box" type="text" required></p>
+					<p><label for="new_schema-3-box">4th-level: </label><input id="new_schema-3-box" type="text" required></p>
+					<p><label for="new_schema-4-box">5th-level: </label><input id="new_schema-4-box" type="text" required></p>
+					<p><label for="new_schema-5-box">6th-level: </label><input id="new_schema-5-box" type="text" required></p>
+					<p><label for="new_schema-6-box">7th-level: </label><input id="new_schema-6-box" type="text" required></p>
+					<p><label for="new_schema-7-box">8th-level: </label><input id="new_schema-7-box" type="text" required></p>
+					<p><label for="new_schema-8-box">9th-level: </label><input id="new_schema-8-box" type="text" required></p>
+					<p><label for="new_schema-9-box">10th-level: </label><input id="new_schema-9-box" type="text" required></p>
+					<p><label for="new_schema-10-box">11th-level: </label><input id="new_schema-10-box" type="text" required></p>
+					<p><label for="new_schema-11-box">12th-level: </label><input id="new_schema-11-box" type="text" required></p>
+					<p><label for="new_schema-12-box">13th-level: </label><input id="new_schema-12-box" type="text" required></p>
+					<p><label for="new_schema-13-box">14th-level: </label><input id="new_schema-13-box" type="text" required></p>
+					<p><label for="new_schema-14-box">15th-level: </label><input id="new_schema-14-box" type="text" required></p>
+					<p><label for="new_schema-15-box">16th-level: </label><input id="new_schema-15-box" type="text" required></p>
+					<p><label for="new_schema-16-box">17th-level: </label><input id="new_schema-16-box" type="text" required></p>
+					<p><label for="new_schema-17-box">18th-level: </label><input id="new_schema-17-box" type="text" required></p>
+					<p><label for="new_schema-18-box">19th-level: </label><input id="new_schema-18-box" type="text" required></p>
+					<p><label for="new_schema-19-box">20th-level: </label><input id="new_schema-19-box" type="text" required></p>
+				</fieldset><br>
+				<p><label for="new_schema-active-box">Do you wish to have this new character information available? </label><input id="new_schema-active-box" type="checkbox" checked></p><br>
+				<p><button id="new_schema-done-button" type="button" onclick="editInfo()">Add</button> <button id="new_schema-cancel-button" type="button" onclick="editInfo()">cancel</button></p>
+			</form>
 		</span>
 
 		<span id="section2" name="stats" class="tabcontent">
+			<span id="combat-schemas-display"></span>
 			<h1>Ability Scores</h1><br>
 			<table id="ability_stats-table">
 				<thead>
@@ -124,8 +166,7 @@
 		</span>
 
 		<span id="section5" name="spells" class="tabcontent">
-
-			<span id="spells-discreet-display"></span>
+			<span id="spells-schemas-display"></span>
 
 			<span id="spells-invocations-display"></span>
 
@@ -250,7 +291,7 @@
 					{ "name": "rage damage", "description": "Extra damage wile inraged", "active": false, "display_in_section": "combat", "list_by_level": [ "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+3", "+3", "+3", "+3", "+3", "+3", "+3", "+4", "+4", "+4", "+4", "+5" ], "classes": "barbarian" },
 					{ "name": "martial arts", "description": "Damage for unarmed or monk weapons", "active": false, "display_in_section": "combat", "list_by_level": [ "1d4", "1d4", "1d4", "1d4", "1d6", "1d6", "1d6", "1d6", "1d6", "1d6", "1d8", "1d8", "1d8", "1d8", "1d8", "1d8", "1d10", "1d10", "1d10", "1d10" ], "classes": "monk" },
 					{ "name": "points", "description": "Points to spend on class features", "active": false, "display_in_section": "combat", "list_by_level": [ "0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" ], "classes": "monk \"ki points\", sorcerer \"sorcerer points\"" },
-					{ "name": "unarmored movement", "description": "Extra speed while unarmored", "active": false, "display_in_section": "combat", "list_by_level": [ "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+30 ft.", "+30 ft.", "+30 ft." ], "class": "monk" },
+					{ "name": "unarmored movement", "description": "Extra speed while unarmored", "active": false, "display_in_section": "combat", "list_by_level": [ "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+30 ft.", "+30 ft.", "+30 ft." ], "classes": "monk" },
 					{ "name": "sneak attack", "description": "Extra damage for sneaking around your opponent", "active": false, "display_in_section": "combat", "list_by_level": [ "1d6", "1d6", "2d6", "2d6", "3d6", "3d6", "4d6", "4d6", "5d6", "5d6", "6d6", "6d6", "7d6", "7d6", "8d6", "8d6", "9d6", "9d6", "10d6", "10d6" ], "classes": "rogue" },
 					{ "name": "spell slots", "description": "Spell slots available", "active": false, "display_in_section": "spells", "list_by_level": [ "1", "2", "2", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4" ], "classes": "warlock" },
 					{ "name": "slot level", "description": "Maximum spell level", "active": false, "display_in_section": "spells", "list_by_level": [ "1st", "1st", "2nd", "2nd", "3rd", "3rd", "4th", "4th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th" ], "classes": "warlock" },
@@ -289,6 +330,7 @@
 
 			function initialize() {
 				update("basic");
+				update("schema");
 				update("ability_stats");
 				update("combat_stats")
 				update("weapons");
@@ -297,7 +339,6 @@
 				update("spells");
 				update("inventory");
 				update("gold");
-				document.getElementById("test").appendChild(formatSchemaTable(CharacterInfo["discreet_schemas"][3], [CharacterInfo["basic"]["level"], CharacterInfo["basic"]["level"]]));
 			}
 
 			var searchTerm;
@@ -324,6 +365,11 @@
 							CharacterInfo["basic"][parts[1]] = document.getElementById("basic-" + parts[1] + "-box").value;
 						}
 						update("basic");
+						update("ability_stats");
+						update("combat_stats");
+						update("proficiencies");
+						update("combat-schemas");
+						update("spells-schemas");
 					}
 				} else if (parts[0] === "ability_stats") {
 					if (parts[1] !== "alter") {
@@ -345,10 +391,14 @@
 								CharacterInfo["ability_stats"][keys[i]][0] = parseInt(document.getElementById("ability_stats-" + keys[i] + "-box").value);
 							}
 							update("ability_stats");
+							update("combat_stats");
+							update("proficiencies");
 						}
 					} else {
 						CharacterInfo["ability_stats"][parts[2]][1] = parseInt(document.getElementById("ability_stats-alter-" + parts[2] + "-box").value);
 						update("ability_stats");
+						update("combat_stats");
+						update("proficiencies");
 					}
 				} else if (parts[0] === "combat_stats") {
 					if (parts[2] === "notes") {
@@ -435,6 +485,73 @@
 					} else {
 						CharacterInfo["gold"] = document.getElementById("gold-box").value;
 						update("gold");
+					}
+				} else if (parts[0] === "schema") {
+					if (parts[1] === "link" || parts[1] === "cancel") {
+						document.getElementById("basic-schema-display").innerHTML = "";
+						if (document.getElementById("schema-form").style.display === "none") {
+							document.getElementById("schema-form").style.display = "block";
+						} else {
+							update("schema");
+							update("combat-schemas");
+							update("spells-schimas");
+						}
+					} else if (parts[1] === "name") {
+						if (document.getElementById("schema-name-box").value !== "") {
+							document.getElementById("schema-activate-button").disabled = false;
+							searchTerm = document.getElementById("schema-name-box").value;
+							index = CharacterInfo["discreet_schemas"].findIndex(of);
+							if (CharacterInfo["discreet_schemas"][index]["active"]) {
+								document.getElementById("schema-activate-button").innerHTML = "remove";
+							} else {
+								document.getElementById("schema-activate-button").innerHTML = "activate";
+							}
+							document.getElementById("basic-schema-display").innerHTML = "<br>";
+							document.getElementById("basic-schema-display").appendChild(formatSchemaTable(CharacterInfo["discreet_schemas"][index]));
+						} else {
+						document.getElementById("schema-activate-button").disabled = true;
+							document.getElementById("basic-schema-display").innerHTML = "";
+						}
+					} else if (parts[1] === "add") {
+						document.getElementById("basic-schema-display").innerHTML = "";
+						document.getElementById("schema-name-box").value = "";
+						document.getElementById("new_schema-form").style.display = "block";
+					} else if (parts[1] === "activate") {
+						searchTerm = document.getElementById("schema-name-box").value;
+						index = CharacterInfo["discreet_schemas"].findIndex(of);
+						if (CharacterInfo["discreet_schemas"][index]["active"]) {
+							CharacterInfo["discreet_schemas"][index]["active"] = false;
+							document.getElementById("schema-activate-button").innerHTML = "activate";
+						} else {
+							CharacterInfo["discreet_schemas"][index]["active"] = true;
+							document.getElementById("schema-activate-button").innerHTML = "remove";
+						}
+					}
+				} else if (parts[0] === "new_schema") {
+					if (parts[1] === "done") {
+						if (document.getElementById("new_schema-form").checkValidity()) {
+							var newSchema = { "name": "", "description": "", "active": true, "display_in_section": "", "list_by_level": [], "classes": "" };
+							var string;
+							var list;
+							newSchema["name"] = document.getElementById("new_schema-name-box").value;
+							newSchema["display_in_section"] = document.getElementById("new_schema-display_in_section-box").value;
+							newSchema["description"] = document.getElementById("new_schema-description-box").value;
+							newSchema["classes"] = document.getElementById("new_schema-classes-box").value;
+							newSchema["active"] = document.getElementById("new_schema-active-box").checked;
+							for (i = 0; i < 20; i++) {
+								string = document.getElementById("new_schema-" + i + "-box").value.replace(/\s/g, "");
+								if (string.search(",") === -1) {
+									list = string;
+								} else {
+									list = string.split(",");
+								}
+								newSchema["list_by_level"].push(list);
+							}
+							CharacterInfo["discreet_schemas"].unshift(newSchema);
+							update("schema");
+							update("combat-schimas");
+							update("spells-schimas");
+						}
 					}
 				}
 			}
@@ -897,11 +1014,59 @@
 					document.getElementById("gold-display").innerHTML = CharacterInfo["gold"];
 					document.getElementById("gold-box").style.display = "none";
 					document.getElementById("gold-display").style.display = "inline";
+				} else if (what === "schema") {
+					var select = document.getElementById("schema-name-box");
+					var option;
+					var len = select.options.length;
+
+					if (select.options.length > 0) {
+						for (i = 0; i < len; i++) {
+							select.remove(0);
+						}
+					}
+
+					option = document.createElement("option");
+					option.text = "Select";
+					option.value = "";
+					select.add(option);
+					for (i = 0; i < CharacterInfo["discreet_schemas"].length; i++) {
+						option = document.createElement("option");
+						option.text = CharacterInfo["discreet_schemas"][i]["name"];
+						if (CharacterInfo["discreet_schemas"][i]["classes"] !== "") {
+							option.text += " (" + CharacterInfo["discreet_schemas"][i]["classes"] + ")";
+						}
+						option.value = CharacterInfo["discreet_schemas"][i]["name"];
+						select.add(option);
+					}
+
+					document.getElementById("basic-schema-display").innerHTML = "";
+					document.getElementById("schema-form").reset();
+					document.getElementById("new_schema-form").reset();
+					document.getElementById("schema-form").style.display = "none";
+					document.getElementById("new_schema-form").style.display = "none";
+					document.getElementById("schema-activate-button").disabled = true;
+				} else if (what === "combat-schimas") {
+					document.getElementById("combat-schemas-display").innerHTML = "";
+					for (i = 0; i < CharacterInfo["discreet_schemas"].length; i++) {
+						if (CharacterInfo["discreet_schemas"][i]["active"] && CharacterInfo["discreet_schemas"][i]["display_in_section"] === "combat") {
+							document.getElementById("combat-schemas-display").appendChild(formatSchemaTable(CharacterInfo["discreet_schemas"][i], [ CharacterInfo["basic"]["level"], CharacterInfo["basic"]["level"] ]));
+							document.getElementById("combat-schemas-display").innerHTML += "<br>";
+						}
+					}
+				} else if (what === "spells-schimas") {
+					document.getElementById("spells-schemas-display").innerHTML = "";
+					for (i = 0; i < CharacterInfo["discreet_schemas"].length; i++) {
+						if (CharacterInfo["discreet_schemas"][i]["active"] && CharacterInfo["discreet_schemas"][i]["display_in_section"] === "spells") {
+							document.getElementById("spells-schemas-display").appendChild(formatSchemaTable(CharacterInfo["discreet_schemas"][i], [ CharacterInfo["basic"]["level"], CharacterInfo["basic"]["level"] ]));
+							document.getElementById("spells-schemas-display").innerHTML += "<br>";
+						}
+					}
 				}
 			}
 
 			function formatSchemaTable(schema, levels=[1, 20]) {
 				var table = document.createElement("TABLE");
+				var caption = table.createCaption();
 				var header = table.createTHead();
 				var th0;
 				var th1;
@@ -912,6 +1077,7 @@
 				var i;
 				var ii;
 
+				caption.innerHTML = schema["name"];
 				if (typeof schema["list_by_level"][0] === "string") {
 					row = header.insertRow(0);
 					th0 = document.createElement("TH");
