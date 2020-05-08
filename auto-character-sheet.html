@@ -564,6 +564,7 @@
 							CharacterInfo["proficiencies"][keys[i]][1] = document.getElementById("proficiencies-" + keys[i] + "-box").checked;
 						}
 						update("proficiencies");
+						update("combat_stats");
 					}
 				} else if (parts[0] === "spells") {
 					if (parts[2] === "number") {
