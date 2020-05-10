@@ -698,6 +698,7 @@
 					} else {
 						form.style.display = "none";
 						form.reset();
+						update(location);
 					}
 				} else if (name === "done") {
 					if (form.checkValidity()) {
@@ -821,6 +822,9 @@
 					}
 					document.getElementById("ability_stats-arrow").innerHTML = "↑";
 				} else if (what === "combat_stats") {
+					var ac = 0;
+					text = "";
+
 					document.getElementById("combat_stats-initiative-display").innerHTML = getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
 					document.getElementById("combat_stats-hit_points-arrow").innerHTML = "↑";
 					document.getElementById("combat_stats-hit_points-display").innerHTML = CharacterInfo["combat_stats"]["hit_points"][0];
@@ -842,27 +846,37 @@
 					if (CharacterInfo["inventory"].length > 0) {
 						for (i = 0; i < CharacterInfo["inventory"].length; i++) {
 							if (CharacterInfo["inventory"][i]["type"] === "armor" && CharacterInfo["inventory"][i]["active"]) {
-								var totalAC = CharacterInfo["inventory"][i]["armor_class"];
+								ac = CharacterInfo["inventory"][i]["armor_class"];
 								if (CharacterInfo["inventory"][i]["add_dex_mod"]) {
 									if (CharacterInfo["inventory"][i]["max_dex_bonus"] > 0) {
 										if (getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]) < CharacterInfo["inventory"][i]["max_dex_bonus"]) {
-											totalAC += getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
+											ac += getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
 										} else {
-											totalAC += CharacterInfo["inventory"][i]["max_dex_bonus"];
+											ac += CharacterInfo["inventory"][i]["max_dex_bonus"];
 										}
 									} else {
-										totalAC += getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
+										ac += getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
 									}
 								}
-								var text = totalAC + " (" + CharacterInfo["inventory"][i]["name"];
-								if (CharacterInfo["inventory"][i]["stealth_disadv"]) {
-									text += ", Imposes stealth disadvantage";
+								if (text !== "") {
+									text += ", ";
 								}
-								text += ")";
-								document.getElementById("combat_stats-armor_class-display").innerHTML = text;
+								text += CharacterInfo["inventory"][i]["name"];
+								if (CharacterInfo["inventory"][i]["stealth_disadv"]) {
+									text += " (Imposes stealth disadvantage)";
+								}
 							}
 						}
 					}
+					if (ac < 10) {
+						ac += 10 + getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
+						if (text !== "") {
+							text = "Unarmored, " + text;
+						} else {
+							text = "Unarmored";
+						}
+					}
+					document.getElementById("combat_stats-armor_class-display").innerHTML = ac + " " + text;
 					document.getElementById("combat_stats-speed-arrow").innerHTML = "↑";
 					document.getElementById("combat_stats-speed-display").innerHTML = CharacterInfo["combat_stats"]["speed"][0];
 					document.getElementById("combat_stats-speed-alter").value = CharacterInfo["combat_stats"]["speed"][1];
