@@ -254,6 +254,7 @@
 
 		<script>
 			var CharacterInfo = {
+				"version": "5.10.2020",
 				"basic": {
 					"name": "",
 					"level": 1,
@@ -340,10 +341,26 @@
 			// feature: name (string), description (string), quantity (integer), current_quantity (integer), and replenish (string)
 			// spell: name (string), type (string), level (string), school (string), ritual_tag (boolean), casting_time (string), range (string), verbal (boolean), somatic (boolean), materials (string), duration (string), description (string), quantity (integer), and active (boolean)
 
+			function checkVersion(newObj, oldObj) {
+				function merge(newObj, oldObj) {
+					for (key in oldObj) if (key !== "version") {
+						if (newObj.hasOwnProperty(key) && newObj[key] !== oldObj[key]) {
+							newObj[key] = oldObj[key];
+						} else if (typeof oldObj[key] === "object") {
+							merge(newObj[key], oldObj[key]);
+						}
+					}
+				}
+				if (newObj["version"] !== oldObj["version"]) {
+					alert("This is a newer version. Please check your character data to ensure that it transfered properly.");
+				}
+				merge(newObj, oldObj);
+			}
+
 			document.getElementById("import-file-box").addEventListener("change", function () {
 				var reader = new FileReader();
 				reader.onload = function () {
-					CharacterInfo = JSON.parse(reader.result);
+					checkVersion(CharacterInfo, JSON.parse(reader.result));
 					localStorage.setItem("CharacterInfo" + CharacterInfo["basic"]["name"], reader.result);
 				}
 				reader.readAsText(this.files[0]);
@@ -360,7 +377,7 @@
 				if (name !== "auto-character-sheet") {
 					var retrieveData = localStorage.getItem("CharacterInfo" + name);
 					if (retrieveData) {
-						CharacterInfo = JSON.parse(retrieveData);
+						checkVersion(CharacterInfo, JSON.parse(retrieveData));
 					}
 					CharacterInfo["basic"]["name"] = name;
 				}
@@ -683,11 +700,8 @@
 						form.reset();
 					}
 				} else if (name === "done") {
-				document.getElementById("test").innerHTML = "done button pushed";
 					if (form.checkValidity()) {
-					document.getElementById("test").innerHTML = "passed validity check";
 						info.push(createObject(keys, location));
-						document.getElementById("test").innerHTML = "created new entry";
 						update(location);
 					}
 				} else if (name === "edit") {
@@ -703,7 +717,6 @@
 					if (type === "activate") {
 						if (info[index]["active"]) {
 							info[index]["active"] = false;
-							document.getElementById("test").innerHTML = info[index]["active"];
 						} else {
 							info[index]["active"] = true;
 							if (location === "spells") {
@@ -743,7 +756,6 @@
 			function createObject(keys, location) {
 				var newObject = {};
 				for (var i = 0; i < keys.length; i++) {
-				document.getElementById("test").innerHTML = keys[i];
 					if (document.getElementById(location + "-" + keys[i] + "-box").type === "number") {
 						newObject[keys[i]] = parseInt(document.getElementById(location + "-" + keys[i] + "-box").value);
 						if (location === "features" && keys[i] === "quantity") {
