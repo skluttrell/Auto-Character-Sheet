@@ -4,6 +4,44 @@
 		<meta charset="UTF-8">
 		<title>Auto Character Sheet</title>
 		<style>
+		/* Set button styles to a flat look */
+			.edit_content button {
+				padding: 0;
+				border: none;
+				font: inherit;
+				color: inherit;
+				background-color: transparent;
+				cursor: pointer;
+			}
+
+			/* Rebuild the button/link styles from the ground up */
+			.edit-button {
+				/* inline-block keeps the height and width properties from block but allows elements to be displayed side-by-side with no line break as in inline */
+				display: inline-block;
+				text-align: center;
+				text-decoration: none;
+				/* padding for top and bottom is half the vertical size of the font (em) and left and right is the full width of the font */
+				padding: 0.5em 1em;
+				color: black;
+			}
+
+			/* Behavior when the button is clicked */
+			.edit-button:active {
+				transform: translateY(1px);
+				color: red;
+			}
+
+			/* Behavior when button is focused by the keyboard or similar device */
+			.edit-button:focus {
+				outline: none;
+				box-shadow: 0 0 0 3px rgba(225, 225, 225, 0.4);
+			}
+
+			/* Remove the focus style from non-keyboard interactions (nonstandard)*/
+			.js-focus-visible .edit-button:focus:not(.focus-visible) {
+				box-shadow: none;
+			}
+
 			.tab {
 				overflow: hidden;
 				border: 1px solid #ccc;
@@ -47,38 +85,36 @@
 			<button class="tablinks" onclick="openSection(event, 'section6')">Inventory</button>
 		</nav><br>
 
-		<span id="section1" name="character info" class="tabcontent" style="display: block;">
+		<span id="section1" name="character info" class="tabcontent edit-content" style="display: block;">
 			<h1>Basic Character Information</h1><br>
-			<p><a id="basic-name-arrow" onclick="editInfo()">↑</a> Name: <input id="basic-name-box" type="text" style="display: none;"><span id="basic-name-display" style="display: inline; text-transform: capitalize;"></span></p>
-			<p><a id="basic-level-arrow" onclick="editInfo()">↑</a> Level: <input id="basic-level-box" type="number" min="1" style="display: none;"><span id="basic-level-display" style="display: inline;"></span></p>
-			<p><a id="basic-race-arrow" onclick="editInfo()">↑</a> Race: <input id="basic-race-box" type="text" style="display: none;"><span id="basic-race-display" style="display: inline;"></span></p>
-			<p><a id="basic-class-arrow" onclick="editInfo()">↑</a> Class: <input id="basic-class-box" type="text" style="display: none;"><span id="basic-class-display" style="display: inline;"></span></p>
-			<p><a id="basic-background-arrow" onclick="editInfo()">↑</a> Background: <input id="basic-background-box" type="text" style="display: none;"><span id="basic-background-display" style="display: inline;"></span></p>
-			<p><a id="basic-age-arrow" onclick="editInfo()">↑</a> Age: <input id="basic-age-box" type="number" min="0" style="display: none;"><span id="basic-age-display" style="display: inline;"></span></p>
-			<p><a id="basic-build-arrow" onclick="editInfo()">↑</a> Build: <input id="basic-build-box" type="text" style="display: none;"><span id="basic-build-display" style="display: inline;"></span></p>
-			<p><a id="basic-alignment-arrow" onclick="editInfo()">↑</a> Alignment: <input id="basic-alignment-box" type="text" style="display: none;"><span id="basic-alignment-display" style="display: inline;"></span></p>
-			<p><a id="basic-languages-arrow" onclick="editInfo()">↑</a> Languages: <input id="basic-languages-box" type="text" style="display: none;"><span id="basic-languages-display" style="display: inline;"></span></p>
-			<p><a id="basic-traits-arrow" onclick="editInfo()">↑</a> Personality Traits: <input id="basic-traits-box" type="text" style="display: none;"></p>
+			<p><button id="basic-name-arrow" name="basic" class="edit-button" type="button">↑</button>Name: <input id="basic-name-box" type="text" placeholder="character name" style="display: none;"><span id="basic-name-display" style="display: inline; text-transform: capitalize;"></span></p>
+			<p><button id="basic-level-arrow" name="basic" class="edit-button" type="button">↑</button>Level: <input id="basic-level-box" type="number" min="1" style="display: none;"><span id="basic-level-display" style="display: inline;"></span></p>
+			<p><button id="basic-race-arrow" name="basic" class="edit-button" type="button">↑</button>Race: <input id="basic-race-box" type="text" placeholder="character race" style="display: none;"><span id="basic-race-display" style="display: inline;"></span></p>
+			<p><button id="basic-character_class-arrow" name="basic" class="edit-button" type="button">↑</button>Class: <input id="basic-character_class-box" type="text" placeholder="character class" style="display: none;"><span id="basic-character_class-display" style="display: inline;"></span></p>
+			<p><button id="basic-background-arrow" name="basic" class="edit-button">↑</button>Background: <input id="basic-background-box" type="text" placeholder="character background" style="display: none;"><span id="basic-background-display" style="display: inline;"></span></p>
+			<p><button id="basic-age-arrow" name="basic" class="edit-button">↑</button>Age: <input id="basic-age-box" type="number" min="0" style="display: none;"><span id="basic-age-display" style="display: inline;"></span></p>
+			<p><button id="basic-build-arrow" name="basic" class="edit-button">↑</button>Build: <input id="basic-build-box" type="text" placeholder="height, weight, etc." style="display: none;"><span id="basic-build-display" style="display: inline;"></span></p>
+			<p><button id="basic-alignment-arrow" name="basic" class="edit-button">↑</button>Alignment: <input id="basic-alignment-box" type="text" placeholder="character alignment" style="display: none;"><span id="basic-alignment-display" style="display: inline;"></span></p>
+			<p><button id="basic-languages-arrow" name="basic" class="edit-button">↑</button> Languages: <input id="basic-languages-box" type="text" placeholder="spoken and written languages" style="display: none;"><span id="basic-languages-display" style="display: inline;"></span></p>
+			<p><button id="basic-traits-arrow" name="basic" class="edit-button" type="button">↑</button>traits: <input id="basic-traits-box" type="text" placeholder="character trait" style="display: none;"></p>
 			<span id="basic-traits-display"></span>
-			<p><a id="basic-ideals-arrow" onclick="editInfo()">↑</a> Ideals: <input id="basic-ideals-box" type="text" style="display: none;"></p>
+			<p><button id="basic-ideals-arrow" name="basic" class="edit-button">↑</button>Ideals: <input id="basic-ideals-box" type="text" placeholder="character ideals" style="display: none;"></p>
 			<span id="basic-ideals-display"></span>
-			<p><a id="basic-bonds-arrow" onclick="editInfo()">↑</a> Bonds: <input id="basic-bonds-box" type="text" style="display: none;"></p>
+			<p><button id="basic-bonds-arrow" name="basic" class="edit-button">↑</button>Bonds: <input id="basic-bonds-box" type="text" placeholder="character bonds" style="display: none;"></p>
 			<span id="basic-bonds-display"></span>
-			<p><a id="basic-flaws-arrow" onclick="editInfo()">↑</a> Flaws: <input id="basic-flaws-box" type="text" style="display: none;"></p>
+			<p><button id="basic-flaws-arrow" name="basic" class="edit-button">↑</button>Flaws: <input id="basic-flaws-box" type="text" placeholder="character flaws" style="display: none;"></p>
 			<span id="basic-flaws-display"></span>
-			<p><a id="basic-description-arrow" onclick="editInfo()">↑</a> Description:<br><input id="basic-description-box" type="textarea" rows="3" cols="20" spellcheck="true" style="display: none;"><span id="basic-description-display" style="display: inline;"></span></p>
+			<p><button id="basic-description-arrow" name="basic" class="edit-button">↑</button>Description:<br><input id="basic-description-box" type="textarea" rows="3" cols="20" spellcheck="true" placeholder="a brief description" style="display: none;"><span id="basic-description-display" style="display: inline;"></span></p>
 			<br>
-			<h1><a id="schema-link" onclick="editInfo()">Add discreet class features such as spell slots for spellcasters or rages for barbarians</a></h1><br>
-			<form id="schema-form" style="display: none;">
-				<select id="schema-name-box" onchange="editInfo()"></select><br>
-				<button id="schema-activate-button" type="button" onclick="editInfo()">activate</button> <button id="schema-remove-button" type="button" onclick="editInfo()" style="display: none;">remove</button> <button id="schema-add-button" type="button" onclick="editInfo()">new</button> <button id="schema-cancel-button" type="button" onclick="editInfo()">cancel</button>
-			</form>
 
-			<span id="basic-schema-display"></span>
+			<h1>Add discreet class features such as spell slots for spellcasters or rages for barbarians</h1><br>
+			<p><select id="schema-box"></select></p>
+			<p><button id="schema-button" type="button" class="edit-button">activate</button> <button id="schema-reset" type="button" class="edit-button">reset</button></p>
+
+			<span id="schema-display"></span>
 
 			<form id="new_schema-form" style="display: none;">
-			<p>Add a new schema for discreet character information such as rages for barbarians or spell slots per spell level for spellcasters</p><br>
-				<p><label for="new_schema-name-box">Name: </label><input id="new_schema-name-box" type="text" required></p>
+				<p><label for="new_schema-box">Name: </label><input id="new_schema-box" type="text" required></p>
 				<p><label for="new_schema-display_in_section-box">Where would you like this to be displayed? </label><select id="new_schema-display_in_section-box" defaultValue="0"><option value="combat">Combat section</option><option value="spells">Spells section</option></select></p>
 				<p><label for="new_schema-description-box">Brief Description: </label><input id="new_schema-description-box" type="text" required></p>
 				<p><label for="new_schema-classes-box">To which class or classes does this belong: </label><input id="new_schema-classes-box" type="text"></p><br>
@@ -107,37 +143,38 @@
 					<p><label for="new_schema-18-box">19th-level: </label><input id="new_schema-18-box" type="text" required></p>
 					<p><label for="new_schema-19-box">20th-level: </label><input id="new_schema-19-box" type="text" required></p>
 				</fieldset><br>
+
 				<p><label for="new_schema-active-box">Do you wish to have this new character information available? </label><input id="new_schema-active-box" type="checkbox" checked></p><br>
-				<p><button id="new_schema-done-button" type="button" onclick="editInfo()">Add</button> <button id="new_schema-cancel-button" type="button" onclick="editInfo()">cancel</button></p>
+
+				<p><button id="new_schema-button" type="button" class="edit-button">done</button> <input id="schema-reset-button" type="reset" class="edit-button" onclick="update([ 'schema' ])"></p>
 			</form>
 		</span>
 
-		<span id="section2" name="stats" class="tabcontent">
+		<span id="section2" name="stats" class="tabcontent edit-content">
 			<span id="combat-schemas-display"></span>
+
 			<h1>Ability Scores</h1><br>
 			<table id="ability_stats-table">
 				<thead>
-					<tr><th><a id="ability_stats-arrow" onclick="editInfo()">↑</a></th><th>Ability</th><th>Base</th><th>Modifier</th><th>Save</th><th>Alterations</th></tr>
+					<tr><th><button id="ability_stats-arrow" class="edit-button">↑</button></th><th>Ability</th><th>Base</th><th>Modifier</th><th>Save</th><th>Adjustment</th></tr>
 				</thead>
 				<tbody>
-					<tr><td><input id="ability_stats-strength-save-box" type="checkbox" style="display: none;"><span id="ability_stats-strength-checkmark" style="display: none;">✓</span></td><td>Strength</td><td><input id="ability_stats-strength-box" type="number" value="0" min="1" max="24" style="display: none;"><span id="ability_stats-strength-display"></span></td><td id="ability_stats-strength-modifier-display"></td><td id="ability_stats-strength-save-display"></td><td><input id="ability_stats-alter-strength-box" type="number" onchange="editInfo()"></td></tr>
-					<tr><td><input id="ability_stats-dexterity-save-box" type="checkbox" style="display: none;"><span id="ability_stats-dexterity-checkmark" style="display: none;">✓</span></td><td>Dexterity</td><td><input id="ability_stats-dexterity-box" type="number" value="0" min="1" max="24" style="display: none;"><span id="ability_stats-dexterity-display"></span></td><td id="ability_stats-dexterity-modifier-display"></td><td id="ability_stats-dexterity-save-display"></td><td><input id="ability_stats-alter-dexterity-box" type="number" onchange="editInfo()"></td></tr>
-					<tr><td><input id="ability_stats-constitution-save-box" type="checkbox" style="display: none;"><span id="ability_stats-constitution-checkmark" style="display: none;">✓</span></td><td>Constitution</td><td><input id="ability_stats-constitution-box" type="number" value="0" min="1" max="24" style="display: none;"><span id="ability_stats-constitution-display"></span></td><td id="ability_stats-constitution-modifier-display"></td><td id="ability_stats-constitution-save-display"></td><td><input id="ability_stats-alter-constitution-box" type="number" onchange="editInfo()"></td></tr>
-					<tr><td><input id="ability_stats-intelligence-save-box" type="checkbox" style="display: none;"><span id="ability_stats-intelligence-checkmark" style="display: none;">✓</span></td><td>Intelligence</td><td><input id="ability_stats-intelligence-box" type="number" value="0" min="1" max="24" style="display: none;"><span id="ability_stats-intelligence-display"></span></td><td id="ability_stats-intelligence-modifier-display"></td><td id="ability_stats-intelligence-save-display"></td><td><input id="ability_stats-alter-intelligence-box" type="number" onchange="editInfo()"></td></tr>
-					<tr><td><input id="ability_stats-wisdom-save-box" type="checkbox" style="display: none;"><span id="ability_stats-wisdom-checkmark" style="display: none;">✓</span></td><td>Wisdom</td><td><input id="ability_stats-wisdom-box" type="number" value="0" min="1" max="24" style="display: none;"><span id="ability_stats-wisdom-display"></span></td><td id="ability_stats-wisdom-modifier-display"></td><td id="ability_stats-wisdom-save-display"></td><td><input id="ability_stats-alter-wisdom-box" type="number" onchange="editInfo()"></td></tr>
-					<tr><td><input id="ability_stats-charisma-save-box" type="checkbox" style="display: none;"><span id="ability_stats-charisma-checkmark" style="display: none;">✓</span></td><td>Charisma</td><td><input id="ability_stats-charisma-box" type="number" value="0" min="1" max="24" style="display: none;"><span id="ability_stats-charisma-display"></span></td><td id="ability_stats-charisma-modifier-display"></td><td id="ability_stats-charisma-save-display"></td><td><input id="ability_stats-alter-charisma-box" type="number" onchange="editInfo()"></td></tr>
+					<tr><td><input id="ability_stats-strength-save-box" type="checkbox" style="display: none;"><span id="ability_stats-strength-checkmark" style="display: none;">✓</span></td><td>Strength</td><td><input id="ability_stats-strength-box" type="number" value="0" min="1" style="display: none;"><span id="ability_stats-strength-display"></span></td><td id="ability_stats-strength-modifier-display"></td><td id="ability_stats-strength-save-display"></td><td><input id="ability_stats-adjust-strength-box" name="ability_stats-adjust" type="number"></td></tr>
+					<tr><td><input id="ability_stats-dexterity-save-box" type="checkbox" style="display: none;"><span id="ability_stats-dexterity-checkmark" style="display: none;">✓</span></td><td>Dexterity</td><td><input id="ability_stats-dexterity-box" type="number" value="0" min="1" style="display: none;"><span id="ability_stats-dexterity-display"></span></td><td id="ability_stats-dexterity-modifier-display"></td><td id="ability_stats-dexterity-save-display"></td><td><input id="ability_stats-adjust-dexterity-box" name="ability_stats-adjust" type="number"></td></tr>
+					<tr><td><input id="ability_stats-constitution-save-box" type="checkbox" style="display: none;"><span id="ability_stats-constitution-checkmark" style="display: none;">✓</span></td><td>Constitution</td><td><input id="ability_stats-constitution-box" type="number" value="0" min="1" style="display: none;"><span id="ability_stats-constitution-display"></span></td><td id="ability_stats-constitution-modifier-display"></td><td id="ability_stats-constitution-save-display"></td><td><input id="ability_stats-adjust-constitution-box" name="ability_stats-adjust" type="number"></td></tr>
+					<tr><td><input id="ability_stats-intelligence-save-box" type="checkbox" style="display: none;"><span id="ability_stats-intelligence-checkmark" style="display: none;">✓</span></td><td>Intelligence</td><td><input id="ability_stats-intelligence-box" type="number" value="0" min="1" style="display: none;"><span id="ability_stats-intelligence-display"></span></td><td id="ability_stats-intelligence-modifier-display"></td><td id="ability_stats-intelligence-save-display"></td><td><input id="ability_stats-adjust-intelligence-box" name="ability_stats-adjust" type="number"></td></tr>
+					<tr><td><input id="ability_stats-wisdom-save-box" type="checkbox" style="display: none;"><span id="ability_stats-wisdom-checkmark" style="display: none;">✓</span></td><td>Wisdom</td><td><input id="ability_stats-wisdom-box" type="number" value="0" min="1" style="display: none;"><span id="ability_stats-wisdom-display"></span></td><td id="ability_stats-wisdom-modifier-display"></td><td id="ability_stats-wisdom-save-display"></td><td><input id="ability_stats-adjust-wisdom-box" name="ability_stats-adjust" type="number"></td></tr>
+					<tr><td><input id="ability_stats-charisma-save-box" type="checkbox" style="display: none;"><span id="ability_stats-charisma-checkmark" style="display: none;">✓</span></td><td>Charisma</td><td><input id="ability_stats-charisma-box" type="number" value="0" min="1" style="display: none;"><span id="ability_stats-charisma-display"></span></td><td id="ability_stats-charisma-modifier-display"></td><td id="ability_stats-charisma-save-display"></td><td><input id="ability_stats-adjust-charisma-box" name="ability_stats-adjust" type="number"></td></tr>
 				</tbody>
 			</table><br>
-
-			<span id="combat-discreet-display"></span>
 
 			<h1>Combat Stats</h1><br>
 			<ul>
 				<li>Initiative: <span id="combat_stats-initiative-display"></span></li>
-				<li><a id="combat_stats-hit_points-arrow" onclick="editInfo()">↑</a> Hit Points: <input id="combat_stats-hit_points-box" type="number" style="display: none;"><span id="combat_stats-hit_points-display"></span> Alter by: <input id="combat_stats-hit_points-alter" type="number" onchange="editInfo()"> Current: <span id="combat_stats-hit_points-current"></span> <a id="combat_stats-hit_points-notes-arrow" onclick="editInfo()">→</a> <input id="combat_stats-hit_points-notes-box" type="text" style="display: none;"> <span id="combat_stats-hit_points-notes-display"></span></li>
-				<li><a id="combat_stats-hit_dice-arrow" onclick="editInfo()">↑</a> Hit Dice: <input id="combat_stats-hit_dice-number" type="number" onchange="editInfo()"> <select id="combat_stats-hit_dice-box" defaultValue="0" style="display: none;"><option value="d4">d4</option><option value="d6">d6</option><option value="d8">d8</option><option value="d10">d10</option><option value="d12">d12</option></select><span id="combat_stats-hit_dice-display"></span></li>
+				<li><button id="combat_stats-hit_points-arrow" name="combat_stats" class="edit-button">↑</button> Hit Points: <input id="combat_stats-hit_points-box" type="number" style="display: none;"><span id="combat_stats-hit_points-display"></span> Adjustment: <input id="combat_stats-hit_points-adjust" name="combat_stats-adjust" type="number"> Current: <span id="combat_stats-hit_points-current"></span> <button id="combat_stats-hit_points-notes-arrow" name="combat_stats-notes" class="edit-button">→</button><input id="combat_stats-hit_points-notes-box" type="text" style="display: none;"> <span id="combat_stats-hit_points-notes-display"></span></li>
+				<li><button id="combat_stats-hit_dice-arrow" name="combat_stats" class="edit-button">↑</button>Hit Dice: <input id="combat_stats-hit_dice-adjust" name="combat_stats-adjust" type="number"> <select id="combat_stats-hit_dice-box" defaultValue="0" style="display: none;"><option value="d4">d4</option><option value="d6">d6</option><option value="d8">d8</option><option value="d10">d10</option><option value="d12">d12</option></select><span id="combat_stats-hit_dice-display"></span></li>
 				<li>Armor Class: <span id="combat_stats-armor_class-display"></span></li>
-				<li><a id="combat_stats-speed-arrow" onclick="editInfo()">↑</a> Speed: <input id="combat_stats-speed-box" type="number" style="display: none;"><span id="combat_stats-speed-display"></span> Alter by: <input id="combat_stats-speed-alter" type="number" onchange="editInfo()"> Current: <span id="combat_stats-speed-current"></span> <a id="combat_stats-speed-notes-arrow" onclick="editInfo()">→</a> <input id="combat_stats-speed-notes-box" type="text" style="display: none;"> <span id="combat_stats-speed-notes-display"></span></li>
+				<li><button id="combat_stats-speed-arrow" name="combat_stats" class="edit-button">↑</button> Speed: <input id="combat_stats-speed-box" type="number" style="display: none;"><span id="combat_stats-speed-display"></span> Adjust: <input id="combat_stats-speed-adjust" name="combat_stats-adjust" type="number"> Current: <span id="combat_stats-speed-current"></span> <button id="combat_stats-speed-notes-arrow" name="combat_stats-notes" class="edit-button">→</button><input id="combat_stats-speed-notes-box" type="text" style="display: none;"> <span id="combat_stats-speed-notes-display"></span></li>
 				<li>Passive Perception: <span id="combat_stats-passive_perception-display"></span></li>
 			</ul><br>
 
@@ -148,44 +185,44 @@
 				</thead>
 				<tbody>
 				</tbody>
-			</table><br>
+			</table>
 		</span>
 
-		<span id="section3" name="features" class="tabcontent">
+		<span id="section3" name="features" class="tabcontent edit-content">
 			<h1>Character Features</h1><br>
 			<span id="features-display"></span>
 
-			<h1><a id="features-link" onclick="editInfo()">Add New Feature</a></h1><br>
-			<form id="features-form" style="display: none;">
-				<h1>Add or edit a feature</h1><br>
-				<p><label for="features-name-box">Name: </label><input id="features-name-box" type="text" required></p>
-				<p><label for="features-description-box">Description:<br></label><input id="features-description-box" type="textarea" rows="3" cols="20" spellcheck="true" required></p>
+			<h1>Add or edit a feature</h1><br>
+			<form id="features-form">
+				<p><label for="features-name-box">Name: </label><input id="features-name-box" type="text" placeholder="What is the name of the feature?" required></p>
+				<p><label for="features-description-box">Description: </label><input id="features-description-box" type="textarea" placeholder="What does this feature do?" rows="3" cols="20" spellcheck="true" required></p>
 				<p><label for="features-quantity-box">How many do you get per rest period? </label><input id="features-quantity-box" type="number" min="0" value="0"></p>
 				<p><label for="features-replenish-box">Do they replenish after a short or long rest? </label><select id="features-replenish-box" defaultValue="0"><option value="">Select</option><option value="short">Short rest</option><option value="long">Long rest</option></select></p><br>
-				<p><button id="features-edit-button" type="button" onclick="editInfo()" value="" style="display: none;">finished editing</button><button id="features-done-button" type="button" onclick="editInfo()">add feature</button> <button id="features-cancel-button" type="button" onclick="editInfo()">Cancel</button></p><br>
+				<p><button id="features-button" type="button" class="edit-button" value="">done</button> <input id="features-reset-button" type="reset" class="edit-button"></p>
 			</form>
 		</span>
 
-		<span id="section4" name="proficiencies" class="tabcontent">
+		<span id="section4" name="proficiencies" class="tabcontent edit-content">
 			<h1>Proficiencies</h1><br>
 			<table id="proficiencies-table">
+				<thead>
+					<tr><th><button id="proficiencies-arrow" type="button" class="edit-button">↑</button></th><th>Name</th><th>Governing Stat</th><th>Check</th></tr>
+				</thead>
 				<tbody></tbody>
 			</table>
-			<br>
 		</span>
 
-		<span id="section5" name="spells" class="tabcontent">
-			<span id="spells-schemas-display"></span>
+		<span id="section5" name="spells" class="tabcontent edit-content">
+			<span id="spell-schemas-display"></span>
 
-			<span id="spells-invocations-display"></span>
+			<span id="invocations-display"></span>
 
 			<span id="spells-active-display"></span>
 
 			<span id="spells-known-display"></span>
 
-			<h1><a id="spells-link" onclick="editInfo()">Add a new spell or invocation</a></h1><br>
-			<form id="spells-form" style="display: none;">
 			<h1>Add or edit a spell or invocation</h1><br>
+			<form id="spells-form">
 				<p><label for="spells-name-box">Name: </label><input id="spells-name-box" type="text" required></p>
 				<p><label for="spells-type-box">Is this a spell or invocation? </label><select id="spells-type-box" defaultValue="0"><option value="spell">Spell</option><option value="invocation">Invocation</option></select></p>
 				<p><label for="spells-level-box">Level: </label><select id="spells-level-box" defaultValue="0"><option value="">Select</option><option value="cantrip">Cantrip</option><option value="1st">1st</option><option value="2nd">2nd</option><option value="3rd">3rd</option><option value="4th">4th</option><option value="5th">5th</option><option value="6th">6th</option><option value="7th">7th</option><option value="8th">8th</option><option value="9th">9th</option></select></p>
@@ -196,11 +233,11 @@
 				<p>Components: <label for="spells-verbal-box">Verbal </label><input id="spells-verbal-box" type="checkbox"> <label for="spells-somatic-box">Somatic </label><input id="spells-somatic-box" type="checkbox"> <label for="spells-materials-box">Materials </label><input id="spells-materials-box" type="text"></p>
 				<p><label for="spells-duration-box">Duration: </label><input id="spells-duration-box" type="text"></p>
 				<p><label for="spells-description-box">Description:<br></label><input id="spells-description-box" type="textarea" rows="3" cols="20"></p><br>
-				<p><button id="spells-edit-button" type="button" onclick="editInfo()" style="display: none;">finish editing</button><button id="spells-done-button" type="button" onclick="editInfo()">add spell</button> <button id="spells-cancel-button" type="button" onclick("editInfo()">cancel</button></p><br>
+				<p><button id="spells-button" type="button" class="edit-button" value="">done</button> <input id="spells-reset-button" type="reset" class="edit-button"></p>
 			</form>
 		</span>
 
-		<span id="section6" name="inventory" class="tabcontent">
+		<span id="section6" name="inventory" class="tabcontent edit-content">
 			<h1>Inventory</h1><br>
 			<table id="inventory-table">
 				<thead>
@@ -209,14 +246,15 @@
 				<tbody>
 				</tbody>
 			</table><br>
-			<p><a id="gold-arrow" onclick="editInfo()">↑</a> Gold: <input id="gold-box" type="text" style="display: none;"><span id="gold-display"></span> Carrying weight: <span id="inventory-weight-display"></span> lbs.</p><br>
+			<p><button id="gold-arrow" type="button" class="edit-button">↑</button>Gold: <input id="gold-box" type="text" style="display: none;"><span id="gold-display"></span> Carrying weight: <span id="inventory-weight-display"></span> lbs.</p><br>
 
-			<h1><a id="inventory-link" onclick="editInfo()">Add a new item</a></h1><br>
-			<form id="inventory-form" style="display: none;">
+			<h1>Add or edit an item in your inventory</h1><br>
+			<form id="inventory-form">
 				<fieldset>
 					<legend>Select the type of item</legend>
 					<p><label for="inventory-type-box">Select the item type (armor, weapon, or other): </label><select id="inventory-type-box" defaultValue="0"><option value="armor">Armor</option><option value="weapon">Weapon</option><option value="other">Other</option></select></p>
 				</fieldset><br>
+
 				<fieldset>
 					<legend>These are traits all items share.</legend>
 					<p><label for="inventory-name-box">Item name:</label><input id="inventory-name-box" type="text" required></p>
@@ -224,14 +262,16 @@
 					<p><label for="inventory-description-box">Description:<br></label><input id="inventory-description-box" type="textarea" rows="3" cols="20"></p>
 					<p><label for="inventory-weight-box">Weight: </label><input id="inventory-weight-box" type="number" min="0" value="0"> lbs <label for="inventory-cost-box">Cost: </label><input id="inventory-cost-box" type="text" size="6"> <label for="inventory-quantity-box">Quantity: </label><input id="inventory-quantity-box" type="number" min="1" value="1"></p>
 				</fieldset><br>
+
 				<fieldset>
 					<legend>Set these to keep track of armor attributes.</legend>
 					<p><label for="inventory-style_armor-box">Select armor type: </label><select id="inventory-style_armor-box" defaultValue="0"><option value="light">Light</option><option value="medium">Medium</option><option value="heavy">Heavy</option><option value="shield">Shield</option></select></p>
 					<p><label for="inventory-armor_class-box">Base armor class: </label><input id="inventory-armor_class-box" type="number" value="0"></p>
-					<p><label for="inventory-add_dex_mod-box">Add your dex modifier? </label><input id="inventory-add_dex_mod-box" type="checkbox" onclick="editInfo()"> <label for="inventory-max_dex_bonus-box">Maximum dexterity bonus: </label><input id="inventory-max_dex_bonus-box" type="number" min="0" value="0" disabled></p>
+					<p><label for="inventory-add_dex_mod-box">Add your dex modifier? </label><input id="inventory-add_dex_mod-box" type="checkbox"> <label for="inventory-max_dex_bonus-box">Maximum dexterity bonus: </label><input id="inventory-max_dex_bonus-box" type="number" min="0" value="0" disabled></p>
 					<p><label for="inventory-stealth_disadv-box">Does this armor impose disadvantage on stealth? </label><input id="inventory-stealth_disadv-box" type="checkbox"></p>
 					<p><label for="inventory-active-box">Would you like to equip this armor? </label><input id="inventory-active-box" type ="checkbox"></p>
 				</fieldset><br>
+
 				<fieldset>
 					<legend>Set these to keep track of weapon attributes.</legend>
 					<p><label for="inventory-style_weapon-box">Select weapon type: </label><select id="inventory-style_weapon-box" defaultValue="0"><option value="simple">Simple</option><option value="martial">Martial</option></select></p>
@@ -241,116 +281,129 @@
 					<p>If this is a ranged weapon or one with the thrown property, what is its range? <label for="inventory-min-box">min: </label><input id="inventory-min-box" type="number" min="0" value="0"> / <label for="inventory-max-box">max: </label><input id="inventory-max-box" type="number" min="0" value="0"></p>
 					<p><label for="inventory-properties-box">If this weapon has any other properties (e.g. light, finesse, or versatile): </label><input id="inventory-properties-box" type="text"></p>
 				</fieldset><br>
-				<p><button id="inventory-edit-button" type="button" onclick="editInfo()" style="display: none;">finished editing</button><button id="inventory-done-button" type="button" onclick="editInfo()">add item</button> <button id="inventory-cancel-button" type="button" onclick="editInfo()">cancel</button></p><br>
+
+				<p><button id="inventory-button" type="button" class="edit-button" value="">done</button> <input id="inventory-reset-button" type="reset" class="edit-button"></p>
 			</form>
 		</span>
 
-		<nav id="footer-navigation">
-			<p><button id="remove-data-button" type="button" onclick="clearData()">Clear character data</button></p>
-			<p><button id="export-button" type="button" onclick="copyToClipboard()">Export character data to clipboard</button></p>
+		<br>
+		<nav id="footer-navigation" class="edit-content">
+			<hr>
+			<p><button id="remove-data-button" type="button" class="edit-button" onclick="clearData()">Clear character data</button></p>
+			<p><button id="export-button" type="button" class="edit-button" onclick="copyToClipboard()">Export character data to clipboard</button></p>
 			<p><label for="import-file-box">Import character data from file: </label><input id="import-file-box" type="file" accept="text/plain"></p>
 		</nav>
 		<div id="test"></div>
 
 		<script>
 			var CharacterInfo = {
-				"version": "5.10.2020",
-				"basic": {
-					"name": "",
-					"level": 1,
-					"race": "",
-					"class": "",
-					"background": "",
-					"age": 0,
-					"build": "",
-					"alignment": "",
-					"languages": "",
-					"traits": [],
-					"ideals": [],
-					"bonds": [],
-					"flaws": [],
-					"description": "",
+				version: "5.13.2020",
+				basic: {
+					name: "",
+					level: 1,
+					race: "",
+					character_class: "",
+					background: "",
+					age: 0,
+					build: "",
+					alignment: "",
+					languages: "",
+					traits: [],
+					ideals: [],
+					bonds: [],
+					flaws: [],
+					description: "",
 				},
-				"combat_stats": {
-					"hit_points": [ 0, 0, "" ],
-					"hit_dice": [ "d4", 1 ],
-					"speed": [ 0, 0, "" ],
-					"unarmored": [10, 0, ""]
+				combat_stats: {
+					hit_points: [ 0, 0, "" ],
+					hit_dice: [ "d4", 1 ],
+					speed: [ 0, 0, "" ],
+					unarmored: [10, 0, ""]
 				},
-				"ability_stats": {
-					"strength": [0, 0, false],
-					"dexterity": [0, 0, false],
-					"constitution": [0, 0, false],
-					"intelligence": [0, 0, false],
-					"wisdom": [0, 0, false],
-					"charisma": [0, 0, false]
+				ability_stats: {
+					strength: [0, 0, false],
+					dexterity: [0, 0, false],
+					constitution: [0, 0, false],
+					intelligence: [0, 0, false],
+					wisdom: [0, 0, false],
+					charisma: [0, 0, false]
 				},
-				"proficiencies": {
-					"athletics": ["strength", false],
-					"intimidation": ["charisma", false],
-					"medicine": ["wisdom", false],
-					"perception": ["wisdom", false],
-					"acrobatics": ["dexterity", false],
-					"animal_handling": ["wisdom", false],
-					"arcana": ["intelligence", false],
-					"deception": ["charisma", false],
-					"history": ["intelligence", false],
-					"insight": ["wisdom", false],
-					"investigation": ["intelligence", false],
-					"nature": ["intelligence", false],
-					"performance": ["charisma", false],
-					"persuasion": ["charisma", false],
-					"religion": ["intelligence", false],
-					"sleight_of_hand": ["dexterity", false],
-					"stealth": ["dexterity", false],
-					"survival": ["wisdom", false]
+				proficiencies: {
+					athletics: [ "strength", false],
+					intimidation: ["charisma", false],
+					medicine: ["wisdom", false],
+					perception: ["wisdom", false],
+					acrobatics: ["dexterity", false],
+					animal_handling: ["wisdom", false],
+					arcana: ["intelligence", false],
+					deception: ["charisma", false],
+					history: ["intelligence", false],
+					insight: ["wisdom", false],
+					investigation: ["intelligence", false],
+					nature: ["intelligence", false],
+					performance: ["charisma", false],
+					persuasion: ["charisma", false],
+					religion: ["intelligence", false],
+					sleight_of_hand: ["dexterity", false],
+					stealth: ["dexterity", false],
+					survival: ["wisdom", false]
 				},
-				"discreet_schemas": [
-					{ "name": "spellcaster", "description": "Spell slots by spell level", "active": false, "display_in_section": "spells", "list_by_level": [[ "2", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "2", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "1", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "2", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "1", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "2", "1", "1" ]], "classes": "bard, cleric, druid, sorcerer, and wizard" },
-					{ "name": "secondary caster", "description": "Spell slots by spell level", "active": false, "display_in_section": "spells", "list_by_level": [[ "0", "0", "0", "0", "0" ], [ "2", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "2" ], [ "4", "3", "3", "3", "2" ]], "classes": "paladin and ranger" },
-					{ "name": "minor caster", "description": "Spell slots by spell level", "active": false, "display_in_section": "spells", "list_by_level": [[ "2", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "1" ], [ "4", "3", "3", "1" ]], "classes": "fighter (eldritch knight) and rogue (arcane trickster)" },
-					{ "name": "rages", "description": "Barbarian rages per rest period", "active": false, "display_in_section": "combat", "list_by_level": [ "2", "2", "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "6", "6", "6", "unlimited" ], "classes": "barbarian" },
-					{ "name": "rage damage", "description": "Extra damage wile inraged", "active": false, "display_in_section": "combat", "list_by_level": [ "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+3", "+3", "+3", "+3", "+3", "+3", "+3", "+4", "+4", "+4", "+4", "+5" ], "classes": "barbarian" },
-					{ "name": "martial arts", "description": "Damage for unarmed or monk weapons", "active": false, "display_in_section": "combat", "list_by_level": [ "1d4", "1d4", "1d4", "1d4", "1d6", "1d6", "1d6", "1d6", "1d6", "1d6", "1d8", "1d8", "1d8", "1d8", "1d8", "1d8", "1d10", "1d10", "1d10", "1d10" ], "classes": "monk" },
-					{ "name": "points", "description": "Points to spend on class features", "active": false, "display_in_section": "combat", "list_by_level": [ "0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" ], "classes": "monk \"ki points\", sorcerer \"sorcerer points\"" },
-					{ "name": "unarmored movement", "description": "Extra speed while unarmored", "active": false, "display_in_section": "combat", "list_by_level": [ "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+30 ft.", "+30 ft.", "+30 ft." ], "classes": "monk" },
-					{ "name": "sneak attack", "description": "Extra damage for sneaking around your opponent", "active": false, "display_in_section": "combat", "list_by_level": [ "1d6", "1d6", "2d6", "2d6", "3d6", "3d6", "4d6", "4d6", "5d6", "5d6", "6d6", "6d6", "7d6", "7d6", "8d6", "8d6", "9d6", "9d6", "10d6", "10d6" ], "classes": "rogue" },
-					{ "name": "spell slots", "description": "Spell slots available", "active": false, "display_in_section": "spells", "list_by_level": [ "1", "2", "2", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4" ], "classes": "warlock" },
-					{ "name": "slot level", "description": "Maximum spell level", "active": false, "display_in_section": "spells", "list_by_level": [ "1st", "1st", "2nd", "2nd", "3rd", "3rd", "4th", "4th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th" ], "classes": "warlock" },
-					{ "name": "invocations known", "description": "Number of invocations", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "2", "2", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "6", "7", "7", "7", "8", "8", "8" ], "classes": "warlock" },
-					{ "name": "cantrips known", "description": "Number of cantrips", "active": false, "display_in_section": "spells", "list_by_level": [ "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], "classes": "bard and druid" },
-					{ "name": "cantrips known", "description": "Number of cantrips", "active": false, "display_in_section": "spells", "list_by_level": [ "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5" ], "classes": "cleric, warlock, and wizard" },
-					{ "name": "cantrips known", "description": "Number of cantrips", "active": false, "display_in_section": "spells", "list_by_level": [ "4", "4", "4", "5", "5", "5", "5", "5", "5", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6" ], "classes": "sorcerer" },
-					{ "name": "cantrips known", "description": "Number of cantrips", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "0", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3" ], "classes": "fighter (eldritch knight)" },
-					{ "name": "cantrips known", "description": "Number of cantrips", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "0", "3", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], "classes": "rogue (arcane trickster)" },
-					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "8", "8", "9", "9", "10", "10", "11", "11" ], "classes": "ranger" },
-					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "12", "13", "13", "14", "14", "15", "15", "15", "15" ], "classes": "sorcerer" },
-					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "11", "11", "12", "12", "13", "13", "14", "14", "15", "15" ], "classes": "warlock" },
-					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "15", "15", "16", "18", "19", "19", "20", "22", "22", "22" ], "classes": "bard" },
-					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "0", "3", "4", "4", "4", "5", "6", "6", "7", "8", "8", "9", "10", "10", "11", "11", "11", "12", "13" ], "classes": "rogue (arcane trickster)" },
-					{ "name": "spells known", "description": "Number of spells", "active": false, "display_in_section": "spells", "list_by_level": [ "0", "0", "3", "4", "4", "4", "5", "5 + 1", "5 + 1", "6 + 1", "7 + 1", "7 + 1", "8 + 1", "8 + 2", "8 + 2", "9 + 2", "9 + 2", "9 + 2", "10 + 2", "10 + 3" ], "classes": "fighter (eldritch knight)" }
+				discreet_schemas: [
+					{ name: "spellcaster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "2", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "2", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "1", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "2", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "1", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "2", "1", "1" ]], classes: "bard, cleric, druid, sorcerer, and wizard" },
+					{ name: "secondary caster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "0", "0", "0", "0", "0" ], [ "2", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "2" ], [ "4", "3", "3", "3", "2" ]], classes: "paladin and ranger" },
+					{ name: "minor caster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "2", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "1" ], [ "4", "3", "3", "1" ]], classes: "fighter (eldritch knight) and rogue (arcane trickster)" },
+					{ name: "rages", description: "Barbarian rages per rest period", active: false, display_in_section: "combat", list_by_level: [ "2", "2", "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "6", "6", "6", "unlimited" ], classes: "barbarian" },
+					{ name: "rage damage", description: "Extra damage wile inraged", active: false, display_in_section: "combat", list_by_level: [ "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+3", "+3", "+3", "+3", "+3", "+3", "+3", "+4", "+4", "+4", "+4", "+5" ], classes: "barbarian" },
+					{ name: "martial arts", description: "Damage for unarmed or monk weapons", active: false, display_in_section: "combat", list_by_level: [ "1d4", "1d4", "1d4", "1d4", "1d6", "1d6", "1d6", "1d6", "1d6", "1d6", "1d8", "1d8", "1d8", "1d8", "1d8", "1d8", "1d10", "1d10", "1d10", "1d10" ], classes: "monk" },
+					{ name: "points", description: "Points to spend on class features", active: false, display_in_section: "combat", list_by_level: [ "0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" ], classes: "monk \"ki points\", sorcerer \"sorcerer points\"" },
+					{ name: "unarmored movement", description: "Extra speed while unarmored", active: false, display_in_section: "combat", list_by_level: [ "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+30 ft.", "+30 ft.", "+30 ft." ], classes: "monk" },
+					{ name: "sneak attack", description: "Extra damage for sneaking around your opponent", active: false, display_in_section: "combat", list_by_level: [ "1d6", "1d6", "2d6", "2d6", "3d6", "3d6", "4d6", "4d6", "5d6", "5d6", "6d6", "6d6", "7d6", "7d6", "8d6", "8d6", "9d6", "9d6", "10d6", "10d6" ], classes: "rogue" },
+					{ name: "spell slots", description: "Spell slots available", active: false, display_in_section: "spells", list_by_level: [ "1", "2", "2", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4" ], classes: "warlock" },
+					{ name: "slot level", description: "Maximum spell level", active: false, display_in_section: "spells", list_by_level: [ "1st", "1st", "2nd", "2nd", "3rd", "3rd", "4th", "4th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th" ], classes: "warlock" },
+					{ name: "invocations known", description: "Number of invocations", active: false, display_in_section: "spells", list_by_level: [ "0", "2", "2", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "6", "7", "7", "7", "8", "8", "8" ], classes: "warlock" },
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], classes: "bard and druid" },
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5" ], classes: "cleric, warlock, and wizard" },
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "4", "4", "4", "5", "5", "5", "5", "5", "5", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6" ], classes: "sorcerer" },
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3" ], classes: "fighter (eldritch knight)" },
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], classes: "rogue (arcane trickster)" },
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "8", "8", "9", "9", "10", "10", "11", "11" ], classes: "ranger" },
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "12", "13", "13", "14", "14", "15", "15", "15", "15" ], classes: "sorcerer" },
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "11", "11", "12", "12", "13", "13", "14", "14", "15", "15" ], classes: "warlock" },
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "15", "15", "16", "18", "19", "19", "20", "22", "22", "22" ], classes: "bard" },
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "4", "4", "4", "5", "6", "6", "7", "8", "8", "9", "10", "10", "11", "11", "11", "12", "13" ], classes: "rogue (arcane trickster)" },
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "4", "4", "4", "5", "5 + 1", "5 + 1", "6 + 1", "7 + 1", "7 + 1", "8 + 1", "8 + 2", "8 + 2", "9 + 2", "9 + 2", "9 + 2", "10 + 2", "10 + 3" ], classes: "fighter (eldritch knight)" }
 				],
-				"features": [],
-				"inventory": [],
-				"spells": [],
-				"gold": ""
+				features: [],
+				inventory: [],
+				spells: [],
+				gold: ""
 			};
 
 			// ability_stats: name (key), score (integer, index 0), alter_by (integer, index 1), and save (boolean, index 2)
 			// inventory: name (string), description (string), active (boolean), cost (string), armor_class (integer), add_dex_mod (boolean), max_dex_bonus (integer), stealth_disadv (boolean), weight (integer), damage (string), style (string), range (list, integers), properties (string), proficient (boolean), and quantity (integer)
-			// feature: name (string), description (string), quantity (integer), current_quantity (integer), and replenish (string)
+			// feature: name (string), description (string), quantity (list of integers), and replenish (string)
 			// spell: name (string), type (string), level (string), school (string), ritual_tag (boolean), casting_time (string), range (string), verbal (boolean), somatic (boolean), materials (string), duration (string), description (string), quantity (integer), and active (boolean)
 
-			function checkVersion(newObj, oldObj) {
-				function merge(newObj, oldObj) {
-					for (key in oldObj) if (key !== "version") {
-						if (newObj.hasOwnProperty(key) && newObj[key] !== oldObj[key]) {
-							newObj[key] = oldObj[key];
-						} else if (typeof oldObj[key] === "object") {
+		function checkVersion(newObj, oldObj) {
+			function merge(newObj, oldObj) {
+				for (key in newObj) if (key !== "version") {
+					if (typeof newObj[key] === "object") {
+						// If this is a list rathere than a dictionary style object then check for nonexisting values and add them if they don't exist
+						// This is because some list iterators and their values would not pass the condition and be copied
+						if (Array.isArray(newObj[key])) {
+							if (JSON.stringify(newObj[key]) !== JSON.stringify(oldObj[key])) {
+								newObj[key] = oldObj[key];
+							}
+						} else { // This is a dictionary style object so just keep digging down using recursion
 							merge(newObj[key], oldObj[key]);
 						}
+					} else if (oldObj.hasOwnProperty(key) && newObj[key] !== oldObj[key]) {
+						newObj[key] = oldObj[key];
 					}
 				}
+			}
+
+				// Check the version and if there is a newer version, display a message that warns the user
 				if (newObj["version"] !== oldObj["version"]) {
 					alert("This is a newer version. Please check your character data to ensure that it transfered properly.");
 				}
@@ -361,953 +414,1142 @@
 				var reader = new FileReader();
 				reader.onload = function () {
 					checkVersion(CharacterInfo, JSON.parse(reader.result));
-					localStorage.setItem("CharacterInfo" + CharacterInfo["basic"]["name"], reader.result);
+					localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo));
 				}
 				reader.readAsText(this.files[0]);
 				this.value = this.defaultValue;
 				location.reload();
 			});
 
-			initialize();
+				// Get the file name minus the extension
+				let url = window.location.pathname;
+				let storageName = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
+			let retrieveData
 
-			function initialize() {
-				var url = window.location.pathname;
-				var name = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
+			if (storageName !== "auto-character-sheet") {
+				retrieveData = localStorage.getItem("CharacterInfo" + storageName);
 
-				if (name !== "auto-character-sheet") {
-					var retrieveData = localStorage.getItem("CharacterInfo" + name);
-					if (retrieveData) {
-						checkVersion(CharacterInfo, JSON.parse(retrieveData));
-					}
-					CharacterInfo["basic"]["name"] = name;
+				if (retrieveData) {
+					checkVersion(CharacterInfo, JSON.parse(retrieveData));
 				}
-
-				update("basic");
-				update("schema");
-				update("ability_stats");
-				update("combat_stats")
-				update("weapons");
-				update("features");
-				update("proficiencies");
-				update("spells");
-				update("inventory");
-				update("gold");
 			}
-
-			function fallbackCopyToClipboard(text) {
-				var textArea = document.createElement("textarea");
-				textArea.value = text;
-				textArea.style.top = "0";
-				textArea.style.left = "0";
-				textArea.style.position = "fixed";
-				document.appendChild(textArea);
-				textArea.focus();
-				textArea.select();
-
-				try {
-					var success = document.execCommand("copy");
-				} catch (e) {
-					alert("Sorry! Something went wrong while copying the data to the clipboard.");
-				}
-
-				document.bodyRemoveChild(textArea);
-			}
-
-			function copyToClipboard() {
-				var text = JSON.stringify(CharacterInfo);
-
-				if (!navigator.clipboard) {
-					fallbackCopyToClipboard(text);
-					return;
-				}
-
-				navigator.clipboard.writeText(text);
-			}
+			update([ "basic", "schema", "ability_stats", "combat_stats", "weapons", "features", "proficiencies", "spells", "inventory", "gold", "combat_schemas", "spells_schemas" ]); // Initialize all the displayes
 
 			function clearData() {
-				if (confirm("Are you absolutely sure you want to erase this character data?")) {
-					//localStorage.clear();
-						localStorage.removeItem("CharacterInfo" + CharacterInfo["basic"]["name"]);
+				if (storageName !== "auto-character-sheet" && confirm("Are you absolutely sure you want to erase this character data?")) {
+				//localStorage.clear();
+						localStorage.removeItem("CharacterInfo" + storageName);
 					location.reload();
 				}
 			}
 
-			var searchTerm;
-			function of(value) {
-				return value["name"] === searchTerm;
+			var elements;
+			var info;
+			var i, ii, iii;
+
+			elements = document.getElementsByName("basic");
+			for (i = 0; i < elements.length; i++) {
+				elements[i].addEventListener("click", function() {
+					let name = event.target.id.split("-")[1];
+					let arrow = document.getElementById("basic-" + name + "-arrow");
+					display = document.getElementById("basic-" + name + "-display");
+					let box = document.getElementById("basic-" + name + "-box");
+					info = CharacterInfo.basic;
+
+					if (arrow.innerHTML === "↑") { // Collect the information
+						arrow.innerHTML = "↓"; // To signify that this character attribute is being edited
+						box.value = (typeof info[name] !== "object") ? display.innerHTML : ""; // Place the current value in the edit box
+						box.style.display = "inline";
+
+						// Hide the value display and show the edit box, focus on it, and select whatever is in it.
+						box.focus();
+						box.select();
+						display.style.display = (typeof info[name] !== "object") ? "none" : "initial";
+					} else { // Save and display
+						// Depending on the type of info, different things need to happen: objects need to push to a list and numbers need to be parsed to integers
+						if (typeof info[name] === "object" && box.value) { info[name].push(box.value); }
+						else if (typeof info[name] === "number") { info[name] = parseInt(box.value); }
+							else { info[name] = box.value; }
+							update([ "basic" ]); // Update the character sheet
+					}
+				});
 			}
 
-			function editInfo() {
-				var elem = event.target.getAttribute("id");
-				var parts = elem.split("-");
-				var keys;
-				var i;
+			document.getElementById("schema-box").addEventListener("change", function() {
+				let box = document.getElementById("schema-box");
+				let button = document.getElementById("schema-button");
+				let display = document.getElementById("schema-display");
+				display.innerHTML = "";
+				let form = document.getElementById("new_schema-form");
+				info = CharacterInfo.discreet_schemas;
 
-				if (parts[0] === "basic") {
-					if (document.getElementById(elem).innerHTML === "↑") {
-						document.getElementById(elem).innerHTML = "↓";
-						if (typeof CharacterInfo["basic"][parts[1]] !== "object") {
-							document.getElementById("basic-" + parts[1] + "-box").value = document.getElementById("basic-" + parts[1] + "-display").innerHTML;
-						}
-						document.getElementById("basic-" + parts[1] + "-display").style.display = "none";
-						document.getElementById("basic-" + parts[1] + "-box").style.display = "inline";
-					} else {
-						if (typeof CharacterInfo["basic"][parts[1]] === "number") {
-							if (document.getElementById("basic-" + parts[1] + "-box").value !== "0") {
-								CharacterInfo["basic"][parts[1]] = parseInt(document.getElementById("basic-" + parts[1] + "-box").value);
-							}
-						} else if (typeof CharacterInfo["basic"][parts[1]] === "object") {
-							if (document.getElementById("basic-" + parts[1] + "-box").value !== "") {
-								CharacterInfo["basic"][parts[1]].push(document.getElementById("basic-" + parts[1] + "-box").value);
-							}
-						} else {
-							if (document.getElementById("basic-" + parts[1] + "-box").value !== "") {
-								CharacterInfo["basic"][parts[1]] = document.getElementById("basic-" + parts[1] + "-box").value;
-							}
-						}
-						update("basic");
-						update("ability_stats");
-						update("combat_stats");
-						update("proficiencies");
-						update("combat-schemas");
-						update("spells-schemas");
-					}
-				} else if (parts[0] === "ability_stats") {
-					if (parts[1] !== "alter") {
-						if (document.getElementById(elem).innerHTML === "↑") {
-							document.getElementById(elem).innerHTML = "↓";
-							keys = Object.keys(CharacterInfo["ability_stats"]);
-							for (i = 0; i < keys.length; i++) {
-								document.getElementById("ability_stats-" + keys[i] + "-save-box").checked = CharacterInfo["ability_stats"][keys[i]][2];
-								document.getElementById("ability_stats-" + keys[i] + "-box").value = CharacterInfo["ability_stats"][keys[i]][0];
-								document.getElementById("ability_stats-" + keys[i] + "-save-box").style.display = "inline";
-								document.getElementById("ability_stats-" + keys[i] + "-checkmark").style.display = "none";
-								document.getElementById("ability_stats-" + keys[i] + "-box").style.display = "inline";
-								document.getElementById("ability_stats-" + keys[i] + "-display").style.display = "none";
-							}
-						} else {
-							keys = Object.keys(CharacterInfo["ability_stats"]);
-							for (i = 0; i < keys.length; i++) {
-								CharacterInfo["ability_stats"][keys[i]][2] = document.getElementById("ability_stats-" + keys[i] + "-save-box").checked;
-								CharacterInfo["ability_stats"][keys[i]][0] = parseInt(document.getElementById("ability_stats-" + keys[i] + "-box").value);
-							}
-							update("ability_stats");
-							update("combat_stats");
-							update("weapons");
-							update("proficiencies");
-						}
-					} else {
-						CharacterInfo["ability_stats"][parts[2]][1] = parseInt(document.getElementById("ability_stats-alter-" + parts[2] + "-box").value);
-						update("ability_stats");
-						update("combat_stats");
-						update("proficiencies");
-					}
-				} else if (parts[0] === "combat_stats") {
-					if (parts[2] === "notes") {
-						if (document.getElementById("combat_stats-" + parts[1] + "-notes-arrow").innerHTML === "→") {
-							document.getElementById("combat_stats-" + parts[1] + "-notes-arrow").innerHTML = "←";
-							document.getElementById("combat_stats-" + parts[1] + "-notes-box").value = document.getElementById("combat_stats-" + parts[1] + "-notes-display").innerHTML;
-						} else {
-							CharacterInfo["combat_stats"][parts[1]][2] = document.getElementById("combat_stats-" + parts[1] + "-notes-box").value;
-							update("combat_stats");
-						}
-					} else if (parts[2] === "alter") {
-						CharacterInfo["combat_stats"][parts[1]][1] = parseInt(document.getElementById("combat_stats-" + parts[1] + "-alter").value);
-						document.getElementById("combat_stats-" + parts[1] + "-current").innerHTML = CharacterInfo["combat_stats"][parts[1]][0] + CharacterInfo["combat_stats"][parts[1]][1];
-					} else if (parts[2] === "number") {
-						CharacterInfo["combat_stats"][parts[1]][1] = parseInt(document.getElementById("combat_stats-" + parts[1] + "-number").value);
-						update("combat_stats");
-					} else {
-						if (document.getElementById("combat_stats-" + parts[1] + "-arrow").innerHTML === "↑") {
-							document.getElementById("combat_stats-" + parts[1] + "-arrow").innerHTML = "↓";
-							document.getElementById("combat_stats-" + parts[1] + "-display").style.display = "none";
-							document.getElementById("combat_stats-" + parts[1] + "-box").value = CharacterInfo["combat_stats"][parts[1]][0];
-							if (parts[1] === "hit_dice") {
-								document.getElementById("combat_stats-hit_dice-number").disabled = true;
-								document.getElementById("combat_stats-hit_dice-box").style.display = "inline";
-							} else {
-								document.getElementById("combat_stats-" + parts[1] + "-box").style.display = "inline";
-								document.getElementById("combat_stats-" + parts[1] + "-alter").disabled = true;
-							}
-						} else {
-							if (typeof CharacterInfo["combat_stats"][parts[1]][0] === "number") {
-								CharacterInfo["combat_stats"][parts[1]][0] = parseInt(document.getElementById("combat_stats-" + parts[1] + "-box").value);
-							} else {
-								CharacterInfo["combat_stats"][parts[1]][0] = document.getElementById("combat_stats-" + parts[1] + "-box").value;
-							}
-							update("combat_stats");
-						}
-					}
-				} else if (parts[0] === "features") {
-					if (parts[2] === "number") {
-						searchTerm = parts[1];
-						index = CharacterInfo["features"].findIndex(of);
-						CharacterInfo["features"][index]["current_quantity"] = parseInt(document.getElementById("features-" + parts[1] + "-number").value);
-					} else {
-						formHandler(parts, [ "name", "description", "quantity", "replenish" ]);
-					}
-				} else if (parts[0] === "proficiencies") {
-					keys = Object.keys(CharacterInfo["proficiencies"]);
-					keys.sort();
-					if (document.getElementById("proficiencies-arrow").innerHTML === "↑") {
-						var table = document.getElementById("proficiencies-table");
-						var row;
-						var cell0;
-						var cell1;
-						var cell2;
-						emptyTable("proficiencies-table");
-
-						table.deleteTHead();
-						head = table.createTHead();
-						row = head.insertRow(0);
-						cell0 = row.insertCell(0);
-						cell1 = row.insertCell(1);
-						cell2 = row.insertCell(2);
-						cell0.innerHTML = "<a id=\"proficiencies-arrow\" onclick=\"editInfo()\">↓</a>";
-						cell1.innerHTML = "Name";
-						cell2.innerHTML = "stat";
-
-						for (i = 0; i < keys.length; i++) {
-							row = table.insertRow(-1);
-							cell0 = row.insertCell(0);
-							cell1 = row.insertCell(1);
-							cell2 = row.insertCell(2);
-							cell0.innerHTML = "<input id=\"proficiencies-" + keys[i] + "-box\" type=\"checkbox\">"
-							document.getElementById("proficiencies-" + keys[i] + "-box").checked = CharacterInfo["proficiencies"][keys[i]][1];
-							cell1.innerHTML = keys[i].replace(/_/g, " ");
-							cell2.innerHTML = CharacterInfo["proficiencies"][keys[i]][0];
-						}
-					} else {
-						for (i = 0; i < keys.length; i++) {
-							CharacterInfo["proficiencies"][keys[i]][1] = document.getElementById("proficiencies-" + keys[i] + "-box").checked;
-						}
-						update("proficiencies");
-						update("combat_stats");
-					}
-				} else if (parts[0] === "spells") {
-					if (parts[2] === "number") {
-						searchTerm = parts[1];
-						index = CharacterInfo["spells"].findIndex(of);
-						CharacterInfo["spells"][index]["quantity"] = parseInt(document.getElementById("spells-" + parts[1] + "-number").value);
-					} else {
-						formHandler(parts, [ "name", "type", "level", "school", "ritual_tag", "casting_time", "range", "verbal", "somatic", "materials", "duration", "description" ]);
-					}
-				} else if (parts[0] === "inventory") {
-					if (document.getElementById("inventory-add_dex_mod-box").checked) {
-						document.getElementById("inventory-max_dex_bonus-box").disabled = false;
-					} else {
-						document.getElementById("inventory-max_dex_bonus-box").disabled = true;
-					}
-					formHandler(parts, [ "name", "type", "sub_type", "description", "weight", "cost", "quantity", "style_armor", "armor_class", "add_dex_mod", "max_dex_bonus", "stealth_disadv", "active", "style_weapon", "proficient", "damage", "min", "max", "properties" ]);
-					update("combat_stats");
-					update("weapons");
-				} else if (parts[0] === "gold") {
-					if (document.getElementById("gold-arrow").innerHTML === "↑") {
-						document.getElementById("gold-arrow").innerHTML = "↓";
-						document.getElementById("gold-box").value = CharacterInfo["gold"];
-						document.getElementById("gold-display").style.display = "none";
-						document.getElementById("gold-box").style.display = "inline";
-					} else {
-						CharacterInfo["gold"] = document.getElementById("gold-box").value;
-						update("gold");
-					}
-				} else if (parts[0] === "schema") {
-					if (parts[1] === "link" || parts[1] === "cancel") {
-						document.getElementById("basic-schema-display").innerHTML = "";
-						if (document.getElementById("schema-form").style.display === "none") {
-							document.getElementById("schema-form").style.display = "block";
-						} else {
-							update("schema");
-							update("combat-schemas");
-							update("spells-schimas");
-						}
-					} else if (parts[1] === "name") {
-						if (document.getElementById("schema-name-box").value !== "") {
-							document.getElementById("schema-activate-button").disabled = false;
-							searchTerm = document.getElementById("schema-name-box").value;
-							index = CharacterInfo["discreet_schemas"].findIndex(of);
-							if (CharacterInfo["discreet_schemas"][index]["active"]) {
-								document.getElementById("schema-activate-button").innerHTML = "remove";
-							} else {
-								document.getElementById("schema-activate-button").innerHTML = "activate";
-							}
-							document.getElementById("basic-schema-display").innerHTML = "<br>";
-							document.getElementById("basic-schema-display").appendChild(formatSchemaTable(CharacterInfo["discreet_schemas"][index]));
-						} else {
-						document.getElementById("schema-activate-button").disabled = true;
-							document.getElementById("basic-schema-display").innerHTML = "";
-						}
-					} else if (parts[1] === "add") {
-						document.getElementById("basic-schema-display").innerHTML = "";
-						document.getElementById("schema-name-box").value = "";
-						document.getElementById("new_schema-form").style.display = "block";
-					} else if (parts[1] === "activate") {
-						searchTerm = document.getElementById("schema-name-box").value;
-						index = CharacterInfo["discreet_schemas"].findIndex(of);
-						if (CharacterInfo["discreet_schemas"][index]["active"]) {
-							CharacterInfo["discreet_schemas"][index]["active"] = false;
-							document.getElementById("schema-activate-button").innerHTML = "activate";
-						} else {
-							CharacterInfo["discreet_schemas"][index]["active"] = true;
-							document.getElementById("schema-activate-button").innerHTML = "remove";
-						}
-					}
-				} else if (parts[0] === "new_schema") {
-					if (parts[1] === "done") {
-						if (document.getElementById("new_schema-form").checkValidity()) {
-							var newSchema = { "name": "", "description": "", "active": true, "display_in_section": "", "list_by_level": [], "classes": "" };
-							var string;
-							var list;
-							newSchema["name"] = document.getElementById("new_schema-name-box").value;
-							newSchema["display_in_section"] = document.getElementById("new_schema-display_in_section-box").value;
-							newSchema["description"] = document.getElementById("new_schema-description-box").value;
-							newSchema["classes"] = document.getElementById("new_schema-classes-box").value;
-							newSchema["active"] = document.getElementById("new_schema-active-box").checked;
-							for (i = 0; i < 20; i++) {
-								string = document.getElementById("new_schema-" + i + "-box").value.replace(/\s/g, "");
-								if (string.search(",") === -1) {
-									list = string;
-								} else {
-									list = string.split(",");
-								}
-								newSchema["list_by_level"].push(list);
-							}
-							CharacterInfo["discreet_schemas"].unshift(newSchema);
-							update("schema");
-							update("combat-schimas");
-							update("spells-schimas");
-						}
-					}
-				}
-				if (CharacterInfo["basic"]["name"] !== "") {
-					localStorage.setItem("CharacterInfo" + CharacterInfo["basic"]["name"], JSON.stringify(CharacterInfo));
-				}
-			}
-
-			function formHandler(parts, keys) {
-				var location = parts[0];
-				var name = parts[1];
-				var type = parts[2] || "";
-				var index = 0;
-				var form = document.getElementById(location + "-form");
-				var info = CharacterInfo[location];
-
-				if (name === "link" || name === "cancel") {
-					if (form.style.display === "none") {
+				if (box.value) {
+					if (box.value === "new_schema") {
+						display.style.display = "none";
 						form.style.display = "block";
-					} else {
-						form.style.display = "none";
 						form.reset();
-						update(location);
-					}
-				} else if (name === "done") {
-					if (form.checkValidity()) {
-						info.push(createObject(keys, location));
-						update(location);
-					}
-				} else if (name === "edit") {
-					if (form.checkValidity()) {
-						searchTerm = document.getElementById(location + "-edit-button").value;
-						index = info.findIndex(of);
-						info[index] = createObject(keys, location);
-						update(location);
+						button.disabled = true;
+					} else {
+						button.innerHTML = (info[box.value].active) ? "deactivate" : "activate";
+						button.disabled = false;
+						form.style.display = "none";
+						display.style.display = "block";
+						display.appendChild(formatSchema(info[box.value]));
 					}
 				} else {
-					searchTerm = name;
-					index = info.findIndex(of);
-					if (type === "activate") {
-						if (info[index]["active"]) {
-							info[index]["active"] = false;
-						} else {
-							info[index]["active"] = true;
-							if (location === "spells") {
-								info[index]["quantity"] = 1;
-							}
-						}
-						update(location);
-					} else if (type === "delete") {
-						info.splice(index, 1);
-						update(location);
-					} else if (type === "number") {
-						info[index]["quantity"] = parseInt(document.getElementById(location + "-" + name + "-number").value);
-					} else if (type === "arrow") {
-						document.getElementById(location + "-" + name + "-arrow").innerHTML = "↓";
-						document.getElementById(location + "-edit-button").value = name;
-						for (i = 0; i < keys.length; i++) {
-							if (document.getElementById(location + "-" + keys[i] + "-box").type === "checkbox") {
-								document.getElementById(location + "-" + keys[i] + "-box").checked = info[index][keys[i]];
-								if (location === "inventory" && keys[i] === "add_dex_mod") {
-									if (info[index][keys[i]]) {
-										document.getElementById("inventory-max_dex_bonus-box").disabled = false;
-									} else {
-										document.getElementById("inventory-max_dex_bonus-box").disabled = true;
-									}
-								}
-							} else {
-								document.getElementById(location + "-" + keys[i] + "-box").value = info[index][keys[i]];
-							}
-						}
-						form.style.display = "block";
-						document.getElementById(location + "-done-button").style.display = "none";
-						document.getElementById(location + "-edit-button").style.display = "inline";
-					}
+					display.style.display = "none";
+					form.style.display = "none";
+					button.disabled = true;
 				}
+			});
+
+			document.getElementById("schema-button").addEventListener("click", function() {
+				let box = document.getElementById("schema-box");
+				let button = document.getElementById("schema-button");
+				info = CharacterInfo.discreet_schemas;
+
+				if (button.innerHTML === "activate") {
+					button.innerHTML = "deactivate";
+					info[box.value].active = true;
+				} else {
+				button.innerHTML = "activate";
+				info[box.value].active = false;
+				}
+				update([ info[box.value].display_in_section + "_schemas" ]);
+			});
+
+			document.getElementById("schema-reset").addEventListener("click", function() {
+				document.getElementById("schema-display").style.display = "none";
+				document.getElementById("new_schema-form").style.display = "none";
+				document.getElementById("schema-button").disabled = true;
+				document.getElementById("schema-box").value = "";
+			});
+
+			document.getElementById("ability_stats-arrow").addEventListener("click", function() {
+				let info = CharacterInfo.ability_stats;
+				let keys = Object.keys(info);
+
+				if (document.getElementById("ability_stats-arrow").innerHTML === "↑") { // Display the edit boxes
+					document.getElementById("ability_stats-arrow").innerHTML = "↓";
+
+					for (i = 0; i < keys.length; i++) {
+						document.getElementById("ability_stats-" + keys[i] + "-save-box").style.display = "inline";
+						document.getElementById("ability_stats-" + keys[i] + "-box").style.display = "inline";
+						document.getElementById("ability_stats-" + keys[i] + "-save-box").checked = info[keys[i]][2];
+						document.getElementById("ability_stats-" + keys[i] + "-box").value = document.getElementById("ability_stats-" + keys[i] + "-display").innerHTML;
+						document.getElementById("ability_stats-" + keys[i] + "-display").style.display = "none";
+						document.getElementById("ability_stats-" + keys[i] + "-checkmark").style.display = "none";
+						document.getElementById("ability_stats-adjust-" + keys[i] + "-box").disabled = true;
+					}
+				} else { // Save the data
+					for (i = 0; i < keys.length; i++) {
+						info[keys[i]][0] = parseInt(document.getElementById("ability_stats-" + keys[i] + "-box").value);
+						info[keys[i]][2] = document.getElementById("ability_stats-" + keys[i] + "-save-box").checked;
+					}
+					update([ "ability_stats" ]);
+				}
+			});
+
+			elements = document.getElementsByName("combat_stats");
+			for (i = 0; i < elements.length; i++) {
+				elements[i].addEventListener("click", function() {
+					let name = event.target.id.split("-")[1];
+
+					if (document.getElementById("combat_stats-" + name + "-arrow").innerHTML === "↑") {
+						document.getElementById("combat_stats-" + name + "-arrow").innerHTML = "↓";
+						document.getElementById("combat_stats-" + name + "-adjust").disabled = true;
+						document.getElementById("combat_stats-" + name + "-box").style.display = "inline";
+						document.getElementById("combat_stats-" + name + "-box").value = document.getElementById("combat_stats-" + name + "-display").innerHTML;
+						document.getElementById("combat_stats-" + name + "-display").style.display = "none";
+					} else {
+						CharacterInfo.combat_stats[name][0] = parseInt(document.getElementById("combat_stats-" + name + "-box").value);
+						update([ "combat_stats" ]);
+					}
+				});
 			}
 
-			function createObject(keys, location) {
-				var newObject = {};
-				for (var i = 0; i < keys.length; i++) {
-					if (document.getElementById(location + "-" + keys[i] + "-box").type === "number") {
-						newObject[keys[i]] = parseInt(document.getElementById(location + "-" + keys[i] + "-box").value);
-						if (location === "features" && keys[i] === "quantity") {
-							newObject["current_quantity"] = newObject[keys[i]];
-						}
-					} else if (document.getElementById(location + "-" + keys[i] + "-box").type === "checkbox") {
-						newObject[keys[i]] = document.getElementById(location + "-" + keys[i] + "-box").checked;
-					} else {
-						newObject[keys[i]] = document.getElementById(location + "-" + keys[i] + "-box").value;
-					}
-				}
-				return newObject;
+			elements = document.getElementsByName("ability_stats-adjust");
+			for (i = 0; i < elements.length; i++) {
+				elements[i].addEventListener("change", function() {
+					let base;
+					letname = event.target.id.split("-")[2];
+					info = CharacterInfo.ability_stats;
+
+					info[name][1] = parseInt(event.target.value);
+					base = info[name][0] + info[name][1];
+					document.getElementById("ability_stats-" + name + "-display").innerHTML = base;
+					document.getElementById("ability_stats-" + name + "-modifier-display").innerHTML = getModifier(base);
+					document.getElementById("ability_stats-" + name + "-save-display").innerHTML = (info[name][2]) ? getModifier(base) + getProficiency() : getModifier(base);
+					if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+				});
 			}
+
+			elements = document.getElementsByName("combat_stats-adjust");
+			for (i = 0; i < elements.length; i++) {
+				elements[i].addEventListener("change", function() {
+					let name = event.target.id.split("-")[1];
+					CharacterInfo.combat_stats[name][1] = parseInt(document.getElementById("combat_stats-" + name + "-adjust").value);
+					document.getElementById("combat_stats-" + name + "-current").innerHTML = CharacterInfo.combat_stats[name][0] + CharacterInfo.combat_stats[name][1];
+					if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+				});
+			}
+
+			elements = document.getElementsByName("combat_stats-notes");
+			for (i = 0; i < elements.length; i++) {
+				elements[i].addEventListener("click", function() {
+					let name = event.target.id.split("-")[1];
+
+					if (document.getElementById("combat_stats-" + name + "-notes-arrow").innerHTML === "→") {
+						document.getElementById("combat_stats-" + name + "-notes-arrow").innerHTML = "←";
+						document.getElementById("combat_stats-" + name + "-notes-box").style.display = "inline";
+						document.getElementById("combat_stats-" + name + "-notes-box").value = document.getElementById("combat_stats-" + name + "-notes-display").innerHTML;
+						document.getElementById("combat_stats-" + name + "-notes-display").style.display = "none";
+						document.getElementById("combat_stats-" + name + "-notes-box").focus();
+						document.getElementById("combat_stats-" + name + "-notes-box").select();
+					} else {
+						CharacterInfo.combat_stats[name][2] = document.getElementById("combat_stats-" + name + "-notes-box").value;
+						update([ "combat_stats" ]);
+					}
+				});
+			}
+
+			document.getElementById("features-button").addEventListener("click", function() {
+				if (document.getElementById("features-form").checkValidity()) {
+					let button = document.getElementById("features-button");
+					feature = { name: "", description: "", quantity: [0, 0], replenish: "" };
+					feature.name = document.getElementById("features-name-box").value;
+					feature.description = document.getElementById("features-description-box").value;
+					feature.quantity[0] = parseInt(document.getElementById("features-quantity-box").value);
+					feature.quantity[1] = feature.quantity[0];
+					feature.replenish = document.getElementById("features-replenish-box").value
+
+					if (button.value) { CharacterInfo.features[button.value] = JSON.parse(JSON.stringify(feature)); }
+					else { CharacterInfo.features.push(feature); }
+
+					update([ "features" ]);
+				}
+			});
+
+			document.getElementById("proficiencies-arrow").addEventListener("click", function() {
+				let keys = Object.keys(CharacterInfo.proficiencies);
+
+				if (document.getElementById("proficiencies-arrow").innerHTML === "↑") {
+					document.getElementById("proficiencies-arrow").innerHTML = "↓";
+					let table = document.getElementById("proficiencies-table");
+					emptyTable("proficiencies-table");
+					let box, cells, row;
+					keys.sort();
+
+					for(i = 0; i < keys.length; i++) {
+						row = table.insertRow(-1);
+						cells = [];
+						cells.push(row.insertCell(0));
+						cells.push(row.insertCell(1));
+						cells.push(row.insertCell(2));
+						cells.push(row.insertCell(3));
+
+						box = document.createElement("input");
+						box.setAttribute("type", "checkbox");
+						box.setAttribute("id", "proficiencies-" + keys[i]);
+						box.checked = CharacterInfo.proficiencies[keys[i]][1];
+
+						cells[0].appendChild(box);
+						cells[1].innerHTML = keys[i].replace(/_/g, " ");
+						cells[2].innerHTML = CharacterInfo.proficiencies[keys[i]][0];
+					}
+				} else {
+					for (i = 0; i < keys.length; i++) {
+						CharacterInfo.proficiencies[keys[i]][1] = document.getElementById("proficiencies-" + keys[i]).checked;
+					}
+					update([ "proficiencies" ]);
+				}
+			});
+
+			document.getElementById("spells-button").addEventListener("click", function() {
+				if (document.getElementById("spells-form").checkValidity()) {
+					let button = event.target;
+					let box;
+					let spell = { name: "", type: "", level: "", school: "", ritual_tag: false, casting_time: "", range: "", verbal: false, somatic: false, materials: "", duration: "", description: "" };
+
+					for (let key in spell) {
+						box = document.getElementById("spells-" + key + "-box");
+
+						if (box.type === "number") { spell[key] = parseInt(box.value); }
+						else if (box.type === "checkbox") { spell[key] = box.checked; }
+						else { spell[key] = box.value; }
+					}
+					spell.active = false;
+					spell.quantity = 1;
+
+					if (button.value) { CharacterInfo.spells[button.value] = JSON.parse(JSON.stringify(spell)); }
+					else { CharacterInfo.spells.push(spell); }
+
+					update([ "spells" ]);
+				}
+			});
+
+			document.getElementById("inventory-button").addEventListener("click", function() {
+				if (document.getElementById("inventory-form").checkValidity()) {
+					let button = event.target;
+					let box;
+					let newItem = { name: "", type: "", sub_type: "", description: "", weight: 0, cost: "", quantity: 1, style_armor: "", armor_class: 0, add_dex_mod: false, max_dex_bonus: 0, stealth_disadv: false, active: false, style_weapon: "", proficient: false, damage: "", min: 0, max: 0, properties: "" };
+
+					for (let key in newItem) {
+						box = document.getElementById("inventory-" + key + "-box");
+
+						if (box.type === "number") { newItem[key] = parseInt(box.value); }
+						else if (box.type === "checkbox") { newItem[key] = box.checked; }
+						else { newItem[key] = box.value; }
+					}
+
+					if (button.value) { CharacterInfo.inventory[button.value] = JSON.parse(JSON.stringify(newItem)); }
+					else { CharacterInfo.inventory.push(newItem); }
+
+					update([ "combat_stats", "weapons", "inventory" ]);
+				}
+			});
+
+			document.getElementById("inventory-add_dex_mod-box").addEventListener("change", function() {
+				document.getElementById("inventory-max_dex_bonus-box").disabled = (!document.getElementById("inventory-add_dex_mod-box").checked) ? true : false;
+			});
+
+			document.getElementById("gold-arrow").addEventListener("click", function() {
+				if (document.getElementById("gold-arrow").innerHTML === "↑") {
+					document.getElementById("gold-arrow").innerHTML = "↓";
+					document.getElementById("gold-box").style.display = "inline";
+					document.getElementById("gold-box").value = document.getElementById("gold-display").innerHTML;
+					document.getElementById("gold-box").focus();
+					document.getElementById("gold-box").select();
+					document.getElementById("gold-display").style.display = "none";
+				} else {
+					CharacterInfo.gold = document.getElementById("gold-box").value;
+					update([ "gold" ]);
+				}
+			});
 
 			function update(what) {
-				function isEquipped(value) {
-					return value["equipped"] === true;
-				}
+				if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
 
-				var keys;
-				var i;
-				var ii;
-				var text;
+				let keys, text;
+				let alpha, arrow, adjustBox, box, cells, delta, display, header, info, item, label, name, row, table, unorderedList;
+				let dexMod = getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
+				let strMod = getModifier(CharacterInfo["ability_stats"]["strength"][0] + CharacterInfo["ability_stats"]["strength"][1]);
+				let wisMod = getModifier(CharacterInfo["ability_stats"]["wisdom"][0] + CharacterInfo["ability_stats"]["wisdom"][1]);
 
-				if (what === "basic") {
-					keys = Object.keys(CharacterInfo["basic"]);
-					for (i = 0; i < keys.length; i++) {
-						text = "";
-						document.getElementById("basic-" + keys[i] + "-arrow").innerHTML = "↑";
-						if (typeof CharacterInfo["basic"][keys[i]] === "object") {
-							if (CharacterInfo["basic"][keys[i]].length > 0) {
-								text = "<ul>";
-								for (ii = 0; ii < CharacterInfo["basic"][keys[i]].length; ii++) {
-									text += "<li>" + CharacterInfo["basic"][keys[i]][ii] + "</li>";
+				for (i in what) {
+					if (what[i] === "basic") {
+						keys = Object.keys(CharacterInfo.basic);
+
+						for (ii = 0; ii < keys.length; ii++) {
+							info = CharacterInfo.basic[keys[ii]];
+							type = typeof info;
+							display = document.getElementById("basic-" + keys[ii] + "-display");
+
+							document.getElementById("basic-" + keys[ii] + "-arrow").innerHTML = "↑";
+							document.getElementById("basic-" + keys[ii] + "-box").style.display = "none";
+							display.innerHTML = "";
+
+							if (type === "object") {
+								unorderedList = document.createElement("ul"); // Create an unordered list
+								unorderedList.style.listStyle = "none";
+
+								// Cycle through all the object entries
+								for (iii in info) {
+									// Create the delete button for the entry
+									delta = document.createElement("button");
+									delta.setAttribute("class", "edit-button");
+									delta.setAttribute("value", iii);
+									delta.setAttribute("id", keys[ii]);
+									delta.appendChild(document.createTextNode("δ"));
+									delta.addEventListener("click", function() {
+										CharacterInfo.basic[event.target.getAttribute("id")].splice(event.target.getAttribute("value"), 1);
+										update([ "basic" ]);
+									});
+
+									// Create the new item to be appended to the unordered list
+									item = document.createElement("li");
+									item.appendChild(delta);
+									item.appendChild(document.createTextNode(info[iii]));
+									unorderedList.appendChild(item);
 								}
-								text += "</ul>";
-							}
-						} else {
-							text = CharacterInfo["basic"][keys[i]];
-						}
-						document.getElementById("basic-" + keys[i] + "-display").innerHTML = text;
-						document.getElementById("basic-" + keys[i] + "-box").style.display = "none";
-						document.getElementById("basic-" + keys[i] + "-display").style.display = "inline";
-					}
-					if (CharacterInfo["basic"]["name"] !== "") {
-						document.title = CharacterInfo["basic"]["name"] + " - Auto Character Sheet";
-					}
-				} else if (what === "ability_stats") {
-					keys = Object.keys(CharacterInfo["ability_stats"]);
-					for (i = 0; i < keys.length; i++) {
-						document.getElementById("ability_stats-" + keys[i] + "-save-box").style.display = "none";
-						document.getElementById("ability_stats-" + keys[i] + "-box").style.display = "none";
-						if (CharacterInfo["ability_stats"][keys[i]][2]) {
-							document.getElementById("ability_stats-" + keys[i] + "-checkmark").style.display = "inline";
-							document.getElementById("ability_stats-" + keys[i] + "-save-display").innerHTML = getModifier(CharacterInfo["ability_stats"][keys[i]][0] + CharacterInfo["ability_stats"][keys[i]][1]) + getProficiency();
-						} else {
-							document.getElementById("ability_stats-" + keys[i] + "-save-display").innerHTML = getModifier(CharacterInfo["ability_stats"][keys[i]][0] + CharacterInfo["ability_stats"][keys[i]][1]);
-						}
-						document.getElementById("ability_stats-" + keys[i] + "-display").innerHTML = CharacterInfo["ability_stats"][keys[i]][0] + CharacterInfo["ability_stats"][keys[i]][1];
-						document.getElementById("ability_stats-" + keys[i] + "-modifier-display").innerHTML = getModifier(CharacterInfo["ability_stats"][keys[i]][0] + CharacterInfo["ability_stats"][keys[i]][1]);
-						document.getElementById("ability_stats-" + keys[i] + "-display").style.display = "inline";
-						document.getElementById("ability_stats-alter-" + keys[i] + "-box").value = CharacterInfo["ability_stats"][keys[i]][1];
-					}
-					document.getElementById("ability_stats-arrow").innerHTML = "↑";
-				} else if (what === "combat_stats") {
-					var ac = 0;
-					text = "";
 
-					document.getElementById("combat_stats-initiative-display").innerHTML = getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
-					document.getElementById("combat_stats-hit_points-arrow").innerHTML = "↑";
-					document.getElementById("combat_stats-hit_points-display").innerHTML = CharacterInfo["combat_stats"]["hit_points"][0];
-					document.getElementById("combat_stats-hit_points-alter").value = CharacterInfo["combat_stats"]["hit_points"][1];
-					document.getElementById("combat_stats-hit_points-current").innerHTML = CharacterInfo["combat_stats"]["hit_points"][0] + CharacterInfo["combat_stats"]["hit_points"][1];
-					document.getElementById("combat_stats-hit_points-alter").disabled = false;
-					document.getElementById("combat_stats-hit_points-box").style.display = "none";
-					document.getElementById("combat_stats-hit_points-display").style.display = "inline";
-					document.getElementById("combat_stats-hit_points-notes-arrow").innerHTML = "→";
-					if (CharacterInfo["combat_stats"]["hit_points"][2]) {
-						document.getElementById("combat_stats-hit_points-notes-display").innerHTML = CharacterInfo["combat_stats"]["hit_points"][2];
-					}
-					document.getElementById("combat_stats-hit_dice-arrow").innerHTML = "↑";
-					document.getElementById("combat_stats-hit_dice-number").disabled = false;
-					document.getElementById("combat_stats-hit_dice-display").innerHTML = CharacterInfo["combat_stats"]["hit_dice"][0];
-					document.getElementById("combat_stats-hit_dice-number").value = CharacterInfo["combat_stats"]["hit_dice"][1];
-					document.getElementById("combat_stats-hit_dice-box").style.display = "none";
-					document.getElementById("combat_stats-hit_dice-display").style.display = "inline";
-					if (CharacterInfo["inventory"].length > 0) {
-						for (i = 0; i < CharacterInfo["inventory"].length; i++) {
-							if (CharacterInfo["inventory"][i]["type"] === "armor" && CharacterInfo["inventory"][i]["active"]) {
-								ac = CharacterInfo["inventory"][i]["armor_class"];
-								if (CharacterInfo["inventory"][i]["add_dex_mod"]) {
-									if (CharacterInfo["inventory"][i]["max_dex_bonus"] > 0) {
-										if (getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]) < CharacterInfo["inventory"][i]["max_dex_bonus"]) {
-											ac += getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
-										} else {
-											ac += CharacterInfo["inventory"][i]["max_dex_bonus"];
-										}
-									} else {
-										ac += getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
-									}
-								}
-								if (text !== "") {
-									text += ", ";
-								}
-								text += CharacterInfo["inventory"][i]["name"];
-								if (CharacterInfo["inventory"][i]["stealth_disadv"]) {
-									text += " (Imposes stealth disadvantage)";
-								}
-							}
-						}
-					}
-					if (ac < 10) {
-						ac += 10 + getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
-						if (text !== "") {
-							text = "Unarmored, " + text;
-						} else {
-							text = "Unarmored";
-						}
-					}
-					document.getElementById("combat_stats-armor_class-display").innerHTML = ac + " " + text;
-					document.getElementById("combat_stats-speed-arrow").innerHTML = "↑";
-					document.getElementById("combat_stats-speed-display").innerHTML = CharacterInfo["combat_stats"]["speed"][0];
-					document.getElementById("combat_stats-speed-alter").value = CharacterInfo["combat_stats"]["speed"][1];
-					document.getElementById("combat_stats-speed-current").innerHTML = CharacterInfo["combat_stats"]["speed"][0] + CharacterInfo["combat_stats"]["speed"][1];
-					document.getElementById("combat_stats-speed-alter").disabled = false;
-					document.getElementById("combat_stats-speed-box").style.display = "none";
-					document.getElementById("combat_stats-speed-display").style.display = "inline";
-					document.getElementById("combat_stats-speed-notes-arrow").innerHTML = "→";
-					if (CharacterInfo["combat_stats"]["speed"][2]) {
-						document.getElementById("combat_stats-speed_notes-display").innerHTML = CharacterInfo["combat_stats"]["speed"][2];
-					} if (CharacterInfo["proficiencies"]["perception"][1]) {
-						document.getElementById("combat_stats-passive_perception-display").innerHTML = 10 + getModifier(CharacterInfo["ability_stats"]["wisdom"][0] + CharacterInfo["ability_stats"]["wisdom"][1]) + getProficiency();
-					} else {
-						document.getElementById("combat_stats-passive_perception-display").innerHTML = 10 + getModifier(CharacterInfo["ability_stats"]["wisdom"][0] + CharacterInfo["ability_stats"]["wisdom"][1]);
-					}
-				} else if (what === "weapons") {
-					var table = document.getElementById("weapons-table");
-					var row;
-					var cell0;
-					var cell1;
-					var cell2;
-					var cell3;
-					var cell4;
-					var hitMod = 0;
-					var range = "";
-
-					emptyTable("weapons-table"); // Insure the table is empty (otherwise they will multiply everytime a stat is updated).
-
-					if (CharacterInfo["inventory"].length > 0) {
-						for (i = 0; i < CharacterInfo["inventory"].length; i++) {
-							if (CharacterInfo["inventory"][i]["type"] === "weapon") {
-								row = table.insertRow(-1);
-								cell0 = row.insertCell(0);
-								cell1 = row.insertCell(1);
-								cell2 = row.insertCell(2);
-								cell3 = row.insertCell(3);
-								cell4 = row.insertCell(4);
-
-								cell0.innerHTML = CharacterInfo["inventory"][i]["name"];
-								if (CharacterInfo["inventory"][i]["sub_type"] === "melee") {
-									hitMod = getModifier(CharacterInfo["ability_stats"]["strength"][0] + CharacterInfo["ability_stats"]["strength"][1]);
-								} else {
-									hitMod = getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
-								}
-								if (CharacterInfo["inventory"][i]["proficient"]) {
-									cell1.innerHTML = hitMod + getProficiency();
-								} else {
-									cell1.innerHTML = hitMod;
-								}
-								cell2.innerHTML = CharacterInfo["inventory"][i]["damage"];
-								if (CharacterInfo["inventory"][i]["min"] > 0) {
-									range = "(" + CharacterInfo["inventory"][i]["min"];
-									if (CharacterInfo["inventory"][i]["max"] > 0) {
-										range += "/" + CharacterInfo["inventory"][i]["max"];
-									}
-									range += ")";
-									cell3.innerHTML = range;
-								} else {
-									cell3.innerHTML = "–";
-								}
-								if (CharacterInfo["inventory"][i]["properties"]) {
-									cell4.innerHTML = CharacterInfo["inventory"][i]["properties"];
-								} else {
-									cell4.innerHTML = "–";
-								}
-							}
-						}
-					}
-				} else if (what === "features") {
-					display = document.getElementById("features-display");
-					display.innerHTML = "";
-					for (i = 0; i < CharacterInfo["features"].length; i++ ) {
-						name = CharacterInfo["features"][i]["name"];
-						box = "features-" + name + "-number";
-						arrow = "features-" + name + "-arrow";
-						delta = "features-" + name + "-delete";
-
-						display.innerHTML += "<h2><a id=\"" + arrow + "\" onclick=\"editInfo()\">↑</a> <a id=\"" + delta + "\" onclick=\"editInfo()\">δ</a> <span style=\"text-transform: capitalize;\">" + name + "</span></h2>";
-						if (CharacterInfo["features"][i]["quantity"] > 0) {
-							display.innerHTML += "<p>Total of " + CharacterInfo["features"][i]["quantity"] + " before a " + CharacterInfo["features"][i]["replenish"] + " rest. <label for=\"" + box + "\">Uses remaining: </label><input id=\"" + box + "\" type=\"number\" onchange=\"editInfo()\" value=\"" + CharacterInfo["features"][i]["current_quantity"] + "\"></p>";
-						}
-						display.innerHTML += "<p>" + CharacterInfo["features"][i]["description"] + "</p><br>";
-					}
-					document.getElementById("features-edit-button").style.display = "none";
-					document.getElementById("features-done-button").style.display = "inline";
-					document.getElementById("features-form").reset();
-					document.getElementById("features-form").style.display = "none";
-				} else if (what === "proficiencies") {
-					var table = document.getElementById("proficiencies-table");
-					var head = table.tHead;
-					var row;
-					var cell0;
-					var cell1;
-					var cell2;
-					var cell3;
-					var names;
-					var list1 = [];
-					var list2 = [];
-					emptyTable("proficiencies-table");
-
-					table.deleteTHead();
-					head = table.createTHead();
-					row = head.insertRow(0);
-					cell0 = row.insertCell(0);
-					cell1 = row.insertCell(1);
-					cell2 = row.insertCell(2);
-					cell3 = row.insertCell(3);
-					cell0.innerHTML = "<a id=\"proficiencies-arrow\" onclick=\"editInfo()\">↑</a>";
-					cell1.innerHTML = "Name";
-					cell2.innerHTML = "stat";
-					cell3.innerHTML = "Check";
-
-					// Separate the proficiencies into two lists. The first is the skills for which you are proficient, the second are skills for which you only get your ability modifier.
-					names = Object.keys(CharacterInfo["proficiencies"]);
-					for (i = 0; i < names.length; i++) {
-						if (CharacterInfo["proficiencies"][names[i]][1]) {
-							list1.push(names[i]);
-						} else {
-							list2.push(names[i]);
-						}
-					}
-					list1.sort();					list2.sort();
-
-					for (i = 0; i < list1.length; i++) {
-						row = table.insertRow(-1);
-						cell0 = row.insertCell(0);
-						cell1 = row.insertCell(1);
-						cell2 = row.insertCell(2);
-						cell3 = row.insertCell(3);
-						cell0.innerHTML = "✓";
-						cell1.innerHTML = list1[i].replace(/_/g, " ");
-						cell2.innerHTML = CharacterInfo["proficiencies"][list1[i]][0];
-						cell3.innerHTML = getModifier(CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list1[i]][0]][0] + CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list1[i]][0]][1]) + getProficiency();
-					}
-
-					for (i = 0; i < list2.length; i++) {
-						row = table.insertRow(-1);
-						cell0 = row.insertCell(0);
-						cell1 = row.insertCell(1);
-						cell2 = row.insertCell(2);
-						cell3 = row.insertCell(3);
-						cell1.innerHTML = list2[i].replace(/_/g, " ");
-						cell2.innerHTML = CharacterInfo["proficiencies"][list2[i]][0];
-						cell3.innerHTML = getModifier(CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list2[i]][0]][0] + CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list2[i]][0]][1]);
-					}
-				} else if (what === "spells") {
-					var active = { "cantrip": [], "1st": [], "2nd": [], "3rd": [], "4th": [], "5th": [], "6th": [], "7th": [], "8th": [], "9th": [] };
-					var textSpells = ""
-					var textActive = "";
-					var textInvocations = [];
-					var name = "";
-					var display;
-
-					for (i = 0; i < CharacterInfo["spells"].length; i++) {
-						name = CharacterInfo["spells"][i]["name"]; // For convenience
-
-						// Construct the active spells list
-						if (CharacterInfo["spells"][i]["type"] === "spell") {
-							if (CharacterInfo["spells"][i]["active"]) {
-								active[CharacterInfo["spells"][i]["level"]].push("<a id=\"spells-" + name + "-activate\" onclick=\"editInfo()\">δ</a> " + name + " × <input id=\"spells-" + name + "-number\" type=\"number\" min=\"1\" value=\"" + CharacterInfo["spells"][i]["quantity"] + "\">");
-							}
-
-							// Add the spell to the spells list
-							textSpells += "<h2><a id=\"spells-" + name + "-arrow\" onclick=\"editInfo()\">↑</a> <a id=\"spells-" + name + "-delete\" onclick=\"editInfo()\">δ</a> <a id=\"spells-" + name + "-activate\" onclick=\"editInfo()\">α</a> <span style=\"text-transform: capitalize;\">" + name + "</span></h2>";
-							textSpells += "<ul style=\"list-style: none;\"><li>";
-							if (CharacterInfo["spells"][i]["level"] === "cantrip") {
-								textSpells += CharacterInfo["spells"][i]["school"] + " " + CharacterInfo["spells"][i]["level"];
+								display.appendChild(unorderedList); // Finally, display the list
 							} else {
-								textSpells += CharacterInfo["spells"][i]["level"] + "-level " + CharacterInfo["spells"][i]["school"];
+								display.innerHTML = info;
 							}
-							if (CharacterInfo["spells"][i]["ritual_tag"]) {
-								textSpells += " (ritual)";
-							}
-							textSpells += "</li><li>Casting Time: " + CharacterInfo["spells"][i]["casting_time"] + "</li>";
-							textSpells += "<li>Range: " + CharacterInfo["spells"][i]["range"] + "</li>";
-							textSpells += "<li>Components: ";
-							if (CharacterInfo["spells"][i]["verbal"]) {
-								textSpells += "V";
-								if (CharacterInfo["spells"][i]["somatic"] || CharacterInfo["spells"][i]["materials"]) {
-									textSpells += ", ";
-								}
-							}
-							if (CharacterInfo["spells"][i]["somatic"]) {
-								textSpells += "S";
-								if (CharacterInfo["spells"][i]["materials"]) {
-									textSpells += ", ";
-								}
-							}
-							if (CharacterInfo["spells"][i]["materials"]) {
-								textSpells += "(" + CharacterInfo["spells"][i]["materials"] + ")";
-							}
-							textSpells += "</li><li>Duration: " + CharacterInfo["spells"][i]["duration"] + "</li>";
-							textSpells += "</ul><br>";
-							textSpells += "<p>" + CharacterInfo["spells"][i]["description"] + "</p><br>";
-						} else if (CharacterInfo["spells"][i]["type"] === "invocation") {
-							textInvocations += "<h2><a id=\"spells-" + name + "-arrow\" onclick=\"editInfo()\">↑</a> <a id=\"spells-" + name + "-delete\" onclick=\"editInfo()\">δ</a> <span style=\"text-transform: capitalize;\">" + name + "</span></h2>";
-							textInvocations += "<p>" + CharacterInfo["spells"][i]["description"] + "</p><br>";
+							display.style.display = "initial";
 						}
-					}
 
-					display = document.getElementById("spells-active-display");
-					display.innerHTML = "";
-					if (active["cantrip"].length > 0 || active["1st"].length > 0 || active["2nd"].length > 0 || active["3rd"].length > 0 || active["4th"].length > 0 || active["5th"].length > 0 || active["6th"].length > 0 || active["7th"].length > 0 || active["8th"].length > 0 || active["9th"].length > 0) {
-						textActive = "<h1>Active Spells</h1><br>";
-						keys = Object.keys(active);
-						for (i = 0; i < keys.length; i++) {
-							if (active[keys[i]].length > 0) {
-								if (keys[i] === "cantrip") {
-									textActive += "<h2>Cantrips (0-level)</h2>";
-								} else {
-									textActive += "<h2>" + keys[i] + "-level</h2>";
-								}
-								textActive += "<ul>";
-								for (var ii = 0; ii < active[keys[i]].length; ii++) {
-									textActive += "<li>" + active[keys[i]][ii] + "</li>";
-								}
-								textActive += "</ul><br>";
-							}
+						document.title = (CharacterInfo.basic.name) ? CharacterInfo.basic.name + " - Auto Character Sheet" : title;
+					} else if (what[i] === "schema") {
+						box = document.getElementById("schema-box");
+						let option;
+						let len = box.options.length;
+						info = CharacterInfo["discreet_schemas"];
+
+						for (ii in len) {
+							box.remove(0);
 						}
-						display.innerHTML = textActive;
-					}
 
-					// If there are spells such as spells in a wizard's spellbook to display
-					display = document.getElementById("spells-known-display");
-					display.innerHTML = "";
-					if (textSpells.length > 0) {
-						display.innerHTML = "<h1>Spells Known</h1><br>";
-						display.innerHTML += textSpells;
-					}
-
-					// If there are invocations such as for a warlock to display
-					display = document.getElementById("spells-invocations-display");
-					display.innerHTML = "";
-					if (textInvocations.length > 0) {
-						display.innerHTML = "<h1>Invocations</h1><br>";
-						display.innerHTML += textInvocations;
-					}
-
-					// Insure the add/edit form is blank and hidden
-					document.getElementById("spells-form").reset();
-					document.getElementById("spells-edit-button").style.display = "none";
-					document.getElementById("spells-done-button").style.display = "inline";
-					document.getElementById("spells-form").style.display = "none";
-				} else if (what === "inventory") {
-					var table = document.getElementById("inventory-table");
-					var row;
-					var cell0;
-					var cell1;
-					var armor = [];
-					var weapons = [];
-					var other = [];
-					var totalWeight = 0;
-					var text = "";
-
-					for (i = 0; i < CharacterInfo["inventory"].length; i++) {
-						totalWeight += CharacterInfo["inventory"][i]["weight"] * CharacterInfo["inventory"][i]["quantity"];
-						if (CharacterInfo["inventory"][i]["type"] === "armor") {
-							armor.push(CharacterInfo["inventory"][i]["name"]);
-						} else if (CharacterInfo["inventory"][i]["type"] === "weapon") {
-							weapons.push(CharacterInfo["inventory"][i]["name"]);
-						} else if (CharacterInfo["inventory"][i]["type"] === "other") {
-							other.push(CharacterInfo["inventory"][i]["name"]);
-						}
-					}
-					armor.sort();
-					weapons.sort();
-					other.sort();
-
-					emptyTable("inventory-table") // Insure the table is empty (otherwise they will multiply everytime a stat is updated).
-
-					// Populate the inventory table.
-
-					// Armor
-					row = table.insertRow(-1);
-					cell0 = row.insertCell(0);
-					cell1 = row.insertCell(1);
-					cell0.innerHTML = "armor";
-					text = "<ul style=\"list-style: none;\">"
-					for (i = 0; i < armor.length; i++) {
-						searchTerm = armor[i];
-						text += "<li>";
-						if (CharacterInfo["inventory"][CharacterInfo["inventory"].findIndex(of)]["active"]) {
-							text += "✓ ";
-						}
-						text += "<a id=\"inventory-" + armor[i] + "-arrow\" onclick=\"editInfo()\">↑</a> <a id=\"inventory-" + armor[i] + "-delete\" onclick=\"editInfo()\">δ</a> <a id=\"inventory-" + armor[i] + "-activate\" onclick=\"editInfo()\">α</a> " + armor[i];
-						if (CharacterInfo["inventory"][CharacterInfo["inventory"].findIndex(of)]["quantity"] > 1) {
-							text += " × <input id=\"inventory-" + other[i] + "-quantity\" onchange=\"editInfo()\" value=\"" + CharacterInfo["inventory"][CharacterInfo["inventory"].findIndex(of)]["quantity"] + "\">";
-						}
-						text += "</li>";
-					}
-					text += "</ul>";
-					cell1.innerHTML = text;
-
-					// Weapons
-					row = table.insertRow(-1);
-					cell0 = row.insertCell(0);
-					cell1 = row.insertCell(1);
-					cell0.innerHTML = "Weapons";
-					text = "<ul style=\"list-style: none;\">"
-					for (i = 0; i < weapons.length; i++) {
-						text += "<li><a id=\"inventory-" + weapons[i] + "-arrow\" onclick=\"editInfo()\">↑</a> <a id=\"inventory-" + weapons[i] + "-delete\" onclick=\"editInfo()\">δ</a> " + weapons[i];
-						searchTerm = weapons[i];
-						if (CharacterInfo["inventory"][CharacterInfo["inventory"].findIndex(of)]["quantity"] > 1) {
-							text += " × <input id=\"inventory-" + other[i] + "-quantity\" onchange=\"editInfo()\" value=\"" + CharacterInfo["inventory"][CharacterInfo["inventory"].findIndex(of)]["quantity"] + "\">";
-						}
-						text += "</li>";
-					}
-					text += "</ul>";
-					cell1.innerHTML = text;
-
-					// Anything else
-					row = table.insertRow(-1);
-					cell0 = row.insertCell(0);
-					cell1 = row.insertCell(1);
-					cell0.innerHTML = "other";
-					text = "<ul style=\"list-style: none;\">"
-					for (i = 0; i < other.length; i++) {
-						text += "<li><a id=\"inventory-" + other[i] + "-arrow\" onclick=\"editInfo()\">↑</a> <a id=\"inventory-" + other[i] + "-delete\" onclick=\"editInfo()\">δ</a> " + other[i];
-						searchTerm = other[i];
-						if (CharacterInfo["inventory"][CharacterInfo["inventory"].findIndex(of)]["quantity"] > 1) {
-							text += " × <input id=\"inventory-" + other[i] + "-quantity\" onchange=\"editInfo()\" value=\"" + CharacterInfo["inventory"][CharacterInfo["inventory"].findIndex(of)]["quantity"] + "\">";
-						}
-						text += "</li>";
-					}
-					text += "</ul>";
-					cell1.innerHTML = text;
-
-					document.getElementById("inventory-weight-display").innerHTML = totalWeight;
-					document.getElementById("inventory-form").reset();
-					document.getElementById("inventory-edit-button").style.display = "none";
-					document.getElementById("inventory-done-button").style.display = "inline";
-					document.getElementById("inventory-form").style.display = "none";
-} else if (what === "gold") {
-					document.getElementById("gold-arrow").innerHTML = "↑";
-					document.getElementById("gold-display").innerHTML = CharacterInfo["gold"];
-					document.getElementById("gold-box").style.display = "none";
-					document.getElementById("gold-display").style.display = "inline";
-				} else if (what === "schema") {
-					var select = document.getElementById("schema-name-box");
-					var option;
-					var len = select.options.length;
-
-					if (select.options.length > 0) {
-						for (i = 0; i < len; i++) {
-							select.remove(0);
-						}
-					}
-
-					option = document.createElement("option");
-					option.text = "Select";
-					option.value = "";
-					select.add(option);
-					for (i = 0; i < CharacterInfo["discreet_schemas"].length; i++) {
+						// Create a dummy option
 						option = document.createElement("option");
-						option.text = CharacterInfo["discreet_schemas"][i]["name"];
-						if (CharacterInfo["discreet_schemas"][i]["classes"] !== "") {
-							option.text += " (" + CharacterInfo["discreet_schemas"][i]["classes"] + ")";
-						}
-						option.value = CharacterInfo["discreet_schemas"][i]["name"];
-						select.add(option);
-					}
+						option.appendChild(document.createTextNode("Select"));
+						option.setAttribute("value", "");
+						box.appendChild(option);
 
-					document.getElementById("basic-schema-display").innerHTML = "";
-					document.getElementById("schema-form").reset();
-					document.getElementById("new_schema-form").reset();
-					document.getElementById("schema-form").style.display = "none";
-					document.getElementById("new_schema-form").style.display = "none";
-					document.getElementById("schema-activate-button").disabled = true;
-				} else if (what === "combat-schimas") {
-					document.getElementById("combat-schemas-display").innerHTML = "";
-					for (i = 0; i < CharacterInfo["discreet_schemas"].length; i++) {
-						if (CharacterInfo["discreet_schemas"][i]["active"] && CharacterInfo["discreet_schemas"][i]["display_in_section"] === "combat") {
-							document.getElementById("combat-schemas-display").appendChild(formatSchemaTable(CharacterInfo["discreet_schemas"][i], [ CharacterInfo["basic"]["level"], CharacterInfo["basic"]["level"] ]));
-							document.getElementById("combat-schemas-display").innerHTML += "<br>";
+						// Fill out the select box with the options on file
+						for (ii in info) {
+							option = document.createElement("option");
+							text = info[ii]["name"];
+							text = (info[ii]["classes"]) ? text + " (" + info[ii]["classes"] + ")" : text;
+							option.appendChild(document.createTextNode(text));
+							option.setAttribute("value", ii);
+							box.appendChild(option);
 						}
-					}
-				} else if (what === "spells-schimas") {
-					document.getElementById("spells-schemas-display").innerHTML = "";
-					for (i = 0; i < CharacterInfo["discreet_schemas"].length; i++) {
-						if (CharacterInfo["discreet_schemas"][i]["active"] && CharacterInfo["discreet_schemas"][i]["display_in_section"] === "spells") {
-							document.getElementById("spells-schemas-display").appendChild(formatSchemaTable(CharacterInfo["discreet_schemas"][i], [ CharacterInfo["basic"]["level"], CharacterInfo["basic"]["level"] ]));
-							document.getElementById("spells-schemas-display").innerHTML += "<br>";
+
+						// Create the create new option
+						option = document.createElement("option");
+						option.appendChild(document.createTextNode("new"));
+						option.setAttribute("value", "new_schema");
+						box.appendChild(option);
+
+						// Reset everything
+						document.getElementById("schema-display").innerHTML = "";
+						box.value = "";
+						document.getElementById("new_schema-form").reset();
+						document.getElementById("new_schema-form").style.display = "none";
+						document.getElementById("schema-button").disabled = true;
+					} else if (what[i] === "ability_stats") {
+					info = CharacterInfo.ability_stats;
+						keys = Object.keys(info);
+
+						for (ii = 0; ii < keys.length; ii++) {
+							let stat = info[keys[ii]][0] + info[keys[ii]][1]; // The base score for the ability
+							let mod = getModifier(stat); // The modifier for the ability score
+							let checkmark = document.getElementById("ability_stats-" + keys[ii] + "-checkmark"); // Indicates a save proficiency
+							let saveBox = document.getElementById("ability_stats-" + keys[ii] + "-save-box"); // When active, this checkbox determines if this is a proficient ability
+							let saveDisplay = document.getElementById("ability_stats-" + keys[ii] + "-save-display"); // Displays the total save score
+							let modDisplay = document.getElementById("ability_stats-" + keys[ii] + "-modifier-display"); // Displays the modifier
+							adjustBox = document.getElementById("ability_stats-adjust-" + keys[ii] + "-box"); // A box that adjusts the total ability score and all other subsidiary scores
+							box = document.getElementById("ability_stats-" + keys[ii] + "-box"); // The checkbox for indicating this save is a proficiency
+							display = document.getElementById("ability_stats-" + keys[ii] + "-display");
+
+							saveBox.style.display = "none";
+							box.style.display = "none";
+							adjustBox.disabled = false;
+							display.innerHTML = stat;
+							display.style.display = "inline";
+							modDisplay.innerHTML = mod;
+							if (info[keys[ii]][2]) {
+								checkmark.style.display = "inline";
+								saveDisplay.innerHTML = mod + getProficiency();
+							} else {
+								saveDisplay.innerHTML = mod;
+							}
+							adjustBox.value = info[keys[ii]][1];
+						}
+						document.getElementById("ability_stats-arrow").innerHTML = "↑";
+					} else if (what[i] === "combat_stats") {
+						let ac = 0;
+						text = "";
+
+		// Display initiative bonus
+						document.getElementById("combat_stats-initiative-display").innerHTML = getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
+
+						// Display hit points
+						document.getElementById("combat_stats-hit_points-arrow").innerHTML = "↑";
+						document.getElementById("combat_stats-hit_points-display").innerHTML = CharacterInfo["combat_stats"]["hit_points"][0];
+						document.getElementById("combat_stats-hit_points-adjust").value = CharacterInfo["combat_stats"]["hit_points"][1];
+						document.getElementById("combat_stats-hit_points-current").innerHTML = CharacterInfo["combat_stats"]["hit_points"][0] + CharacterInfo["combat_stats"]["hit_points"][1];
+						document.getElementById("combat_stats-hit_points-adjust").disabled = false;
+						document.getElementById("combat_stats-hit_points-box").style.display = "none";
+						document.getElementById("combat_stats-hit_points-display").style.display = "inline";
+						document.getElementById("combat_stats-hit_points-notes-arrow").innerHTML = "→";
+						document.getElementById("combat_stats-hit_points-notes-display").innerHTML = CharacterInfo["combat_stats"]["hit_points"][2];
+						document.getElementById("combat_stats-hit_points-notes-display").style.display = "inline";
+						document.getElementById("combat_stats-hit_points-notes-box").style.display = "none";
+
+						// Display hit dice
+						document.getElementById("combat_stats-hit_dice-arrow").innerHTML = "↑";
+						document.getElementById("combat_stats-hit_dice-adjust").disabled = false;
+						document.getElementById("combat_stats-hit_dice-display").innerHTML = CharacterInfo["combat_stats"]["hit_dice"][0];
+						document.getElementById("combat_stats-hit_dice-adjust").value = CharacterInfo["combat_stats"]["hit_dice"][1];
+						document.getElementById("combat_stats-hit_dice-box").style.display = "none";
+						document.getElementById("combat_stats-hit_dice-display").style.display = "inline";
+
+						// Display armor
+						for (ii in CharacterInfo["inventory"]) if (CharacterInfo["inventory"][ii]["type"] === "armor" && CharacterInfo["inventory"][ii]["active"]) {
+							ac = CharacterInfo["inventory"][ii]["armor_class"];
+							if (CharacterInfo["inventory"][ii]["add_dex_mod"]) {
+								ac = (CharacterInfo["inventory"][ii]["max_dex_bonus"] > 0 && dexMod < CharacterInfo["inventory"][ii]["max_dex_bonus"]) ? ac + dexMod : ac + CharacterInfo["inventory"][ii]["max_dex_bonus"];
+							} else {
+								ac += dexMod;
+							}
+							text = (text) ? text + ", " : text;
+							text += CharacterInfo["inventory"][ii]["name"];
+							text = (CharacterInfo["inventory"][ii]["stealth_disadv"]) ? text + " (Imposes stealth disadvantage)" : text;
+						}
+						if (ac < 10) {
+							ac += 10 + dexMod;
+							text = (text) ? "Unarmored, " + text : "Unarmored";
+						}
+						document.getElementById("combat_stats-armor_class-display").innerHTML = ac + " " + text;
+
+						// Display speed
+						document.getElementById("combat_stats-speed-arrow").innerHTML = "↑";
+						document.getElementById("combat_stats-speed-display").innerHTML = CharacterInfo["combat_stats"]["speed"][0];
+						document.getElementById("combat_stats-speed-adjust").value = CharacterInfo["combat_stats"]["speed"][1];
+						document.getElementById("combat_stats-speed-current").innerHTML = CharacterInfo["combat_stats"]["speed"][0] + CharacterInfo["combat_stats"]["speed"][1];
+						document.getElementById("combat_stats-speed-adjust").disabled = false;
+						document.getElementById("combat_stats-speed-box").style.display = "none";
+						document.getElementById("combat_stats-speed-display").style.display = "inline";
+						document.getElementById("combat_stats-speed-notes-arrow").innerHTML = "→";
+						document.getElementById("combat_stats-speed-notes-display").innerHTML = CharacterInfo["combat_stats"]["speed"][2];
+						document.getElementById("combat_stats-speed-notes-display").style.display = "inline";
+						document.getElementById("combat_stats-speed-notes-box").style.display = "none";
+
+						// Display passive perception
+						document.getElementById("combat_stats-passive_perception-display").innerHTML = (CharacterInfo["proficiencies"]["perception"][1]) ? 10 + wisMod + getProficiency() : 10 + wisMod;
+					} else if (what[i] === "weapons") {
+						let hitMod = 0;
+						let range;
+						table = document.getElementById("weapons-table");
+						emptyTable("weapons-table"); // Insure the table is empty (otherwise they will multiply everytime a stat is updated).
+						info = CharacterInfo.inventory;
+
+						for (ii in info) if (info[ii].type === "weapon") {
+							// Some of the data needs to be calculated or otherwise tabulated
+							hitMod = (info[ii]["sub_type"] === "melee") ? strMod : dexMod;
+							hitMod = (info[ii]["proficient"]) ? hitMod + getProficiency() : hitMod;
+
+							range = (info[ii]["min"]) ? "(" + info[ii]["min"] : "";
+							range = (range && info[ii]["max"]) ? range + "/" + info[ii]["max"] : range;
+							range = (range) ? range + ")" : range;
+
+							// Now that all the information has been calculated and tabulated, insert it into the table.
+							cells = []; // Empty the cells list
+							row = table.insertRow(-1); // Insert a row at the bottom of the table
+
+							// Insert the cells into the row
+							cells.push(row.insertCell(0));
+							cells.push(row.insertCell(1));
+							cells.push(row.insertCell(2));
+							cells.push(row.insertCell(3));
+							cells.push(row.insertCell(4));
+
+							// Fill out the cells with the information
+							cells[0].innerHTML = info[ii]["name"];
+							cells[1].innerHTML = hitMod;
+							cells[2].innerHTML = info[ii]["damage"];
+							cells[3].innerHTML = range || "–";
+							cells[4].innerHTML = info[ii]["properties"] || "–";
+						}
+					} else if (what[i] === "features") {
+						display = document.getElementById("features-display");
+						display.innerHTML = "";
+						let quantityLine;
+						info = CharacterInfo["features"];
+
+						for (ii in info) {
+							// Fill out the information for each character feature.
+							name = info[ii]["name"];
+
+							arrow = document.createElement("button");
+							arrow.appendChild(document.createTextNode("↑"));
+							arrow.setAttribute("class", "edit-button");
+							arrow.setAttribute("value", ii);
+							arrow.addEventListener("click", function() {
+							event.target.innerHTML = "↓";
+								document.getElementById("features-form").reset();
+								document.getElementById("features-name-box").value = CharacterInfo.features[event.target.value]["name"];
+								document.getElementById("features-description-box").value = CharacterInfo.features[event.target.value]["description"];
+								document.getElementById("features-quantity-box").value = CharacterInfo.features[event.target.value]["quantity"][0];
+								document.getElementById("features-replenish-box").value = CharacterInfo.features[event.target.value]["replenish"];
+								document.getElementById("features-button").value = event.target.value;
+							});
+
+							delta = document.createElement("button");
+							delta.appendChild(document.createTextNode("δ"));
+							delta.setAttribute("class", "edit-button");
+							delta.setAttribute("value", ii);
+							delta.addEventListener("click", function() {
+								CharacterInfo.features.splice(event.target.getAttribute("value"), 1);
+								update([ "features" ]);
+							});
+
+							header = document.createElement("h2");
+							header.style.textTransform = "capitalize";
+							header.appendChild(arrow);
+							header.appendChild(delta);
+							header.appendChild(document.createTextNode(name));
+							display.appendChild(header);
+
+							if (info[ii].quantity[0]) {
+								quantityLine = document.createElement("p");
+								quantityLine.appendChild(document.createTextNode("Total of " + info[ii].quantity[0] + " before a " + info[ii].replenish + " rest. "));
+
+								label = document.createElement("label");
+								label.setAttribute("for", "features-" + ii);
+								label.appendChild(document.createTextNode("Uses remaining:"));
+
+								box = document.createElement("input");
+								box.setAttribute("id", "features-" + ii);
+								box.setAttribute("value", info[ii].quantity[1]);
+								box.addEventListener("change", function() {
+									CharacterInfo.features[event.target.id.split("-")[1]].quantity = parseInt(event.target.value);
+									// if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+								});
+
+								label.appendChild(box);
+								quantityLine.appendChild(label);
+								display.appendChild(quantityLine);
+							}
+
+							display.appendChild(document.createElement("p").appendChild(document.createTextNode(info[ii].description)));
+							display.appendChild(document.createElement("br"));
+							display.appendChild(document.createElement("br"));
+						}
+
+						document.getElementById("features-button").value = "";
+						document.getElementById("features-form").reset();
+					} else if (what[i] === "proficiencies") {
+						table = document.getElementById("proficiencies-table");
+						emptyTable("proficiencies-table");
+						let list1 = [];
+						let list2 = [];
+
+						// Separate the proficiencies into two lists. The first is the skills for which you are proficient, the second are skills for which you only get your ability modifier.
+						keys = Object.keys(CharacterInfo["proficiencies"]);
+						for (ii = 0; ii < keys.length; ii++) {
+							if (CharacterInfo.proficiencies[keys[ii]][1]) { list1.push(keys[ii]); }
+							else { list2.push(keys[ii]); }
+						}
+						// Sort the proficiencies alphabetically
+						list1.sort();
+						list2.sort();
+
+						// The first list, skills for which you are proficient, go at the top of the table
+						for (ii in list1) {
+							row = table.insertRow(-1);
+							cells = [];
+							cells.push(row.insertCell(0));
+							cells.push(row.insertCell(1));
+							cells.push(row.insertCell(2));
+							cells.push(row.insertCell(3));
+
+							cells[0].innerHTML = "✓";
+							cells[1].innerHTML = list1[ii].replace(/_/g, " ");
+							cells[2].innerHTML = CharacterInfo["proficiencies"][list1[ii]][0];
+							cells[3].innerHTML = getModifier(CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list1[ii]][0]][0] + CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list1[ii]][0]][1]) + getProficiency();
+						}
+
+						// Insert all other proficiencies
+						for (ii in list2) {
+							row = table.insertRow(-1);
+							cells = [];
+							cells.push(row.insertCell(0));
+							cells.push(row.insertCell(1));
+							cells.push(row.insertCell(2));
+							cells.push(row.insertCell(3));
+
+							cells[1].innerHTML = list2[ii].replace(/_/g, " ");
+							cells[2].innerHTML = CharacterInfo["proficiencies"][list2[ii]][0];
+							cells[3].innerHTML = getModifier(CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list2[ii]][0]][0] + CharacterInfo["ability_stats"][CharacterInfo["proficiencies"][list2[ii]][0]][1]);
+						}
+
+						document.getElementById("proficiencies-arrow").innerHTML = "↑";
+					} else if (what[i] === "spells") {
+						let active = { "cantrip": [], "1st": [], "2nd": [], "3rd": [], "4th": [], "5th": [], "6th": [], "7th": [], "8th": [], "9th": [] };
+						info = CharacterInfo.spells;
+
+						document.getElementById("spells-active-display").innerHTML = "";
+						document.getElementById("spells-known-display").innerHTML = "";
+						document.getElementById("invocations-display").innerHTML = "";
+
+						for (ii in info) {
+							name = info[ii].name; // For convenience
+
+							// Create a button to edit the spell
+							arrow = document.createElement("button");
+							arrow.setAttribute("class", "edit-button");
+							arrow.setAttribute("value", "0");
+							arrow.appendChild(document.createTextNode("↑"));
+							arrow.addEventListener("click", function() {
+								event.target.innerHTML = "↓";
+								keys = [ "name", "type", "level", "school", "ritual_tag", "casting_time", "range", "verbal", "somatic", "materials", "duration", "description" ];
+								for (iii = 0; iii < keys.length; iii++) {
+									if (typeof CharacterInfo.spells[event.target.value][keys[iii]] === "boolean") {
+										document.getElementById("spells-" + keys[iii] + "-box").checked = CharacterInfo.spells[event.target.value][keys[iii]];
+									} else {
+										document.getElementById("spells-" + keys[iii] + "-box").value = CharacterInfo.spells[event.target.value][keys[iii]];
+									}
+								}
+								document.getElementById("spells-button").value = event.target.value;
+							});
+
+								// Create a button to activate the spell
+							alpha = document.createElement("button");
+							alpha.setAttribute("class", "edit-button");
+							alpha.setAttribute("value", ii);
+							alpha.appendChild(document.createTextNode("α"));
+							alpha.addEventListener("click", function() {
+								CharacterInfo.spells[event.target.value].active = true;
+								update([ "spells", ]);
+							});
+
+							// Create a button to delete the spell
+							delta = document.createElement("button");
+							delta.setAttribute("class", "edit-button");
+							delta.setAttribute("value", ii);
+							delta.appendChild(document.createTextNode("δ"));
+							delta.addEventListener("click", function() {
+								CharacterInfo.spells.splice(event.target.value, 1);
+								update([ "spells" ]);
+							});
+
+							// Create an input box to change the quantity of spells left to use
+							label = document.createElement("label");
+							label.setAttribute("for", "spells-" + ii + "-quantity");
+							label.appendChild(document.createTextNode(" × "));
+
+							box = document.createElement("input");
+							box.setAttribute("id", "spells-" + ii + "-quantity");
+							box.setAttribute("type", "number");
+							box.setAttribute("min", "1");
+							box.setAttribute("value", info[ii].quantity);
+							box.addEventListener("change", function() {
+								CharacterInfo.spells[event.target.id.split("-")[1]].quantity = parseInt(event.target.value);
+								 if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+							});
+							label.appendChild(box);
+
+							if (info[ii].type === "spell") {
+								// Construct the active spells list
+								if (info[ii].active) {
+									item = document.createElement("li");
+
+									//item.appendChild(alpha);
+									item.appendChild(document.createTextNode(name));
+									//item.appendChild(label);
+
+									active[info[ii].level].push(item);
+								}
+
+								// Add the spell to the spells list
+								// Create the spell's heading
+								header = document.createElement("h2");
+								header.style.textTransform = "capitalize";
+								header.appendChild(arrow);
+								header.appendChild(delta);
+								header.appendChild(alpha);
+								header.appendChild(document.createTextNode(name));
+
+								// Create the spell's properties list
+								unorderedList = document.createElement("ul");
+								unorderedList.style.listStyle = "none";
+
+								item = document.createElement("li"); // Level
+								if (info[ii].level === "cantrip") { item.appendChild(document.createTextNode(info[ii].school + " cantrip")); }
+								else { item.appendChild(document.createTextNode(info[ii].level + "-level " + info[ii].school)); }
+								if (info[ii].ritual_tag) { item.appendChild(document.createTextNode(" (ritual)")); }
+								unorderedList.appendChild(item);
+
+								item = document.createElement("li"); // Casting time
+								item.appendChild(document.createTextNode("Casting Time: " + info[ii].casting_time));
+								unorderedList.appendChild(item);
+
+								item = document.createElement("li"); // range
+								item.appendChild(document.createTextNode("Range: " + info[ii].range));
+								unorderedList.appendChild(item);
+
+								item = document.createElement("li"); // components
+								item.appendChild(document.createTextNode("Components: "));
+								if (info[ii].verbal) {
+									item.appendChild(document.createTextNode("V"));
+									if (info[ii].somatic || info[ii].materials) { item.appendChild(document.createTextNode(", ")); }
+								}
+								if (info[ii].somatic) {
+									item.appendChild(document.createTextNode("S"));
+									if (info[ii].materials) { item.appendChild(document.createTextNode(", ")); }
+								}
+								if (info[ii].materials) { item.appendChild(document.createTextNode("(" + info[ii].materials + ")")); }
+								unorderedList.appendChild(item);
+
+								item = document.createElement("li"); // Duration
+								item.appendChild(document.createTextNode("Duration: " + info[ii].duration));
+								unorderedList.appendChild(item);
+
+								// Put it all together
+								display = document.getElementById("spells-known-display");
+								display.appendChild(header);
+								display.appendChild(unorderedList);
+								display.appendChild(document.createElement("p").appendChild(document.createTextNode(info[ii].description)));
+								display.appendChild(document.createElement("br"));
+								display.appendChild(document.createElement("br"));
+							} else if (info[ii].type === "invocation") {
+								// Create the invocation heading
+								display = document.getElementById("invocations-display");
+								header = document.createElement("h2");
+								header.style.textTransform = "capitalize";
+								header.appendChild(arrow);
+								header.appendChild(delta);
+								header.appendChild(document.createTextNode(name));
+
+								// Put it all together
+								display.appendChild(header);
+								display.appendChild(document.createElement("p").appendChild(document.createTextNode(info[ii].description)));
+								display.appendChild(document.createElement("br"));
+								display.appendChild(document.createElement("br"));
+							}
+						}
+
+						// Display the active spells
+						// If there are any active spells to display
+						display = document.getElementById("spells-active-display");
+						keys = Object.keys(active);
+
+						// For each level of spell
+						for (ii in keys) {
+							if (active[keys[ii]].length) {
+								unorderedList = document.createElement("ul");
+								header = document.createElement("h2");
+								if (keys[ii] === "cantrip") { header.appendChild(document.createTextNode("Cantrips (0-level)")); }
+								else { header.appendChild(document.createTextNode(keys[ii] + "-level")); }
+								for (iii in active[keys[ii]]) {
+									unorderedList.appendChild(active[keys[ii]][iii]);
+								}
+								display.appendChild(document.createElement("br"));
+								display.appendChild(header);
+								display.appendChild(unorderedList);
+							}
+						}
+
+						if (display.innerHTML) {
+							header = document.createElement("h1");
+							header.appendChild(document.createTextNode("Active Spells"));
+
+							display.prepend(header);
+							display.appendChild(document.createElement("br"));
+						}
+
+						// Display the spells known
+						if (document.getElementById("spells-known-display").innerHTML) {
+								header = document.createElement("h1");
+								header.appendChild(document.createTextNode("Spells Known"));
+								document.getElementById("spells-known-display").prepend(document.createElement("br"));
+								document.getElementById("spells-known-display").prepend(header);
+						}
+
+						// Display the invocations
+						if (document.getElementById("invocations-display").innerHTML) {
+								header = document.createElement("h1");
+								header.appendChild(document.createTextNode("Invocations"));
+								document.getElementById("invocations-display").prepend(document.createElement("br"));
+								document.getElementById("invocations-display").prepend(header);
+						}
+
+						// Reset the form
+						document.getElementById("spells-button").value = "";
+						document.getElementById("spells-form").reset();
+					} else if (what[i] === "inventory") {
+						table = document.getElementById("inventory-table");
+						emptyTable("inventory-table") // Insure the table is empty (otherwise they will multiply everytime a stat is updated).
+						let armor = [];
+						let weapons = [];
+						let other = [];
+						let totalWeight = 0;
+						info = CharacterInfo["inventory"];
+
+						for (ii in info) {
+							totalWeight += info[ii]["weight"] * info[ii]["quantity"];
+							if (info[ii]["type"] === "armor") { armor.push(ii); }
+							else if (info[ii]["type"] === "weapon") { weapons.push(ii); }
+							else { other.push(ii); }
+						}
+
+						// Populate the inventory table.
+
+						// Armor
+						row = table.insertRow(-1);
+						cells = [];
+						cells.push(row.insertCell(0));
+						cells.push(row.insertCell(1));
+
+						cells[0].innerHTML = "armor";
+						unorderedList = document.createElement("ul");
+						unorderedList.style.listStyle = "none";
+
+						for (ii in armor) {
+							item = document.createElement("li");
+							arrow = document.createElement("button");
+							arrow.setAttribute("class", "edit-button");
+							arrow.setAttribute("value", armor[ii]);
+							arrow.appendChild(document.createTextNode("↑"));
+							arrow.addEventListener("click", function() {
+								event.target.innerHTML = "↓";
+								keys = Object.keys(CharacterInfo.inventory[event.target.value]);
+								for (iii = 0; iii < keys.length; iii++) {
+									if (typeof CharacterInfo.inventory[event.target.value][keys[iii]] === "boolean") {
+										document.getElementById("inventory-" + keys[iii] + "-box").checked = CharacterInfo.inventory[event.target.value][keys[iii]];
+									} else {
+										document.getElementById("inventory-" + keys[iii] + "-box").value = CharacterInfo.inventory[event.target.value][keys[iii]];
+									}
+								}
+								document.getElementById("inventory-button").value = event.target.value;
+								document.getElementById("inventory-name-box").focus();
+								document.getElementById("inventory-name-box").select();
+							});
+
+							delta = document.createElement("button");
+							delta.setAttribute("class", "edit-button");
+							delta.setAttribute("value", armor[ii]);
+							delta.appendChild(document.createTextNode("δ"));
+							delta.addEventListener("click", function() {
+								CharacterInfo.inventory.splice(event.target.value, 1);
+								update([ "combat_stats", "inventory" ]);
+							});
+
+							alpha = document.createElement("button");
+							alpha.setAttribute("class", "edit-button");
+							alpha.setAttribute("value", armor[ii]);
+							alpha.appendChild(document.createTextNode("α"));
+							alpha.addEventListener("click", function() {
+								CharacterInfo.inventory[event.target.value].active = (CharacterInfo.inventory[event.target.value].active) ? false : true;
+								update([ "combat_stats", "inventory" ]);
+							});
+
+							label = document.createElement("label");
+							label.setAttribute("for", "armor-" + armor[ii]);
+							label.appendChild(document.createTextNode(" × "));
+
+							box = document.createElement("input");
+							box.setAttribute("id", "armor-" + armor[ii]);
+							box.setAttribute("type", "number");
+							box.setAttribute("min", "1");
+							box.setAttribute("value", info[armor[ii]].quantity);
+							box.addEventListener("change", function() {
+								CharacterInfo.inventory[event.target.id.split("-")[1]].quantity = parseInt(event.target.value);
+								// if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+							});
+
+							label.appendChild(box);
+							if (info[armor[ii]].active) {
+								item.appendChild(document.createTextNode("✓"));
+							}
+							item.appendChild(arrow);
+							item.appendChild(delta);
+							item.appendChild(alpha);
+							item.appendChild(document.createTextNode(info[armor[ii]].name));
+							item.appendChild(label);
+							unorderedList.appendChild(item);
+						}
+						cells[1].appendChild(unorderedList);
+
+						// Weapons
+						row = table.insertRow(-1);
+						cells = [];
+						cells.push(row.insertCell(0));
+						cells.push(row.insertCell(1));
+
+						cells[0].innerHTML = "weapons";
+						unorderedList = document.createElement("ul");
+						unorderedList.style.listStyle = "none";
+
+						for (ii in weapons) {
+							item = document.createElement("li");
+
+							arrow = document.createElement("button");
+							arrow.setAttribute("class", "edit-button");
+							arrow.setAttribute("value", weapons[ii]);
+							arrow.appendChild(document.createTextNode("↑"));
+							arrow.addEventListener("click", function() {
+								event.target.innerHTML = "↓";
+								keys = Object.keys(CharacterInfo.inventory[event.target.value]);
+								for (iii = 0; iii < keys.length; iii++) {
+									if (typeof CharacterInfo.inventory[event.target.value][keys[iii]] === "boolean") {
+										document.getElementById("inventory-" + keys[iii] + "-box").checked = CharacterInfo.inventory[event.target.value][keys[iii]];
+									} else {
+										document.getElementById("inventory-" + keys[iii] + "-box").value = CharacterInfo.inventory[event.target.value][keys[iii]];
+									}
+								}
+								document.getElementById("inventory-button").value = event.target.value;
+								document.getElementById("inventory-name-box").focus();
+								document.getElementById("inventory-name-box").select();
+							});
+
+							delta = document.createElement("button");
+							delta.setAttribute("class", "edit-button");
+							delta.setAttribute("value", weapons[ii]);
+							delta.appendChild(document.createTextNode("δ"));
+							delta.addEventListener("click", function() {
+								CharacterInfo.inventory.splice(event.target.value, 1);
+								update([ "weapons", "inventory" ]);
+							});
+
+							label = document.createElement("label");
+							label.setAttribute("for", "weapons-" + weapons[ii]);
+							label.appendChild(document.createTextNode(" × "));
+
+							box = document.createElement("input");
+							box.setAttribute("id", "weapons-" + weapons[ii]);
+							box.setAttribute("type", "number");
+							box.setAttribute("min", "1");
+							box.setAttribute("value", info[weapons[ii]].quantity);
+							box.addEventListener("change", function() {
+								CharacterInfo.inventory[event.target.id.split("-")[1]].quantity = parseInt(event.target.value);
+								// if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+							});
+
+							label.appendChild(box);
+							item.appendChild(arrow);
+							item.appendChild(delta);
+							item.appendChild(document.createTextNode(info[weapons[ii]].name));
+							item.appendChild(label);
+							unorderedList.appendChild(item);
+						}
+						cells[1].appendChild(unorderedList);
+
+						// Everything else
+						row = table.insertRow(-1);
+						cells = [];
+						cells.push(row.insertCell(0));
+						cells.push(row.insertCell(1));
+
+						cells[0].innerHTML = "other";
+						unorderedList = document.createElement("ul");
+						unorderedList.style.listStyle = "none";
+
+						for (ii in other) {
+							item = document.createElement("li");
+
+							arrow = document.createElement("button");
+							arrow.setAttribute("class", "edit-button");
+							arrow.setAttribute("value", other[ii]);
+							arrow.appendChild(document.createTextNode("↑"));
+							arrow.addEventListener("click", function() {
+								event.target.innerHTML = "↓";
+								keys = Object.keys(CharacterInfo.inventory[event.target.value]);
+								for (iii = 0; iii < keys.length; iii++) {
+									if (typeof CharacterInfo.inventory[event.target.value][keys[iii]] === "boolean") {
+										document.getElementById("inventory-" + keys[iii] + "-box").checked = CharacterInfo.inventory[event.target.value][keys[iii]];
+									} else {
+										document.getElementById("inventory-" + keys[iii] + "-box").value = CharacterInfo.inventory[event.target.value][keys[iii]];
+									}
+								}
+								document.getElementById("inventory-button").value = event.target.value;
+								document.getElementById("inventory-name-box").focus();
+								document.getElementById("inventory-name-box").select();
+							});
+
+							delta = document.createElement("button");
+							delta.setAttribute("class", "edit-button");
+							delta.setAttribute("value", other[ii]);
+							delta.appendChild(document.createTextNode("δ"));
+							delta.addEventListener("click", function() {
+								CharacterInfo.inventory.splice(event.target.value, 1);
+								update([ "inventory" ]);
+							});
+
+							label = document.createElement("label");
+							label.setAttribute("for", "other-" + other[ii]);
+							label.appendChild(document.createTextNode(" × "));
+
+							box = document.createElement("input");
+							box.setAttribute("id", "other-" + other[ii]);
+							box.setAttribute("type", "number");
+							box.setAttribute("min", "1");
+							box.setAttribute("value", info[other[ii]].quantity);
+							box.addEventListener("change", function() {
+								CharacterInfo.inventory[event.target.id.split("-")[1]].quantity = parseInt(event.target.value);
+								// if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+							});
+
+							label.appendChild(box);
+							item.appendChild(arrow);
+							item.appendChild(delta);
+							item.appendChild(document.createTextNode(info[other[ii]].name));
+							item.appendChild(label);
+							unorderedList.appendChild(item);
+						}
+						cells[1].appendChild(unorderedList);
+
+						// Display the total weight of the inventory
+						document.getElementById("inventory-weight-display").innerHTML = totalWeight;
+
+						// Clear the inventory form
+						document.getElementById("inventory-button").value = "";
+						document.getElementById("inventory-form").reset();
+					} else if (what[i] === "gold") {
+						document.getElementById("gold-arrow").innerHTML = "↑";
+						document.getElementById("gold-display").innerHTML = CharacterInfo.gold;
+						document.getElementById("gold-box").style.display = "none";
+						document.getElementById("gold-display").style.display = "inline";
+					} else if (what[i] === "combat_schemas") {
+						display = document.getElementById("combat-schemas-display");
+						display.innerHTML = "";
+						info = CharacterInfo.discreet_schemas;
+
+						for (ii in info) if (info[ii].active && info[ii].display_in_section === "combat") {
+							display.appendChild(formatSchema(info[ii], [ CharacterInfo.basic.level, CharacterInfo.basic.level ]));
+							display.appendChild(document.createElement("br"));
+						}
+					} else if (what[i] === "spells_schemas") {
+						display = document.getElementById("spell-schemas-display");
+						display.innerHTML = "";
+						info = CharacterInfo.discreet_schemas;
+
+						for (ii in info) if (info[ii].active && info[ii].display_in_section === "spells") {
+							display.appendChild(formatSchema(info[ii], [ CharacterInfo.basic.level, CharacterInfo.basic.level ]));
+							display.appendChild(document.createElement("br"));
 						}
 					}
 				}
 			}
 
-			function formatSchemaTable(schema, levels=[1, 20]) {
-				var table = document.createElement("TABLE");
-				var caption = table.createCaption();
-				var header = table.createTHead();
-				var th0;
-				var th1;
-				var th = [];
-				var row;
-				var cell0;
-				var cell1;
-				var i;
-				var ii;
+			function formatSchema(schema, levels=[1, 20]) {
+				let table = document.createElement("TABLE");
+				let caption = table.createCaption();
+				let header = table.createTHead();
+				let row, cell0, cell1, th0, th1;
+				let th = [];
+				let i, ii;
 
+				// Building the table
 				caption.innerHTML = schema["name"];
 				if (typeof schema["list_by_level"][0] === "string") {
+					// For those schemas that are just a single element like rage damage or ki points
 					row = header.insertRow(0);
 					th0 = document.createElement("TH");
 					th0.innerHTML = "Level";
 					row.appendChild(th0);
 					th1 = document.createElement("TH");
-					th1.innerHTML = "<span style=\"text-transform: capitalize;\">" + schema["description"] + "</span>";
+					th1.style.textTransform = "capitalize";
+					th1.innerHTML = schema["description"];
 					row.appendChild(th1);
 
+					// Fill out the table body
 					for (i = levels[0] - 1; i < levels[1]; i++) {
 						row = table.insertRow(-1);
 						cell0 = row.insertCell(0);
 						cell1 = row.insertCell(1);
 						cell0.innerHTML = formatLevel(i + 1);
-						if (schema["list_by_level"][i] !== "0") {
-							cell1.innerHTML = schema["list_by_level"][i];
-						} else {
-							cell1.innerHTML = "–";
-						}
+						cell1.innerHTML = (schema["list_by_level"][i] !== "0") ? schema["list_by_level"][i] : "–";
 					}
 				} else {
+					// This is more complicated. Spell slots have levels for each of them so we use a nested type header with 2 rows.
+					// The first is the standard level and title row, whereas the second is under the title row and holds cells for each spell level.
 					row = header.insertRow(0);
 					th0 = document.createElement("TH");
-					th0.rowSpan = 2;
+					th0.rowSpan = 2; // Make the level (first cell) occupy both rows.
 					th0.innerHTML = "Level";
 					th1 = document.createElement("TH");
-					th1.colSpan = schema["list_by_level"][0].length;
-					th1.innerHTML = "<span style=\"text-transform: capitalize;\">" + schema["description"] + "</span>";
+					th1.colSpan = schema["list_by_level"][0].length; // The title (second cell) needs to stretch to occupy all the slot level cells under it.
+					th1.style.textTransform = "capitalize";
+					th1.innerHTML = schema["description"];
 					row.appendChild(th0);
 					row.appendChild(th1);
+
+					// This is the start of building the second row
 					row = header.insertRow(-1);
 					for (i = 0; i < schema["list_by_level"][0].length; i++) {
 						th[i] = document.createElement("TH");
@@ -1315,18 +1557,18 @@
 						th[i].innerHTML = formatLevel(i + 1);
 						row.appendChild(th[i]);
 					}
+
+					// Fill out the table body
 					for (i = levels[0] - 1; i < levels[1]; i++) {
 						row = table.insertRow(-1)
 						cell0 = row.insertCell(0);
 						cell0.innerHTML = formatLevel(i + 1);
+
+						// Place all the slot information under the correct slot header in the second header row
 						for (ii = 0; ii < schema["list_by_level"][i].length; ii++) {
 							cell1 = row.insertCell(ii + 1);
-							cell1.header = ii + 1;
-							if (schema["list_by_level"][i][ii] !== "0") {
-								cell1.innerHTML = schema["list_by_level"][i][ii];
-							} else {
-								cell1.innerHTML = "–";
-							}
+							cell1.header = ii + 1; // This will assign the correct header
+							cell1.innerHTML = (schema["list_by_level"][i][ii] !== "0") ? schema["list_by_level"][i][ii] : "–";
 						}
 					}
 				}
@@ -1391,6 +1633,36 @@
 
 				document.getElementById(content).style.display = "block";
 				evt.currentTarget.className += " active";
+			}
+
+			function fallbackCopyToClipboard(text) {
+				let textArea = document.createElement("textarea");
+				textArea.value = text;
+				textArea.style.top = "0";
+				textArea.style.left = "0";
+				textArea.style.position = "fixed";
+				document.appendChild(textArea);
+				textArea.focus();
+				textArea.select();
+
+				try {
+					let success = document.execCommand("copy");
+				} catch (e) {
+					alert("Sorry! Something went wrong while copying the data to the clipboard.");
+				}
+
+				document.bodyRemoveChild(textArea);
+			}
+
+			function copyToClipboard() {
+				let text = JSON.stringify(CharacterInfo);
+
+				if (!navigator.clipboard) {
+					fallbackCopyToClipboard(text);
+					return;
+				}
+
+				navigator.clipboard.writeText(text);
 			}
 		</script>
 	</body>
