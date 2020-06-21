@@ -449,8 +449,8 @@
 			var info;
 			var i, ii, iii;
 			const NUMBER_PER_PAGE = 20;
-			const TOTAL_PAGES = (CharacterInfo.log.length % NUMBER_PER_PAGE) ? parseInt(CharacterInfo.log.length / NUMBER_PER_PAGE) : parseInt(CharacterInfo.log.length / NUMBER_PER_PAGE) - 1;
-			var PAGE = TOTAL_PAGES;
+			var TOTAL_PAGES;
+			var PAGE;
 
 			update([ "basic", "schema", "ability_stats", "combat_stats", "weapons", "features", "proficiencies", "spells", "inventory", "gold", "combat_schemas", "spells_schemas", "log" ]); // Initialize all the displayes
 
@@ -757,11 +757,13 @@
 			});
 
 			document.getElementById("log-button").addEventListener("click", function() {
-				d = new Date(); // Create a date and time object
+				let d = new Date(); // Create a date and time object
 
 				// Format the date and time object into a desired look
-				let dateFormat = (d.getHours() > 12) ? (d.getHours() - 12) + ":" + d.getSeconds() + " PM" : d.getHours() + ":" + d.getSeconds() + " AM";
-				dateFormat += " " + (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+				let hours = (d.getHours() > 12) ? d.getHours() - 12 : d.getHours();
+				let timeOfDay = (d.getHours() > 12) ? "pm" : "am";
+				let minutes = (d.getMinutes() < 10) ? "0" + d.getMinutes() : d.getMinutes();
+				let dateFormat = hours + ":" + minutes + " " + timeOfDay + " " + (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
 
 				CharacterInfo.log.push(dateFormat + ": " + document.getElementById("log-box").value); // Create the log entry
 				update([ "log" ]);
@@ -1566,6 +1568,8 @@
 							display.appendChild(document.createElement("br"));
 						}
 					} else if (what[i] === "log") {
+						TOTAL_PAGES = (CharacterInfo.log.length % NUMBER_PER_PAGE) ? parseInt(CharacterInfo.log.length / NUMBER_PER_PAGE) : parseInt(CharacterInfo.log.length / NUMBER_PER_PAGE) - 1;
+						PAGE = TOTAL_PAGES;
 						let end, nav, next, page, prev, start;
 
 						document.getElementById("log-display").innerHTML = "";
