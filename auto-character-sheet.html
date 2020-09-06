@@ -96,6 +96,7 @@
 			<p><button id="basic-age-arrow" name="basic" class="edit-button">↑</button>Age: <input id="basic-age-box" type="number" min="0" style="display: none;"><span id="basic-age-display" style="display: inline;"></span></p>
 			<p><button id="basic-build-arrow" name="basic" class="edit-button">↑</button>Build: <input id="basic-build-box" type="text" placeholder="height, weight, etc." style="display: none;"><span id="basic-build-display" style="display: inline;"></span></p>
 			<p><button id="basic-alignment-arrow" name="basic" class="edit-button">↑</button>Alignment: <input id="basic-alignment-box" type="text" placeholder="character alignment" style="display: none;"><span id="basic-alignment-display" style="display: inline;"></span></p>
+			<p><button id="basic-deity-arrow" name="basic" class="edit-button">↑</button>Deity: <input id="basic-deity-box" type="text" placeholder="who does this character worship?" style="display: none;"><span id="basic-deity-display" style="display: inline;"></span></p>
 			<p><button id="basic-languages-arrow" name="basic" class="edit-button">↑</button> Languages: <input id="basic-languages-box" type="text" placeholder="spoken and written languages" style="display: none;"><span id="basic-languages-display" style="display: inline;"></span></p>
 			<p><button id="basic-traits-arrow" name="basic" class="edit-button" type="button">↑</button>traits: <input id="basic-traits-box" type="text" placeholder="character trait" style="display: none;"></p>
 			<span id="basic-traits-display"></span>
@@ -174,7 +175,7 @@
 				<li>Initiative: <span id="combat_stats-initiative-display"></span></li>
 				<li><button id="combat_stats-hit_points-arrow" name="combat_stats" class="edit-button">↑</button> Hit Points: <input id="combat_stats-hit_points-box" type="number" style="display: none;"><span id="combat_stats-hit_points-display"></span> Adjustment: <input id="combat_stats-hit_points-adjust" name="combat_stats-adjust" type="number"> Current: <span id="combat_stats-hit_points-current"></span> <button id="combat_stats-hit_points-notes-arrow" name="combat_stats-notes" class="edit-button">→</button><input id="combat_stats-hit_points-notes-box" type="text" style="display: none;"> <span id="combat_stats-hit_points-notes-display"></span></li>
 				<li><button id="combat_stats-hit_dice-arrow" name="combat_stats" class="edit-button">↑</button>Hit Dice: <input id="combat_stats-hit_dice-adjust" name="combat_stats-adjust" type="number"> <select id="combat_stats-hit_dice-box" defaultValue="0" style="display: none;"><option value="d4">d4</option><option value="d6">d6</option><option value="d8">d8</option><option value="d10">d10</option><option value="d12">d12</option></select><span id="combat_stats-hit_dice-display"></span></li>
-				<li>Armor Class: <span id="combat_stats-armor_class-display"></span></li>
+				<li>Armor Class: <span id="combat_stats-armor_class-display"></span> Adjust: <input id="combat_stats-armor-adjust" type="number"> <button id="combat_stats-armor_adjustment-notes-arrow" name="combat_stats-notes" class="edit-button">→</button><input id="combat_stats-armor_adjustment-notes-box" type="text" style="display: none;"> <span id="combat_stats-armor_adjustment-notes-display"></span></li>
 				<li><button id="combat_stats-speed-arrow" name="combat_stats" class="edit-button">↑</button> Speed: <input id="combat_stats-speed-box" type="number" style="display: none;"><span id="combat_stats-speed-display"></span> Adjust: <input id="combat_stats-speed-adjust" name="combat_stats-adjust" type="number"> Current: <span id="combat_stats-speed-current"></span> <button id="combat_stats-speed-notes-arrow" name="combat_stats-notes" class="edit-button">→</button><input id="combat_stats-speed-notes-box" type="text" style="display: none;"> <span id="combat_stats-speed-notes-display"></span></li>
 				<li>Passive Perception: <span id="combat_stats-passive_perception-display"></span></li>
 			</ul><br>
@@ -306,7 +307,7 @@
 
 		<script>
 			var CharacterInfo = {
-				version: "6.2.2020",
+				version: "9.6.2020.1",
 				basic: {
 					name: "",
 					level: 1,
@@ -316,6 +317,7 @@
 					age: 0,
 					build: "",
 					alignment: "",
+					deity: "",
 					languages: "",
 					traits: [],
 					ideals: [],
@@ -327,7 +329,7 @@
 					hit_points: [ 0, 0, "" ],
 					hit_dice: [ "d4", 1 ],
 					speed: [ 0, 0, "" ],
-					unarmored: [10, 0, ""]
+					armor_adjustment: [10, 0, ""]
 				},
 				ability_stats: {
 					strength: [0, 0, false],
@@ -391,6 +393,7 @@
 			};
 
 			// ability_stats: name (key), score (integer, index 0), alter_by (integer, index 1), and save (boolean, index 2)
+			// armor_adjustment: base unarmored (int), adjustment (int), notes (string)
 			// inventory: name (string), description (string), active (boolean), cost (string), armor_class (integer), add_dex_mod (boolean), max_dex_bonus (integer), stealth_disadv (boolean), weight (integer), damage (string), style (string), range (list, integers), properties (string), proficient (boolean), and quantity (integer)
 			// feature: name (string), description (string), quantity (list of integers), and replenish (string)
 			// spell: name (string), type (string), level (string), school (string), ritual_tag (boolean), casting_time (string), range (string), verbal (boolean), somatic (boolean), materials (string), duration (string), description (string), quantity (integer), and active (boolean)
@@ -561,7 +564,7 @@
 						info[keys[i]][0] = parseInt(document.getElementById("ability_stats-" + keys[i] + "-box").value);
 						info[keys[i]][2] = document.getElementById("ability_stats-" + keys[i] + "-save-box").checked;
 					}
-					update([ "ability_stats" ]);
+					update([ "ability_stats", "combat_stats", "weapons" ]);
 				}
 			});
 
@@ -608,6 +611,12 @@
 					if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
 				});
 			}
+
+			document.getElementById("combat_stats-armor-adjust").addEventListener("change", function() {
+				CharacterInfo.combat_stats.armor_adjustment[1] = parseInt(document.getElementById("combat_stats-armor-adjust").value);
+				if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
+				update([ "combat_stats" ]);
+			});
 
 			elements = document.getElementsByName("combat_stats-notes");
 			for (i = 0; i < elements.length; i++) {
@@ -770,8 +779,10 @@
 			});
 
 			document.getElementById("log-clear").addEventListener("click", function() {
-				CharacterInfo.log.length = 0;
-				update([ "log" ]);
+				if (confirm("Are you absolutely sure you want to erase the log?")) {
+					CharacterInfo.log.length = 0;
+					update([ "log" ]);
+				}
 			});
 
 			document.getElementById("log-export").addEventListener("click", function() {
@@ -835,7 +846,7 @@
 							display.style.display = "initial";
 						}
 
-						document.title = (CharacterInfo.basic.name) ? CharacterInfo.basic.name + " - Auto Character Sheet" : title;
+						document.title = (CharacterInfo.basic.name) ? CharacterInfo.basic.name + " - Auto Character Sheet" : document.title;
 					} else if (what[i] === "schema") {
 						box = document.getElementById("schema-box");
 						let option;
@@ -945,10 +956,16 @@
 							text = (CharacterInfo["inventory"][ii]["stealth_disadv"]) ? text + " (Imposes stealth disadvantage)" : text;
 						}
 						if (ac < 10) {
-							ac += 10 + dexMod;
+							ac += CharacterInfo.combat_stats.armor_adjustment[0] + dexMod;
 							text = (text) ? "Unarmored, " + text : "Unarmored";
 						}
+						document.getElementById("combat_stats-armor-adjust").value = CharacterInfo.combat_stats.armor_adjustment[1];
+						ac += CharacterInfo.combat_stats.armor_adjustment[1];
 						document.getElementById("combat_stats-armor_class-display").innerHTML = ac + " " + text;
+						document.getElementById("combat_stats-armor_adjustment-notes-arrow").innerHTML = "→";
+						document.getElementById("combat_stats-armor_adjustment-notes-display").innerHTML = CharacterInfo.combat_stats.armor_adjustment[2];
+						document.getElementById("combat_stats-armor_adjustment-notes-display").style.display = "inline";
+						document.getElementById("combat_stats-armor_adjustment-notes-box").style.display = "none";
 
 						// Display speed
 						document.getElementById("combat_stats-speed-arrow").innerHTML = "↑";
