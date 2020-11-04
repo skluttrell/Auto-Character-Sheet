@@ -218,6 +218,16 @@
 		<span id="section5" name="spells" class="tabcontent edit-content">
 			<span id="spell-schemas-display"></span>
 
+			<span id="spells-ability">
+				<h1>Spellcasting Ability (<button id="spells-ability-modifier-arrow" type="button">↑</button>&nbsp;<select id="spells-ability-modifier-box" style="display: none;"><option value="intelligence">Intelligence</option><option value="wisdom">Wisdom</option><option value="charisma">Charisma</option></select> <span id="spells-ability-modifier-display" style="text-transform: capitalize;"></span>)</h1><br>
+
+				<ul>
+					<li>Spell save DC: <span id="spells-save-dc-display"></span></li>
+					<li>Spell attack modifier: <span id="spells-attack-modifier-display"></span></li>
+				</ul><br>
+				<p><button id="spells-components-arrow" type="button">↑</button> Spell Components: <input id="spells-components-box" type="text" style="display: none;"><span id="spells-components-display"></span></p>
+			</span><br>
+
 			<span id="invocations-display"></span>
 
 			<span id="spells-active-display"></span>
@@ -307,7 +317,7 @@
 
 		<script>
 			var CharacterInfo = {
-				version: "9.6.2020.1",
+				version: "11.1.2020.1",
 				basic: {
 					name: "",
 					level: 1,
@@ -329,7 +339,9 @@
 					hit_points: [ 0, 0, "" ],
 					hit_dice: [ "d4", 1 ],
 					speed: [ 0, 0, "" ],
-					armor_adjustment: [10, 0, ""]
+					armor_adjustment: [10, 0, ""],
+					spellcasting_ability_modifier: "intelligence",
+					spell_components: ""
 				},
 				ability_stats: {
 					strength: [0, 0, false],
@@ -700,6 +712,39 @@
 				} else {
 					CharacterInfo.proficiencies.other = document.getElementById("other-proficiencies-box").value;
 					update([ "proficiencies" ]);
+				}
+			});
+
+			document.getElementById("spells-ability-modifier-arrow").addEventListener("click", function() {
+				arrow = document.getElementById("spells-ability-modifier-arrow");
+				box = document.getElementById("spells-ability-modifier-box");
+				display = document.getElementById("spells-ability-modifier-display");
+
+				if (arrow.innerHTML === "↑") {
+					arrow.innerHTML = "↓";
+					box.style.display = "inline";
+					box.focus();
+					display.style.display = "none";
+				} else {
+					CharacterInfo.combat_stats.spellcasting_ability_modifier = box.value;
+					update(["spells"]);
+				}
+			});
+
+			document.getElementById("spells-components-arrow").addEventListener("click", function() {
+				arrow = document.getElementById("spells-components-arrow");
+				box = document.getElementById("spells-components-box");
+				display = document.getElementById("spells-components-display");
+
+				if (arrow.innerHTML === "↑") {
+					arrow.innerHTML = "↓";
+					box.style.display = "inline";
+					box.value = CharacterInfo.combat_stats.spell_components;
+					box.focus();
+					display.style.display = "none";
+				} else {
+					CharacterInfo.combat_stats.spell_components = box.value;
+					update(["spells"]);
 				}
 			});
 
@@ -1333,6 +1378,33 @@
 						// Reset the form
 						document.getElementById("spells-button").value = "";
 						document.getElementById("spells-form").reset();
+
+						// Set the spell ability information
+						abilityModifier = CharacterInfo.combat_stats.spellcasting_ability_modifier;
+						// Set modifier menu selection
+						let options = document.getElementById("spells-ability-modifier-box").options;
+						for (var opt, ii = 0; opt = options[ii]; ii++) {
+							if (opt.value === abilityModifier) {
+								document.getElementById("spells-ability-modifier-box").selectedIndex = ii;
+								break;
+							}
+						}
+						// Set modifier display
+						document.getElementById("spells-ability-modifier-display").innerHTML = abilityModifier;
+						// Calculate and display save DC
+						saveDC = 8 + parseInt(getProficiency()) + getModifier(CharacterInfo.ability_stats[abilityModifier][0]);
+						document.getElementById("spells-save-dc-display").innerHTML = saveDC;
+						// Calculate and display attack modifier
+						attackMod = parseInt(getProficiency()) + getModifier(CharacterInfo.ability_stats[abilityModifier][0]);
+						document.getElementById("spells-attack-modifier-display").innerHTML = attackMod;
+						// Set elements to default
+						document.getElementById("spells-ability-modifier-arrow").innerHTML = "↑";
+						document.getElementById("spells-ability-modifier-box").style.display = "none";
+						document.getElementById("spells-ability-modifier-display").style.display = "inline";
+						document.getElementById("spells-components-arrow").innerHTML = "↑";
+						document.getElementById("spells-components-box").style.display = "none";
+						document.getElementById("spells-components-display").style.display = "inline";
+						document.getElementById("spells-components-display").innerHTML = CharacterInfo.combat_stats.spell_components;
 					} else if (what[i] === "inventory") {
 						table = document.getElementById("inventory-table");
 						emptyTable("inventory-table") // Insure the table is empty (otherwise they will multiply everytime a stat is updated).
