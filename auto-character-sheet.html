@@ -584,15 +584,19 @@
 			for (i = 0; i < elements.length; i++) {
 				elements[i].addEventListener("click", function() {
 					let name = event.target.id.split("-")[1];
+					arrow = document.getElementById("combat_stats-" + name + "-arrow");
+					adjust = document.getElementById("combat_stats-" + name + "-adjust");
+					box = document.getElementById("combat_stats-" + name + "-box");
+					display = document.getElementById("combat_stats-" + name + "-display");
 
-					if (document.getElementById("combat_stats-" + name + "-arrow").innerHTML === "↑") {
-						document.getElementById("combat_stats-" + name + "-arrow").innerHTML = "↓";
-						document.getElementById("combat_stats-" + name + "-adjust").disabled = true;
-						document.getElementById("combat_stats-" + name + "-box").style.display = "inline";
-						document.getElementById("combat_stats-" + name + "-box").value = document.getElementById("combat_stats-" + name + "-display").innerHTML;
-						document.getElementById("combat_stats-" + name + "-display").style.display = "none";
+					if (arrow.innerHTML === "↑") {
+						arrow.innerHTML = "↓";
+						adjust.disabled = true;
+						box.style.display = "inline";
+						box.value = display.innerHTML;
+						display.style.display = "none";
 					} else {
-						CharacterInfo.combat_stats[name][0] = parseInt(document.getElementById("combat_stats-" + name + "-box").value);
+						CharacterInfo.combat_stats[name][0] = (box.type === "number") ? parseInt(box.value) : box.value;
 						update([ "combat_stats" ]);
 					}
 				});
@@ -983,8 +987,8 @@
 						// Display hit dice
 						document.getElementById("combat_stats-hit_dice-arrow").innerHTML = "↑";
 						document.getElementById("combat_stats-hit_dice-adjust").disabled = false;
-						document.getElementById("combat_stats-hit_dice-display").innerHTML = CharacterInfo["combat_stats"]["hit_dice"][0];
-						document.getElementById("combat_stats-hit_dice-adjust").value = CharacterInfo["combat_stats"]["hit_dice"][1];
+						document.getElementById("combat_stats-hit_dice-display").innerHTML = CharacterInfo.combat_stats.hit_dice[0];
+						document.getElementById("combat_stats-hit_dice-adjust").value = CharacterInfo.combat_stats.hit_dice[1];
 						document.getElementById("combat_stats-hit_dice-box").style.display = "none";
 						document.getElementById("combat_stats-hit_dice-display").style.display = "inline";
 
