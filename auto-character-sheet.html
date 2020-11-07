@@ -1068,8 +1068,8 @@
 					} else if (what[i] === "features") {
 						display = document.getElementById("features-display");
 						display.innerHTML = "";
-						let quantityLine;
-						info = CharacterInfo["features"];
+						let quantityLine, description;
+						info = CharacterInfo.features;
 
 						for (ii in info) {
 							// Fill out the information for each character feature.
@@ -1128,9 +1128,9 @@
 								display.appendChild(quantityLine);
 							}
 
-							display.appendChild(document.createElement("p").appendChild(document.createTextNode(info[ii].description)));
-							display.appendChild(document.createElement("br"));
-							display.appendChild(document.createElement("br"));
+							description = document.createElement("p");
+							description.innerHTML = description.innerHTML + "<p>" + info[ii].description + "</p><br>";
+							display.appendChild(description);
 						}
 
 						document.getElementById("features-button").value = "";
