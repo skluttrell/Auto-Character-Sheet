@@ -966,6 +966,7 @@
 						document.getElementById("ability_stats-arrow").innerHTML = "↑";
 					} else if (what[i] === "combat_stats") {
 						let ac = 0;
+						let noStealth = false;
 						text = "";
 
 		// Display initiative bonus
@@ -993,24 +994,28 @@
 						document.getElementById("combat_stats-hit_dice-display").style.display = "inline";
 
 						// Display armor
-						for (ii in CharacterInfo["inventory"]) if (CharacterInfo["inventory"][ii]["type"] === "armor" && CharacterInfo["inventory"][ii]["active"]) {
-							ac = CharacterInfo["inventory"][ii]["armor_class"];
-							if (CharacterInfo["inventory"][ii]["add_dex_mod"]) {
-								ac = (CharacterInfo["inventory"][ii]["max_dex_bonus"] > 0 && dexMod < CharacterInfo["inventory"][ii]["max_dex_bonus"]) ? ac + dexMod : ac + CharacterInfo["inventory"][ii]["max_dex_bonus"];
-							} else {
-								ac += dexMod;
+						text = "";
+						for (ii in CharacterInfo.inventory) if (CharacterInfo.inventory[ii]["type"] === "armor" && CharacterInfo.inventory[ii]["active"]) {
+							text = (text) ? text + ", " + CharacterInfo.inventory[ii]["name"] : CharacterInfo.inventory[ii]["name"];
+							ac += CharacterInfo.inventory[ii]["armor_class"];
+							if (CharacterInfo.inventory[ii]["add_dex_mod"]) {
+								if (CharacterInfo.inventory[ii]["max_dex_bonus"] > 0) {
+									ac = (dexMod < CharacterInfo.inventory[ii]["max_dex_bonus"]) ? ac + dexMod : ac + CharacterInfo["inventory"][ii]["max_dex_bonus"];
+								} else {
+									ac += dexMod;
+								}
 							}
-							text = (text) ? text + ", " : text;
-							text += CharacterInfo["inventory"][ii]["name"];
-							text = (CharacterInfo["inventory"][ii]["stealth_disadv"]) ? text + " (Imposes stealth disadvantage)" : text;
+							if (CharacterInfo.inventory[ii]["stealth_disadv"] && !noStealth) { noStealth = true; }
 						}
-						if (ac < 10) {
-							ac += CharacterInfo.combat_stats.armor_adjustment[0] + dexMod;
+						if (ac === 0) {
+							ac = CharacterInfo.combat_stats.armor_adjustment[0] + dexMod;
 							text = (text) ? "Unarmored, " + text : "Unarmored";
 						}
-						document.getElementById("combat_stats-armor-adjust").value = CharacterInfo.combat_stats.armor_adjustment[1];
 						ac += CharacterInfo.combat_stats.armor_adjustment[1];
-						document.getElementById("combat_stats-armor_class-display").innerHTML = ac + " " + text;
+						text = ac + " " + text;
+						if (noStealth) { text += " (Stealth Disadvantage)"; }
+						document.getElementById("combat_stats-armor-adjust").value = CharacterInfo.combat_stats.armor_adjustment[1];
+						document.getElementById("combat_stats-armor_class-display").innerHTML = text;
 						document.getElementById("combat_stats-armor_adjustment-notes-arrow").innerHTML = "→";
 						document.getElementById("combat_stats-armor_adjustment-notes-display").innerHTML = CharacterInfo.combat_stats.armor_adjustment[2];
 						document.getElementById("combat_stats-armor_adjustment-notes-display").style.display = "inline";
@@ -1117,6 +1122,7 @@
 
 								box = document.createElement("input");
 								box.setAttribute("id", "features-" + ii);
+								box.setAttribute("type", "number");
 								box.setAttribute("value", info[ii].quantity[1]);
 								box.addEventListener("change", function() {
 									CharacterInfo.features[event.target.id.split("-")[1]].quantity = parseInt(event.target.value);
