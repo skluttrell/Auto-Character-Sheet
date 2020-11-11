@@ -672,6 +672,9 @@
 
 			document.getElementById("proficiencies-arrow").addEventListener("click", function() {
 				let keys = Object.keys(CharacterInfo.proficiencies);
+				// Remove "other" from the list as it is a special case
+				let index = keys.indexOf("other");
+				keys.splice(index, 1);
 
 				if (document.getElementById("proficiencies-arrow").innerHTML === "↑") {
 					document.getElementById("proficiencies-arrow").innerHTML = "↓";
