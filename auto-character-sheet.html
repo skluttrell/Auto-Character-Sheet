@@ -89,9 +89,9 @@
 		<span id="section1" name="character info" class="tabcontent edit-content" style="display: block;">
 			<h1>Basic Character Information</h1><br>
 			<p><button id="basic-name-arrow" name="basic" class="edit-button" type="button">↑</button>Name: <input id="basic-name-box" type="text" placeholder="character name" style="display: none;"><span id="basic-name-display" style="display: inline; text-transform: capitalize;"></span></p>
-			<p><button id="basic-level-arrow" name="basic" class="edit-button" type="button">↑</button>Level: <input id="basic-level-box" type="number" min="1" style="display: none;"><span id="basic-level-display" style="display: inline;"></span></p>
+			<p><button id="class_level-arrow" name="classLevel" class="edit-button" type="button">↑</button>Character Level: <span id="character-level-display"></span></p>
+			<span id="level_by_class"></span>
 			<p><button id="basic-race-arrow" name="basic" class="edit-button" type="button">↑</button>Race: <input id="basic-race-box" type="text" placeholder="character race" style="display: none;"><span id="basic-race-display" style="display: inline;"></span></p>
-			<p><button id="basic-character_class-arrow" name="basic" class="edit-button" type="button">↑</button>Class: <input id="basic-character_class-box" type="text" placeholder="character class" style="display: none;"><span id="basic-character_class-display" style="display: inline;"></span></p>
 			<p><button id="basic-background-arrow" name="basic" class="edit-button">↑</button>Background: <input id="basic-background-box" type="text" placeholder="character background" style="display: none;"><span id="basic-background-display" style="display: inline;"></span></p>
 			<p><button id="basic-age-arrow" name="basic" class="edit-button">↑</button>Age: <input id="basic-age-box" type="number" min="0" style="display: none;"><span id="basic-age-display" style="display: inline;"></span></p>
 			<p><button id="basic-build-arrow" name="basic" class="edit-button">↑</button>Build: <input id="basic-build-box" type="text" placeholder="height, weight, etc." style="display: none;"><span id="basic-build-display" style="display: inline;"></span></p>
@@ -119,7 +119,7 @@
 				<p><label for="new_schema-box">Name: </label><input id="new_schema-box" type="text" required></p>
 				<p><label for="new_schema-display_in_section-box">Where would you like this to be displayed? </label><select id="new_schema-display_in_section-box" defaultValue="0"><option value="combat">Combat section</option><option value="spells">Spells section</option></select></p>
 				<p><label for="new_schema-description-box">Brief Description: </label><input id="new_schema-description-box" type="text" required></p>
-				<p><label for="new_schema-classes-box">To which class or classes does this belong: </label><input id="new_schema-classes-box" type="text"></p><br>
+				<fieldset id="new_schema-classes"><legend>To which class or classes does this belong:</legend></fieldset>
 				<fieldset>
 					<legend>Data per level</legend>
 					<p>The following text input boxes are for all 20 levels of progression. If there are multiple units (such as spell slots per spell level), separate each number with a comma. e.g. at 20th-level the bard gets 4, 3, 3, 3, 3, 2, 2, 1, 1 spells for each of 1st through 9th spell levels. A space between the numbers is not necessary and will be filtered out.<br>
@@ -317,12 +317,25 @@
 
 		<script>
 			var CharacterInfo = {
-				version: "11.1.2020.1",
+				version: "2.1.2021.1",
+				class_level: {
+					artificer: [false, 1, ""],
+					barbarian: [false, 1, ""],
+					bard: [false, 1, ""],
+					cleric: [false, 1, ""],
+					druid: [false, 1, ""],
+					fighter: [false, 1, ""],
+					monk: [false, 1, ""],
+					paladin: [false, 1, ""],
+					ranger: [false, 1, ""],
+					rogue: [false, 1, ""],
+					sorcerer: [false, 1, ""],
+					warlock: [false, 1, ""],
+					wizard: [false, 1, ""]
+				},
 				basic: {
 					name: "",
-					level: 1,
 					race: "",
-					character_class: "",
 					background: "",
 					age: 0,
 					build: "",
@@ -373,29 +386,29 @@
 					other: ""
 				},
 				discreet_schemas: [
-					{ name: "spellcaster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "2", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "2", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "1", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "2", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "1", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "2", "1", "1" ]], classes: "bard, cleric, druid, sorcerer, and wizard" },
-					{ name: "secondary caster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "0", "0", "0", "0", "0" ], [ "2", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "2" ], [ "4", "3", "3", "3", "2" ]], classes: "paladin and ranger" },
-					{ name: "minor caster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "2", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "1" ], [ "4", "3", "3", "1" ]], classes: "fighter (eldritch knight) and rogue (arcane trickster)" },
-					{ name: "rages", description: "Barbarian rages per rest period", active: false, display_in_section: "combat", list_by_level: [ "2", "2", "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "6", "6", "6", "unlimited" ], classes: "barbarian" },
-					{ name: "rage damage", description: "Extra damage wile inraged", active: false, display_in_section: "combat", list_by_level: [ "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+3", "+3", "+3", "+3", "+3", "+3", "+3", "+4", "+4", "+4", "+4", "+5" ], classes: "barbarian" },
-					{ name: "martial arts", description: "Damage for unarmed or monk weapons", active: false, display_in_section: "combat", list_by_level: [ "1d4", "1d4", "1d4", "1d4", "1d6", "1d6", "1d6", "1d6", "1d6", "1d6", "1d8", "1d8", "1d8", "1d8", "1d8", "1d8", "1d10", "1d10", "1d10", "1d10" ], classes: "monk" },
-					{ name: "points", description: "Points to spend on class features", active: false, display_in_section: "combat", list_by_level: [ "0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" ], classes: "monk \"ki points\", sorcerer \"sorcerer points\"" },
-					{ name: "unarmored movement", description: "Extra speed while unarmored", active: false, display_in_section: "combat", list_by_level: [ "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+30 ft.", "+30 ft.", "+30 ft." ], classes: "monk" },
-					{ name: "sneak attack", description: "Extra damage for sneaking around your opponent", active: false, display_in_section: "combat", list_by_level: [ "1d6", "1d6", "2d6", "2d6", "3d6", "3d6", "4d6", "4d6", "5d6", "5d6", "6d6", "6d6", "7d6", "7d6", "8d6", "8d6", "9d6", "9d6", "10d6", "10d6" ], classes: "rogue" },
-					{ name: "spell slots", description: "Spell slots available", active: false, display_in_section: "spells", list_by_level: [ "1", "2", "2", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4" ], classes: "warlock" },
-					{ name: "slot level", description: "Maximum spell level", active: false, display_in_section: "spells", list_by_level: [ "1st", "1st", "2nd", "2nd", "3rd", "3rd", "4th", "4th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th" ], classes: "warlock" },
-					{ name: "invocations known", description: "Number of invocations", active: false, display_in_section: "spells", list_by_level: [ "0", "2", "2", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "6", "7", "7", "7", "8", "8", "8" ], classes: "warlock" },
-					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], classes: "bard and druid" },
-					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5" ], classes: "cleric, warlock, and wizard" },
-					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "4", "4", "4", "5", "5", "5", "5", "5", "5", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6" ], classes: "sorcerer" },
-					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3" ], classes: "fighter (eldritch knight)" },
-					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], classes: "rogue (arcane trickster)" },
-					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "8", "8", "9", "9", "10", "10", "11", "11" ], classes: "ranger" },
-					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "12", "13", "13", "14", "14", "15", "15", "15", "15" ], classes: "sorcerer" },
-					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "11", "11", "12", "12", "13", "13", "14", "14", "15", "15" ], classes: "warlock" },
-					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "15", "15", "16", "18", "19", "19", "20", "22", "22", "22" ], classes: "bard" },
-					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "4", "4", "4", "5", "6", "6", "7", "8", "8", "9", "10", "10", "11", "11", "11", "12", "13" ], classes: "rogue (arcane trickster)" },
-					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "4", "4", "4", "5", "5 + 1", "5 + 1", "6 + 1", "7 + 1", "7 + 1", "8 + 1", "8 + 2", "8 + 2", "9 + 2", "9 + 2", "9 + 2", "10 + 2", "10 + 3" ], classes: "fighter (eldritch knight)" }
+					{ name: "spellcaster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "2", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "0", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "2", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "0", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "1", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "2", "0", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "1", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "0", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "0", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "0", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "0" ], [ "4", "3", "3", "3", "2", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "1", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "1", "1", "1" ], [ "4", "3", "3", "3", "3", "2", "2", "1", "1" ]], classes: [ "bard", "cleric", "druid", "sorcerer", "wizard" ]},
+					{ name: "secondary caster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "0", "0", "0", "0", "0" ], [ "2", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "3", "0", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "2", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "0", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "2", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "0", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "1", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "2", "0" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "1" ], [ "4", "3", "3", "3", "2" ], [ "4", "3", "3", "3", "2" ]], classes: [ "paladin", "ranger" ]},
+					{ name: "minor caster", description: "Spell slots by spell level", active: false, display_in_section: "spells", list_by_level: [[ "2", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "3", "0", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "2", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "0", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "2", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "0" ], [ "4", "3", "3", "1" ], [ "4", "3", "3", "1" ]], classes: [ "fighter", "rogue" ]},
+					{ name: "rages", description: "Barbarian rages per rest period", active: false, display_in_section: "combat", list_by_level: [ "2", "2", "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "6", "6", "6", "unlimited" ], classes: [ "barbarian" ]},
+					{ name: "rage damage", description: "Extra damage wile inraged", active: false, display_in_section: "combat", list_by_level: [ "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+2", "+3", "+3", "+3", "+3", "+3", "+3", "+3", "+4", "+4", "+4", "+4", "+5" ], classes: [ "barbarian" ]},
+					{ name: "martial arts", description: "Damage for unarmed or monk weapons", active: false, display_in_section: "combat", list_by_level: [ "1d4", "1d4", "1d4", "1d4", "1d6", "1d6", "1d6", "1d6", "1d6", "1d6", "1d8", "1d8", "1d8", "1d8", "1d8", "1d8", "1d10", "1d10", "1d10", "1d10" ], classes: [ "monk" ]},
+					{ name: "points", description: "Points to spend on class features", active: false, display_in_section: "combat", list_by_level: [ "0", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" ], classes: [ "monk", "sorcerer" ]},
+					{ name: "unarmored movement", description: "Extra speed while unarmored", active: false, display_in_section: "combat", list_by_level: [ "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+10 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+15 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+20 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+25 ft.", "+30 ft.", "+30 ft.", "+30 ft." ], classes: [ "monk" ]},
+					{ name: "sneak attack", description: "Extra damage for sneaking around your opponent", active: false, display_in_section: "combat", list_by_level: [ "1d6", "1d6", "2d6", "2d6", "3d6", "3d6", "4d6", "4d6", "5d6", "5d6", "6d6", "6d6", "7d6", "7d6", "8d6", "8d6", "9d6", "9d6", "10d6", "10d6" ], classes: [ "rogue" ]},
+					{ name: "spell slots", description: "Spell slots available", active: false, display_in_section: "spells", list_by_level: [ "1", "2", "2", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4" ], classes: [ "warlock" ]},
+					{ name: "slot level", description: "Maximum spell level", active: false, display_in_section: "spells", list_by_level: [ "1st", "1st", "2nd", "2nd", "3rd", "3rd", "4th", "4th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th", "5th" ], classes: [ "warlock" ]},
+					{ name: "invocations known", description: "Number of invocations", active: false, display_in_section: "spells", list_by_level: [ "0", "2", "2", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "6", "7", "7", "7", "8", "8", "8" ], classes: [ "warlock" ]},
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "2", "2", "2", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], classes: [ "bard", "druid" ]},
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "3", "3", "3", "4", "4", "4", "4", "4", "4", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5", "5" ], classes: [ "cleric", "warlock", "wizard" ]},
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "4", "4", "4", "5", "5", "5", "5", "5", "5", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6" ], classes: [ "sorcerer" ]},
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "2", "2", "2", "2", "2", "2", "2", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3" ], classes: [ "fighter" ]},
+					{ name: "cantrips known", description: "Number of cantrips", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "3", "3", "3", "3", "3", "3", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4" ], classes: [ "rogue" ]},
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "8", "8", "9", "9", "10", "10", "11", "11" ], classes: [ "ranger" ]},
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "12", "13", "13", "14", "14", "15", "15", "15", "15" ], classes: [ "sorcerer" ]},
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "11", "11", "12", "12", "13", "13", "14", "14", "15", "15" ], classes: [ "warlock" ]},
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "15", "15", "16", "18", "19", "19", "20", "22", "22", "22" ], classes: [ "bard" ]},
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "4", "4", "4", "5", "6", "6", "7", "8", "8", "9", "10", "10", "11", "11", "11", "12", "13" ], classes: [ "rogue" ]},
+					{ name: "spells known", description: "Number of spells", active: false, display_in_section: "spells", list_by_level: [ "0", "0", "3", "4", "4", "4", "5", "5 + 1", "5 + 1", "6 + 1", "7 + 1", "7 + 1", "8 + 1", "8 + 2", "8 + 2", "9 + 2", "9 + 2", "9 + 2", "10 + 2", "10 + 3" ], classes: [ "fighter" ]}
 				],
 				features: [],
 				inventory: [],
@@ -421,6 +434,7 @@
 								newObj[key] = oldObj[key];
 							}
 						} else { // This is a dictionary style object so just keep digging down using recursion
+							if (!oldObj[key]) { oldObj[key] = {}; }
 							merge(newObj[key], oldObj[key]);
 						}
 					} else if (oldObj.hasOwnProperty(key) && newObj[key] !== oldObj[key]) {
@@ -462,12 +476,12 @@
 
 			var elements;
 			var info;
-			var i, ii, iii;
+			var i, ii, iii, totalLevel;
 			const NUMBER_PER_PAGE = 20;
 			var TOTAL_PAGES;
 			var PAGE;
 
-			update([ "basic", "schema", "ability_stats", "combat_stats", "weapons", "features", "proficiencies", "spells", "inventory", "gold", "combat_schemas", "spells_schemas", "log" ]); // Initialize all the displayes
+			update([ "character_level", "basic", "schema", "ability_stats", "combat_stats", "weapons", "features", "proficiencies", "spells", "inventory", "gold", "combat_schemas", "spells_schemas", "log" ]); // Initialize all the displayes
 
 			function clearData() {
 				if (storageName !== "auto-character-sheet" && confirm("Are you absolutely sure you want to erase this character data?")) {
@@ -476,6 +490,50 @@
 					location.reload();
 				}
 			}
+
+			document.getElementById("class_level-arrow").addEventListener("click", function() {
+				let info = CharacterInfo.class_level;
+				let keys = Object.keys(info);
+				let arrow = document.getElementById("class_level-arrow");
+				let display = document.getElementById("level_by_class");
+				let checkBox, levelBox, subClassBox, classChangeForm;
+
+				if (arrow.innerHTML === "↑") { // Display the classes and levels
+					arrow.innerHTML = "↓"; // To signify that this character attribute is being edited
+					display.innerHTML = "";
+
+					for (i = 0; i < keys.length; i++) {
+						checkBox = document.createElement("input");
+						checkBox.setAttribute("type", "checkbox");
+						checkBox.setAttribute("id", "class_level-" + keys[i]);
+						checkBox.checked = info[keys[i]][0];
+
+						subClassBox = document.createElement("input");
+						subClassBox.setAttribute("type", "text");
+						subClassBox.setAttribute("id", "subClass-" + keys[i]);
+						subClassBox.setAttribute("value", info[keys[i]][2]);
+
+						levelBox = document.createElement("input");
+						levelBox.setAttribute("type", "number");
+						levelBox.setAttribute("id", "level-" + keys[i]);
+						levelBox.setAttribute("value", info[keys[i]][1]);
+
+						classChangeForm = document.createElement("p");
+						classChangeForm.appendChild(checkBox);
+						classChangeForm.appendChild(document.createTextNode(" " + keys[i] + ": Select Level "));
+						classChangeForm.appendChild(levelBox);
+						classChangeForm.appendChild(document.createTextNode(", Enter a subclass if applicable "));
+						classChangeForm.appendChild(subClassBox);
+						display.appendChild(classChangeForm);
+					}
+				} else {
+					for (i = 0; i < keys.length; i++) {
+						info[keys[i]] = [ document.getElementById("class_level-" + keys[i]).checked, parseInt(document.getElementById("level-" + keys[i]).value), document.getElementById("subClass-" + keys[i]).value ];
+					}
+
+					update([ "character_level", "basic", "schema", "ability_stats", "combat_stats", "weapons", "features", "proficiencies", "spells", "inventory", "gold", "combat_schemas", "spells_schemas", "log" ]); // Initialize all the displayes
+				}
+			});
 
 			elements = document.getElementsByName("basic");
 			for (i = 0; i < elements.length; i++) {
@@ -555,6 +613,12 @@
 				document.getElementById("schema-box").value = "";
 			});
 
+			document.getElementById("new_schema-button").addEventListener("click", function() {
+				if (document.getElementById("features-form").checkValidity()) {
+				
+				}
+			});
+
 			document.getElementById("ability_stats-arrow").addEventListener("click", function() {
 				let info = CharacterInfo.ability_stats;
 				let keys = Object.keys(info);
@@ -576,7 +640,7 @@
 						info[keys[i]][0] = parseInt(document.getElementById("ability_stats-" + keys[i] + "-box").value);
 						info[keys[i]][2] = document.getElementById("ability_stats-" + keys[i] + "-save-box").checked;
 					}
-					update([ "ability_stats", "combat_stats", "weapons" ]);
+					update([ "ability_stats", "proficiencies", "combat_stats", "weapons" ]);
 				}
 			});
 
@@ -849,13 +913,33 @@
 				if (storageName !== "auto-character-sheet") { localStorage.setItem("CharacterInfo" + storageName, JSON.stringify(CharacterInfo)); }
 
 				let keys, text;
-				let alpha, arrow, adjustBox, box, cells, delta, display, header, info, item, label, name, row, table, unorderedList;
+				let alpha, arrow, adjustBox, box, cells, delta, display, header, info, item, label, name, paragraph, row, table, unorderedList;
 				let dexMod = getModifier(CharacterInfo["ability_stats"]["dexterity"][0] + CharacterInfo["ability_stats"]["dexterity"][1]);
 				let strMod = getModifier(CharacterInfo["ability_stats"]["strength"][0] + CharacterInfo["ability_stats"]["strength"][1]);
 				let wisMod = getModifier(CharacterInfo["ability_stats"]["wisdom"][0] + CharacterInfo["ability_stats"]["wisdom"][1]);
 
 				for (i in what) {
-					if (what[i] === "basic") {
+					if (what[i] === "character_level") {
+						totalLevel = 0;
+						let characterClass;
+						info = CharacterInfo.class_level;
+						keys = Object.keys(info);
+						display = document.getElementById("level_by_class");
+						display.innerHTML = "";
+
+						for (ii = 0; ii < keys.length; ii++) {
+							if (info[keys[ii]][0]) {
+								totalLevel += info[keys[ii]][1];
+								text = keys[ii] + ": " + info[keys[ii]][1];
+								if (info[keys[ii]][2] !== "") { text += " (" + info[keys[ii]][2] + ")"; }
+								characterClass = document.createElement("p");
+								characterClass.innerHTML += "<p>" + text + "</p>";
+								display.appendChild(characterClass);
+							}
+						}
+						document.getElementById("class_level-arrow").innerHTML = "↑";
+						document.getElementById("character-level-display").innerHTML = totalLevel;
+					} else if (what[i] === "basic") {
 						keys = Object.keys(CharacterInfo.basic);
 
 						for (ii = 0; ii < keys.length; ii++) {
@@ -935,6 +1019,21 @@
 						document.getElementById("schema-display").innerHTML = "";
 						box.value = "";
 						document.getElementById("new_schema-form").reset();
+						keys = Object.keys(CharacterInfo.class_level);
+						for (ii = 0; ii < keys.length; ii++) {
+							label = document.createElement("label");
+							label.setAttribute("for", "new_schema-class-" + keys[ii]);
+							label.appendChild(document.createTextNode(keys[ii]));
+
+							box = document.createElement("input");
+							box.setAttribute("type", "checkbox");
+							box.setAttribute("name", "new_schema-class");
+							box.setAttribute("value", keys[ii]);
+							label.appendChild(box);
+							paragraph = document.createElement("p");
+							paragraph.appendChild(label);
+							document.getElementById("new_schema-classes").appendChild(paragraph);
+						}
 						document.getElementById("new_schema-form").style.display = "none";
 						document.getElementById("schema-button").disabled = true;
 					} else if (what[i] === "ability_stats") {
@@ -1652,21 +1751,37 @@
 						document.getElementById("gold-box").style.display = "none";
 						document.getElementById("gold-display").style.display = "inline";
 					} else if (what[i] === "combat_schemas") {
+						let level = 1;
 						display = document.getElementById("combat-schemas-display");
 						display.innerHTML = "";
 						info = CharacterInfo.discreet_schemas;
 
 						for (ii in info) if (info[ii].active && info[ii].display_in_section === "combat") {
-							display.appendChild(formatSchema(info[ii], [ CharacterInfo.basic.level, CharacterInfo.basic.level ]));
+							// Figure out which class level to use
+							for (iii = 0; iii < info[ii].classes.length; iii++) {
+								if (CharacterInfo.class_level[info[ii].classes[iii]][0]) {
+									if (CharacterInfo.class_level[info[ii].classes[iii]][1] > level) { level = CharacterInfo.class_level[info[ii].classes[iii]][1]; }
+								}
+							}
+
+							display.appendChild(formatSchema(info[ii], [ level, level ]));
 							display.appendChild(document.createElement("br"));
 						}
 					} else if (what[i] === "spells_schemas") {
+						let level = 1;
 						display = document.getElementById("spell-schemas-display");
 						display.innerHTML = "";
 						info = CharacterInfo.discreet_schemas;
 
 						for (ii in info) if (info[ii].active && info[ii].display_in_section === "spells") {
-							display.appendChild(formatSchema(info[ii], [ CharacterInfo.basic.level, CharacterInfo.basic.level ]));
+							// Figure out which class level to use
+							for (iii = 0; iii < info[ii].classes.length; iii++) {
+								if (CharacterInfo.class_level[info[ii].classes[iii]][0]) {
+									if (CharacterInfo.class_level[info[ii].classes[iii]][1] > level) { level = CharacterInfo.class_level[info[ii].classes[iii]][1]; }
+								}
+							}
+
+							display.appendChild(formatSchema(info[ii], [ level, level ]));
 							display.appendChild(document.createElement("br"));
 						}
 					} else if (what[i] === "log") {
@@ -1739,7 +1854,7 @@
 				let table = document.createElement("TABLE");
 				let caption = table.createCaption();
 				let header = table.createTHead();
-				let row, cell0, cell1, th0, th1;
+				let row, cell0, cell1, th0, th1
 				let th = [];
 				let i, ii;
 
@@ -1825,13 +1940,13 @@
 			}
 
 			function getProficiency() {
-				if (CharacterInfo["basic"]["level"] >= 1 && CharacterInfo["basic"]["level"] <= 4) {
+				if (totalLevel >= 1 && totalLevel <= 4) {
 					return 2;
-				} else if (CharacterInfo["basic"]["level"] >= 5 && CharacterInfo["basic"]["level"] <= 8) {
+				} else if (totalLevel >= 5 && totalLevel <= 8) {
 					return 3;
-				} else if (CharacterInfo["basic"]["level"] >= 9 && CharacterInfo["basic"]["level"] <= 12) {
+				} else if (totalLevel >= 9 && totalLevel <= 12) {
 					return 4;
-				} else if (CharacterInfo["basic"]["level"] >= 13 && CharacterInfo["basic"]["level"] <= 16) {
+				} else if (totalLevel >= 13 && totalLevel <= 16) {
 					return 5;
 				}
 				return 6;
